@@ -1,0 +1,242 @@
+<div class="container mx-auto align-middle" style="position:relative; >
+    <div ng-class="frontAndCenter">
+        <div class="row w-400">
+            <div class="mx-auto w-400" ng-cloak>
+                <div>
+                    <md-input-container style="width: 400px;" class="whitebkg projectSelector">
+
+                        <label class="md-accent">Please select a project</label>
+                        <md-select class="w-400 md-accent" ng-model="currentProjects" aria-label="Please Select a Project" md-ink-ripple="#F08826">
+                            <md-option class="md-accent" ng-click="addProjectdia($event)" md-ink-ripple="#F08826">New Project</md-option>
+                            <md-option class="md-accent" ng-click="revealer(p); $scope.selectedIndex = 0; changeClass()" ng-repeat=" p in setData" ng-value="p.setName" md-ink-ripple="#F08826">{{p.setName}}</md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+            </div>
+        </div>
+    </div>
+    <md-tabs md-selected="$scope.selectedIndex" md-stretch-tabs="always" md-center-tabs md-dynamic-height="true" ng-show="reveal">
+        <md-tab md-ink-ripple="#F08826">
+            <md-tab-label>
+                <h3>Price Files</h3>
+            </md-tab-label>
+            <md-tab-body>
+                <md-grid-list class="grid-list" md-cols="4" md-row-height="500px" md-gutter="1rem">
+                    <md-grid-tile></md-grid-tile>
+                    <md-grid-tile class="grid-tile">
+                        <div layout="column" layout-nowrap flex md-whiteframe="4dp" class="fileList">
+                            <p class="instruction"><span class="bold md-accent">REQUIRED:</span> Please select a primary price file...</p> <!--md-colors="{color: 'cmcprimary-500'}"-->
+                            <div class="wrapper scrollOverflow">
+                                <div class="dualScrollbox mx-auto">
+                                    <div ng-click="showAdvanced(hctrl, $event, 'id001');" class="addFile">
+                                        <ng-include src="'/img/plus-square.svg'" class="black-svg"></ng-include>
+                                        <span class="addFileLabel">Add a new file...</span>
+                                    </div>
+                                    <md-radio-group class="md-accent" ng-form="primaryGroup" ng-model="hctrl.primaryValue">
+                                      <table class="fileTable">
+                                        <tr ng-repeat="primary in hctrl.primary track by $index">
+                                          <td class="col1">
+                                            <md-radio-button class="md-accent files" ng-value="primary.fileId" ng-click="primaryRadioChanged(hctrl, primary)" ng-disabled="primary.fileId==hctrl.secondaryValue" name="primaryGroup" aria-label="primary.fileId" id="primaryGroup-$index" role="radio">
+                                              <span class="labelName">
+                                                {{primary.description}}
+                                              </span>
+                                            </md-radio-button>
+                                          </td>
+                                          <td class="col2">
+                                            <md-button class="md-icon-button s16 delete" ng-click="hctrl.removeFile(hctrl, primary.fileId)" arial-label="Delete Row">
+                                                <md-icon class="text-black s16" md-svg-src="/img/trash-fill.svg" class="s16" arial-label="Delete Row"></md-icon>
+                                            </md-button>
+                                          </td>
+                                        </tr>
+                                      </table>
+                                    </md-radio-group>
+                                </div>
+                            </div>
+                            <p class="instruction"><span class="bold md-accent">REQUIRED:</span> Please select a secondary price file...</p>
+                            <div class="wrapper scrollOverflow">
+                                <div class="dualScrollbox mx-auto">
+                                    <div ng-click="showAdvanced(hctrl, $event, 'id002');" class="addFile">
+                                        <ng-include src="'/img/plus-square.svg'" class="black-svg"></ng-include>
+                                        <span class="addFileLabel">Add a new file...</span>
+                                    </div>
+                                    <md-radio-group class="md-accent" ng-form="secondaryGroup" ng-model="hctrl.secondaryValue">
+                                      <table class="fileTable">
+                                        <tr ng-repeat="secondary in hctrl.secondary track by $index">
+                                          <td class="col1">
+                                            <md-radio-button class="md-accent files" ng-value="secondary.fileId" ng-click="secondaryRadioChanged(hctrl, secondary)" ng-disabled="secondary.fileId==hctrl.primaryValue" name="secondaryGroup" aria-label="secondary.fileId" id="secondaryGroup-$index" role="radio">
+                                              <span class="labelName">
+                                                {{secondary.description}}
+                                              </span>
+                                            </md-radio-button>
+                                          </td>
+                                          <td class="col2">
+                                            <md-button class="md-icon-button s16 delete" ng-click="hctrl.removeFile(hctrl, secondary.fileId)" arial-label="Delete Row">
+                                                <md-icon class="text-black s16" md-svg-src="/img/trash-fill.svg" class="s16" arial-label="Delete Row"></md-icon>
+                                            </md-button>
+                                          </td>
+                                        </tr>
+                                      </table>
+                                    </md-radio-group>
+                                </div>
+                            </div>
+                        </div>
+                    </md-grid-tile>
+                    <md-grid-tile class="fileList">
+                        <div><h6 class="tileTitle">What are price files?</h6></div>
+                        <div class="fileList">Some Text Goes Here</div>
+                    </md-grid-tile>
+                    <md-grid-tile></md-grid-tile>
+                </md-grid-list>
+            </md-tab-body>
+        </md-tab>
+        <md-tab md-ink-ripple="#F08826">
+            <md-tab-label>
+                <h3>Usage Files</h3>
+            </md-tab-label>
+            <md-tab-body>
+                <md-grid-list class="grid-list" md-cols="4" md-row-height="550px" md-gutter="1rem">
+                    <md-grid-tile></md-grid-tile>
+                    <md-grid-tile class="grid-tile">
+                        <div layout="column" layout-wrap flex md-whiteframe="4dp" class="fileList">
+                            <p class="instruction"><span class="bold md-accent">OPTIONAL:</span> Please select a usage file...</p>
+                            <div class="scrollbox mx-auto">
+                                <div ng-click="showAdvanced(hctrl, $event, 'id003');" class="addFile">
+                                    <ng-include src="'/img/plus-square.svg'" class="black-svg"></ng-include>
+                                    <span class="addFileLabel">Add a new file...</span>
+                                </div>
+                                <md-radio-group class="md-accent" ng-form="usageGroup" ng-model="hctrl.usageValue">
+                                  <table class="fileTable">
+                                    <tr ng-repeat="usage in hctrl.usage track by $index">
+                                      <td class="col1">
+                                        <md-checkbox class="md-accent files" ng-model="usage.isChecked" aria-label="usage.description" role="checkbox">
+                                          <span class="labelName">
+                                            {{usage.description}}
+                                          </span>
+                                        </md-checkbox>
+                                      </td>
+                                      <td class="col2">
+                                        <md-button class="md-icon-button s16 delete" ng-click="hctrl.removeFile(hctrl, usage.fileId)" arial-label="Delete Row">
+                                            <md-icon class="text-black s16" md-svg-src="/img/trash-fill.svg" class="s16" arial-label="Delete Row"></md-icon>
+                                        </md-button>
+                                      </td>
+                                    </tr>
+                                  </table>
+                                </md-radio-group>
+                              </div>
+                        </div>
+                    </md-grid-tile>
+                    <md-grid-tile class="fileList">
+                        <div><h6 class="tileTitle">What are usage files?</h6></div>
+                        <div class="fileList">Some Text Goes Here</div>
+                    </md-grid-tile>
+                    <md-grid-tile></md-grid-tile>
+                </md-grid-list>
+            </md-tab-body>
+        </md-tab>
+        <md-tab md-ink-ripple="#F08826">
+            <md-tab-label>
+                <h3>Category Files</h3>
+            </md-tab-label>
+            <md-tab-body>
+                <md-grid-list class="grid-list" md-cols="4" md-row-height="500px" md-gutter="1rem">
+                    <md-grid-tile class="grid-tile">
+                    </md-grid-tile>
+                    <md-grid-tile class="grid-tile">
+                        <div layout="column" layout-wrap flex md-whiteframe="4dp" class="fileList">
+                            <p class="instruction"><span class="bold md-accent">OPTIONAL:</span> Please select a category file...</p>
+                            <div class="scrollbox mx-auto">
+                                <div ng-click="showAdvanced($event, 'id003');" class="addFile">
+                                    <ng-include src="'/img/plus-square.svg'" class="black-svg"></ng-include>
+                                    <span class="addFileLabel">Add a new file...</span>
+                                </div>
+                                  <table class="fileTable">
+                                    <tr ng-repeat="filter in hctrl.filter track by $index">
+                                      <td class="col1">
+                                        <md-checkbox class="md-accent files" ng-model="filter.isChecked" aria-label="filter.description" role="checkbox">
+                                          <span class="labelName">
+                                            {{filter.description}}
+                                          </span>
+                                        </md-checkbox>
+                                      </td>
+                                      <td class="col2">
+                                        <md-button class="md-icon-button s16 delete" ng-click="hctrl.removeFile(hctrl, filter.fileId)" arial-label="Delete Row">
+                                            <md-icon class="text-black s16" md-svg-src="/img/trash-fill.svg" class="s16" arial-label="Delete Row"></md-icon>
+                                        </md-button>
+                                      </td>
+                                    </tr>
+                                  </table>
+                            </div>
+                        </div>
+                    </md-grid-tile>
+                    <md-grid-tile class="fileList">
+                        <div><h6 class="tileTitle">What are category files?</h6></div>
+                        <div class="fileList">Some Text Goes Here</div>
+                    </md-grid-tile>
+                    <md-grid-tile></md-grid-tile>
+                </md-grid-list>
+            </md-tab-body>
+        </md-tab>
+        <md-tab md-dynamic-height=true md-ink-ripple="#F08826">
+            <md-tab-label>
+                <h3>Summary</h3>
+            </md-tab-label>
+            <md-tab-body>
+                <md-grid-list class="grid-list" md-cols="4" md-row-height="500px" md-gutter="1rem">
+                    <md-grid-tile class="fileList">
+                        <div><h6 class="tileTitle">Selected Price Files</h6></div>
+                        <div md-whiteframe="4dp" class="fileList">
+                            <h6>Primary File</h6>
+                            <ul ng-repeat="primary in hctrl.primary track by $index">
+                                <li ng-if="primary.isChecked == true" class="check">
+                                    {{primary.description}}
+                                </li>
+                            </ul>
+                            <h6>Secondary Files</h6>
+                            <ul ng-repeat="secondary in hctrl.secondary track by $index">
+                                <li ng-if="secondary.isChecked == true" class="check">{{secondary.description}}</li>
+                            </ul>
+                        </div>
+                    </md-grid-tile>
+                    <md-grid-tile class="fileList">
+                        <div><h6 class="tileTitle">Selected Usage Files</h6></div>
+                        <div md-whiteframe="4dp" class="fileList">
+                            <ul>
+                                <li ng-repeat="usage in hctrl.usage" ng-if="usage.isChecked == true" class="check">{{usage.description}}</li>
+                            </ul>
+                        </div>
+                    </md-grid-tile>
+                    <md-grid-tile class="fileList">
+                        <div><h6 class="tileTitle">Selected Category Files</h6></div>
+                        <div md-whiteframe="4dp" class="fileList">
+                            <ul>
+                                <li ng-repeat="filter in hctrl.filter track by $index" ng-if="filter.isChecked == true" class="check">{{filter.description}}</li>
+                            </ul>
+                        </div>
+                    </md-grid-tile>
+                    <md-grid-tile class="fileList">
+                        <div><h6 class="tileTitle">Finished Comparisons</h6></div>
+                        <div md-whiteframe="4dp" class="fileList">
+                            <div class="wrapper scrollOverflow">
+                                <div class="mx-auto resultsbox">
+                                    <table>
+                                        <tr ng-repeat="results in hctrl.compared track by $index">
+                                            <td style="width: 95%"><a ui-sref="results" ui-sref-opts="{ reload: true }" ng-click="showResults(hctrl, results)">{{results.description}}</a></td>
+                                            <td style="width: 5%">
+                                                <md-button class="md-icon-button s16 delete" ng-click="hctrl.removeFile(hctrl, results.fileId)" arial-label="Delete Row">
+                                                    <md-icon class="text-black s16" md-svg-src="/img/trash-fill.svg" class="s16" arial-label="Delete Row"></md-icon>
+                                                </md-button>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </md-grid-tile>
+                    <md-grid-tile md-colspan="4" class="submitButton mx-auto">
+                        <md-button ng-click="awaitResults($event)" ng-disabled="disabledFlag" class="md-raised compare" md-colors="{background: 'cmcgreen-500'}">Compare</md-button>
+                    </md-grid-tile>
+                </md-grid-list>
+            </md-tab-body>
+        </md-tab>
+    </md-tabs>
+</div>

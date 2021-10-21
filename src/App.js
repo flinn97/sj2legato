@@ -1,25 +1,273 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import { Switch, Route, Link } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+//uploade above stuff from npm.
+import "./App.css";
+import AuthService from "./services/auth.service";
+import Register from "./pages/usersignup";
+import Login from "./pages/signin";
+import Home from "./pages/home";
+import About from "./pages/about";
+import Metro from "./pages/metro";
+import Contact from "./pages/contact";
+import UsrProfile from "./pages/userProfile";
+import Profile from "./pages/profile";
+import Calendar from "./pages/calendar";
+import StudentsTeacher from "./pages/students.teacher";
+import legato from "./legato.png";
+import Admin from "./services/admin.js";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import BoardUser from "./components/board-user.component";
+import Student from "./pages/student";
+import student_routes from "./components/student_routes";
+
+//nav bar helps to navigate from page to page with authorizations to login or sign up etc. 
+class App extends Component {
+    constructor(props) {
+        //create state
+        super(props);
+        this.logOut = this.logOut.bind(this);
+
+        this.state = {
+            currentUser: undefined,
+        };
+    }
+    //get user if it exists from the jwt.sign for browser history. I don't use cookies for this app.
+    componentDidMount() {
+        const user = AuthService.getCurrentUser();
+
+        if (user) {
+            this.setState({
+                currentUser: user,
+            
+            });
+        }
+    }
+    //logout
+    logOut() {
+        AuthService.logout();
+    }
+
+    render() {
+        const align = {
+            paddingRight: "30px",
+            position: "absolute",
+            right: 0,
+
+
+        };
+        
+        
+        //render navbar and pages according to information sent from backend and jwt.
+        const { currentUser} = this.state;
+
+        return (
+
+
+            <div className="fullhouse">
+                <nav className="navbar navbar-expand navbar-dark bg-dark">
+
+                    {currentUser ? (
+                    
+
+                        <div className="navbar-nav">
+                            
+                            {currentUser.role === "student" ?
+                                (
+                                    <div className="navbar-nav">
+                                <li className="nav-item">
+
+
+                                    <Link
+                                        to={{
+                                            pathname: "/student_routes",
+
+                                            state: { current: currentUser }
+                                        }}
+                                        className="nav-link"   >
+
+                                            Dashboard
+                                    </Link>
+                                    </li>
+                                   
+
+                                    <div className="navbar-nav">
+
+
+
+                                <li className="nav-item">
+                                    <Link to={"/metro"} className="nav-link">
+                                                Metronome
+                </Link>
+                                </li>
+
+                                        </div>
+                                        <div className="navbar-nav">
+
+
+
+                                            <li className="nav-item">
+                                                <Link to={"/students.teacher"} className="nav-link">
+                                                    My Teacher
+                </Link>
+                                            </li>
+
+                                        </div>
+                                        </div>
+
+
+
+                                ) : (
+                                    <div className="navbar-nav">
+                                <li className="nav-item">
+                                    <Link to={"/userProfile"} className="nav-link" >
+                                        {currentUser.firstname}
+                                    </Link>
+                                </li>
+                            
+                            
+                            <div className="navbar-nav">
+
+
+
+                                <li className="nav-item">
+                                    <Link to={"/profile"} className="nav-link">
+                                                Students
+                </Link>
+                                </li>
+
+                            </div>
+                            <div className="navbar-nav">
+
+
+
+                                <li className="nav-item">
+                                    <Link to={"/metro"} className="nav-link">
+                                                Metronome
+                </Link>
+                                </li>
+
+                            </div>
+                            <div className="navbar-nav">
+
+
+
+                                <li className="nav-item">
+                                    <Link to={"/calendar"} className="nav-link">
+                                                Calendar
+                </Link>
+                                </li>
+
+                                        </div>
+                                    </div>
+                                )
+                                        }
+                            <div className="navbar-nav" style={{ marginRight:"300px"}}>
+                                {currentUser.role === "admin" ? (<div className="navbar-nav" >
+                                    <li className="nav-item">
+                                        <a href="/admin" className="nav-link" >
+                                            Admin
+                </a>
+                                    </li>
+                                </div>
+                                    )
+                                    :
+                                    (<div></div>)}
+                            </div>
+                            <div className="navbar-nav" style={align}>
+                        <li className="nav-item">
+                            <a href="/login" className="nav-link" onClick={this.logOut}>
+                                LogOut
+                </a>
+                        </li>
+                                </div>
+                    </div>
+                    ) : (
+                            <div className="navbar-nav">
+                            <div className="navbar-nav">
+
+                
+                    <Link to={"/"} className="navbar-brand">
+                                        <img
+                                            src={legato}
+                                            alt="profile-img"
+                                            width="50px"
+                                            height="50px"
+
+
+                                        />
+
+          </Link>
+                    <div className="navbar-nav">
+                        
+
+                        
+                            <li className="nav-item">
+                                <Link to={"/about"} className="nav-link">
+                                    About
+                </Link>
+                            </li>
+                        
+                    </div>
+                    <div className="navbar-nav">
+
+
+
+                        <li className="nav-item">
+                            <Link to={"/contact"} className="nav-link">
+                                Contact
+                </Link>
+                        </li>
+
+                    </div>
+                                </div>
+                                
+                                <div className="navbar-nav ml-auto" style={align}  >
+                                <li className="nav-item">
+                                    <Link to={"/login"} className="nav-link">
+                                        Login
+                </Link>
+                                </li>
+
+                                <li className="nav-item">
+                                    <Link to={"/register"} className="nav-link">
+                                        Sign Up
+                </Link>
+                                </li>
+                            </div>
+                            </div>
+                        )}
+                        
+                    
+                            
+                </nav>
+
+                
+                <div className="myContainer">
+
+                    <Switch >
+                        <Route exact path={["/", "/home"]} component={Home} />
+                        <Route exact path="/login" component={Login} />
+                        <Route exact path="/register" component={Register} />
+                        <Route exact path="/profile" component={Profile} />
+                        <Route path="/user" component={BoardUser} />
+                        <Route path="/student/" component={Student} />
+                        <Route exact path="/admin" component={Admin} />
+
+                        <Route exact path="/student_routes" component={student_routes} />
+                        <Route exact path="/metro" component={Metro} />
+                        <Route exact path="/userProfile" component={UsrProfile} />
+                        <Route exact path="/about" component={About} />
+                        <Route exact path="/contact" component={Contact} />
+                        <Route exact path="/calendar" component={Calendar} />
+                        <Route exact path="/students.teacher" component={StudentsTeacher} />
+
+                    
+                    </Switch>
+                </div>
+            </div>
+        );
+    }
 }
 
 export default App;
