@@ -115,6 +115,79 @@
     }
 
 
+    .circlesI3 {
+        height: 100px;
+        width: 100px;
+        position: relative;
+        transform: scale(1.3);
+    }
+    
+        .circlesI3 .inner {
+            position: absolute;
+            z-index: 5;
+            top: 50%;
+            left: 50%;
+            height: 80px;
+            width: 80px;
+            margin: -40px 0 0 -40px;
+            background: white;
+            border-radius: 100%;
+        }
+        
+    
+        .circlesI3 .number {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            font-size: 18px;
+            font-weight: 500;
+            color: #696eb5;
+            background: white;
+        }
+    
+    .circlesI3 .bar {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        background: #C8CAE4;
+        -webkit-border-radius: 100%;
+        clip: rect(0px, 100px, 100px, 50px);
+    }
+    
+    .circleI3 .bar .progress {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        -webkit-border-radius: 100%;
+        clip: rect(0px, 50px, 100px, 0px);
+        background: #696eb5;
+        
+        
+    }
+    
+    .circleI3 .left .progress {
+        z-index: 1;
+        animation: left 1s linear both;
+        opacity: 0;
+    }
+    .circlesI3 .right {
+        transform: rotate(180deg);
+        z-index: 2;
+    }
+    
+        .circlesI3 .right .progress {
+            animation: right 1s linear both;
+            animation-delay: 1s;
+            opacity: 0;
+        }
+
+
+
+
+
+
 .circles4 {
     height: 100px;
     width: 100px;
@@ -169,6 +242,225 @@
     animation: left 1s linear both;
 }
 
+
+
+
+
+.circlesIa {
+    height: 100px;
+    width: 100px;
+    position: relative;
+    transform: scale(1.4);
+}
+
+    .circlesIa .inner {
+        position: absolute;
+        z-index: 6;
+        top: 50%;
+        left: 50%;
+        height: 80px;
+        width: 80px;
+        margin: -40px 0 0 -40px;
+        border-radius: 100%;
+    }
+
+    .circlesIa .number {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 10;
+        height: 90px;
+        width: 90px;
+        background-color: white;
+        border-radius: 50px;
+        margin: -40px 0 0 -40px;
+        
+    }
+
+    .circlesIa .bar {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        background: #fff;
+        -webkit-border-radius: 100%;
+        clip: rect(0px, 100px, 100px, 50px);
+        opacity: 0;
+    }
+
+.circleIa .bar .progress {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    -webkit-border-radius: 100%;
+    clip: rect(0px, 50px, 100px, 0px);
+    background: #696eb5;
+    opacity: 0;
+}
+.circlesIa .right {
+    transform: rotate(180deg);
+    z-index: 3;
+}
+.circlesIa .right .progress {
+    animation: right 1s linear both;
+    animation-delay: 1s;
+    opacity: 0;
+}
+.circleIa .left .progress {
+    z-index: 1;
+    animation: left 1s linear both;
+    opacity: 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.circlesI {
+    height: 100px;
+    width: 100px;
+    position: relative;
+    transform: scale(.60);
+}
+
+    .circlesI .inner {
+        position: absolute;
+        z-index: 6;
+        top: 50%;
+        left: 50%;
+        height: 80px;
+        width: 80px;
+        margin: -40px 0 0 -40px;
+        border-radius: 100%;
+    }
+
+    .circlesI .number {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 10;
+        height: 90px;
+        width: 90px;
+        background-color: white;
+        border-radius: 50px;
+        margin: -40px 0 0 -40px;
+        
+    }
+
+    .circlesI .bar {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        background: #fff;
+        -webkit-border-radius: 100%;
+        clip: rect(0px, 100px, 100px, 50px);
+        opacity: 0;
+    }
+
+.circleI .bar .progress {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    -webkit-border-radius: 100%;
+    clip: rect(0px, 50px, 100px, 0px);
+    background: #696eb5;
+    opacity: 0;
+}
+.circlesI .right {
+    transform: rotate(180deg);
+    z-index: 3;
+}
+.circlesI .right .progress {
+    animation: right 1s linear both;
+    animation-delay: 1s;
+    opacity: 0;
+}
+.circleI .left .progress {
+    z-index: 1;
+    animation: left 1s linear both;
+    opacity: 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+.circles5 {
+    height: 100px;
+    width: 100px;
+    position: relative;
+    transform: scale(.60);
+}
+
+    .circles5 .inner {
+        position: absolute;
+        z-index: 6;
+        top: 50%;
+        left: 50%;
+        height: 80px;
+        width: 80px;
+        margin: -40px 0 0 -40px;
+        border-radius: 100%;
+    }
+
+    .circles5 .number {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 10;
+        height: 90px;
+        width: 90px;
+        background-color: white;
+        border-radius: 50px;
+        margin: -40px 0 0 -40px;
+    }
+
+    .circles5 .bar {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        background: #fff;
+        -webkit-border-radius: 100%;
+        clip: rect(0px, 100px, 100px, 50px);
+    }
+
+.circle5 .bar .progress {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    -webkit-border-radius: 100%;
+    clip: rect(0px, 50px, 100px, 0px);
+    background: #696eb5;
+}
+.circles5 .right {
+    transform: rotate(180deg);
+    z-index: 3;
+}
+.circles5 .right .progress {
+    animation: right 1s linear both;
+    animation-delay: 1s;
+}
+.circle5 .left .progress {
+    z-index: 1;
+    animation: left 1s linear both;
+}
+
 @keyframes left {
     0% {
         transform: rotate(0deg);
@@ -190,10 +482,12 @@
     z-index: 3;
 }
 
+
     .circles4 .right .progress {
         animation: right 1s linear both;
         animation-delay: 1s;
     }
+    
 @keyframes right {
     0% {
         transform: rotate(0deg);
@@ -204,7 +498,19 @@
     border-radius: 10px;
     background: #C8CAE4;
 }
-
+.progress-bar2 {
+    border-radius: 10px;
+    background: #C8CAE4;
+}
+.progress-bar2 > div {
+    color: black;
+    background: #696eb5;
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 0px;
+    border-radius: 10px;
+    
+}
 
 .progress-bar {
     border-radius: 10px;
@@ -218,7 +524,7 @@
         white-space: nowrap;
         padding: 0px;
         border-radius: 10px;
-        animation: progress-bar 2s;
+        animation: progress-bar 1s;
     }
 
 @keyframes progress-bar {
@@ -238,4 +544,21 @@
     margin: 0 auto;
     align-items: center;
     justify-content: center;
+}
+.number3 {
+    display: flex;
+    top: 50%;
+    left: 50%;
+    z-index: 10;
+    font-size: 12px;
+    font-weight: 500;
+    color: #696eb5;
+    margin: 0 auto;
+    align-items: center;
+
+    justify-content: center;
+
+}
+.circlesI{
+
 }

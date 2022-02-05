@@ -66,7 +66,7 @@ var Checkboxnum2 = function (props) {
             }
         }
         if (i === 6) {
-            day = "S";
+            day = "s";
             moreprac = props.sync.sun;
             if (props.times) {
                 time = props.times.sun;

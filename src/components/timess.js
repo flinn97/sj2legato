@@ -11,6 +11,10 @@ function Timess(props) {
             change={props.change}
             changeweek={props.changeweek}
             weekly={props.weekly}
+            syncedCheckbox={props.syncedCheckbox}
+            checkboxes={props.checkboxes}
+            timecheck={props.timecheck}
+            timedaycheck={props.timedaycheck}
         />
     </div>
 }

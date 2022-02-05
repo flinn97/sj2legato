@@ -3,46 +3,106 @@ import React, { Component } from "react";
 class EditAlltheHomework extends Component {
     constructor(props) {
         super(props);
+            this.wrapperRef = React.createRef();
+            this.handleClickOutside = this.handleClickOutside.bind(this);
+            this.setWrapperRef = this.setWrapperRef;
+            this.handleChange = this.handleChange.bind(this);
 
-        this.state = {
+            this.state = {
+                yesnoWeektext: this.props.yesnoWeektext,
+                yesnoWeek: this.props.yesnoWeek,
+                yesnoDay: this.props.yesnoDay,
+                yesnoDaytext: this.props.yesnoDaytext,
+                justifyContent:""
+            }
 
-          
+        }
+handleChange(event){
+    
+    const { name, value } = event.target
+    if(name==="yesnoDaytext"){
+        if(value!==""){
+            this.setState({
+                yesnoDay: true
+            })
+            this.props.handleChange(event)
+        }
+    }
+    if(name==="yesnoWeektext"){
+        if(value!==""){
+            this.setState({
+                yesnoWeek: true
+            })
+            this.props.handleChange(event)
+        }
+    }
+
+
+    this.setState({
+        [name]: value,
+    })
+
+    if (value === "true") {
+        this.setState({
+            [name]: true,
+        })
+    }
+    else if (value === "false") {
+        this.setState({
+            [name]: false,
+        })
+    }
+    this.props.handleChange(event);
+}
+        componentDidMount() {
+            if(parseInt(window.innerWidth) <= 550){
+                this.setState({ 
+                    justifyContent: "center"
+                    
+                });
+            }
+            document.addEventListener('mousedown', this.handleClickOutside);
         }
 
-    };
-    
-
-  
+        componentWillUnmount() {
+            document.removeEventListener('mousedown', this.handleClickOutside);
+        }
+        handleClickOutside(event) {
+            if (this.wrapperRef && !this.wrapperRef.current.contains(event.target)) {
+                this.props.handleClose();
+            }
+        }
     
  
 
     render() {
         return (
             <div className="popup-box" style={{ zIndex: "1010" }}>
-                <div className="box" style={{ zIndex: "1010" }}>
+                <div className="boxforhw" style={{ zIndex: "1010" }} ref={this.wrapperRef} >
                     <span className="close-icon-2" onClick={this.props.handleClose}>x</span>
+                    <h3 style={{display:"flex", flexDirection:"row", justifyContent:this.state.justifyContent}}>Homework Tracking Options</h3>
                     <div className="form-group">
-                        <label>Checkboxes synced with day</label>
+                        <label>Display practice checkboxes with days of the week? </label>
                         <select htmlfor="yesnoCheckboxsync" onChange={this.props.handleChange} name="yesnoCheckboxsync" id="yesnoCheckboxsync">
-                            <option value={this.props.yesnoCheckboxsync}>No Change</option>
+                        {this.props.yesnoCheckboxsync?(<option value={true}>Current: yes</option>):( <option value={false}>Current: no</option>)}
                             <option value={true}>yes</option>
                             <option value={false}>no</option>
 
                         </select>
                     </div>
                     <div className="form-group">
-                        <label>Streak throughout week</label>
+                        <label>Track streak of consecutive days practiced?</label>
                         <select htmlfor="yesnoStreak" onChange={this.props.handleChange}  name="yesnoStreak" id="yesnoStreak">
-                            <option value={this.props.yesnoStreak}>No Change</option>
+                        {this.props.yesnoStreak?(<option value={true}>Current: yes</option>):( <option value={false}>Current: no</option>)}
                             <option value={true}>yes</option>
                             <option value={false}>no</option>
 
                         </select>
                     </div>
                     <div className="form-group">
-                        <label>How many times should this student practice every week?</label>
+                        <label>How many days should the student practice?</label>
                         <select htmlfor="yesnocheckboxes" onChange={this.props.handleChange} name="yesnocheckboxes" id="yesnocheckboxes">
-                            <option value={this.props.yesnocheckboxes}>No Change</option>
+                            <option value={this.props.yesnocheckboxes}>Current: {this.props.yesnocheckboxes}</option>
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
@@ -53,40 +113,37 @@ class EditAlltheHomework extends Component {
                             <option value="0">I Don't Want Checkboxes</option>
                         </select>
                     </div>
-                    <div className="form-group">
-                        <label>Weekly time track</label>
-                        <select htmlfor="yesnoWeek" onChange={this.props.handleChange} name="yesnoWeek" id="yesnoWeek">
-                            <option value={this.props.yesnoWeek}>No Change</option>
-                            <option value={true}>yes</option>
-                            <option value={false}>no</option>
-
-                        </select>
-                    </div>
-                    <div className="form-group" >
-                        <label htmlFor="yesnoWeektext">How much time should this student practice every week?</label>
-                        <input
-
-                            type="text"
-                            className="form-control"
-                            id="yesnoWeektext"
-                            style={{ width: "60px" }}
-                            onChange={this.props.handleChange}
-                            name="yesnoWeektext"
-                        /><p>Minutes</p>
-
-
-                    </div>
-
-                    <div className="form-group">
+                    
+                    
+                         <div className="form-group" >
+                         <label htmlFor="yesnoWeektext">How much time should this student practice every week?</label>
+                         <input
+ 
+                             type="text"
+                             className="form-control"
+                             id="yesnoWeektext"
+                             style={{ width: "60px" }}
+                             onChange={this.handleChange}
+                             name="yesnoWeektext"
+                             value={this.state.yesnoWeektext}
+                         /><p>Minutes</p>
+ 
+ 
+                     </div>
+ 
+                    
+                   
+                    {/*<div className="form-group">
                         <label>Daily Time track</label>
-                        <select htmlfor="yesnoDay" onChange={this.props.handleChange} name="yesnoDay" id="yesnoDay">
-                            <option value={this.props.yesnoDay}>No Change</option>
+                        <select htmlfor="yesnoDay" onChange={this.handleChange} name="yesnoDay" id="yesnoDay">
+                        {this.props.yesnoDay?(<option value={true}>Current: yes</option>):( <option value={false}>Current: no</option>)}
                             <option value={true}>yes</option>
                             <option value={false}>no</option>
 
                         </select>
-                    </div>
-                    <div className="form-group" >
+                    </div>*/}
+                    
+                        <div className="form-group" >
                         <label htmlFor="yesnoDaytext">How much time should this student practice every day?</label>
                         <input
 
@@ -94,17 +151,21 @@ class EditAlltheHomework extends Component {
                             className="form-control"
                             id="yesnoDaytext"
                             style={{ width: "60px" }}
-                            onChange={this.props.handleChange}
+                            onChange={this.handleChange}
                             name="yesnoDaytext"
+                            value={this.state.yesnoDaytext}
                         /><p>Minutes</p>
 
 
                     </div>
+
+                    
+                    
                     
 
                     <div>
                         
-                        <button className="btn btn-primary btn-block" value="submit" onClick={this.props.editAlltheHomework}>Save</button>
+                        <button style={{ background: "#696eb5", height: "35px", color: "#F0F2EF", width: "125px" }} className="btn btn-block" value="submit" onClick={this.props.editAlltheHomework}>Save</button>
                     </div>
 
 

@@ -87,7 +87,8 @@ export default class Login extends Component {
                 })
             }
             else { 
-            AuthService.login(this.state.email, this.state.password).then(response => {
+                var lower = this.state.email.toLowerCase();
+            AuthService.login(lower, this.state.password).then(response => {
                 //console.log(response);
 
                 
@@ -180,7 +181,7 @@ export default class Login extends Component {
 
                                 <div className="form-group" style={{marginTop:"37px"}}>
                                     <button
-                                        className="btn btn-primary btn-block"
+                                        className="btn  btn-block" style={{ background: "#696eb5", height: "35px", color: "#F0F2EF", width: "85spx" }}
                                         disabled={this.state.loading}
                                     >
                                         {this.state.loading && (

@@ -8,7 +8,10 @@ class Checkedd2 extends Component {
 
         this.state = {
             checkboxValue: this.props.goal.complete,
-            checkboxValue1: this.props.flag,
+            maincheck:false,
+            //checkboxValue1: this.props.flag,
+            checkboxValue1: this.props.goal.complete,
+
             practice: 0,
             p: this.props.flag,
             style: "27%",
@@ -17,6 +20,15 @@ class Checkedd2 extends Component {
 
     }
     
+    componentDidMount(){
+        if(this.props.main){
+            this.setState({
+                maincheck: this.props.goal.mainGoal.complete,
+                checkboxValue1: this.props.goal.mainGoal.complete
+            })
+        }
+
+    }
 
     async markcheckbox1(event) {
 
@@ -38,8 +50,11 @@ class Checkedd2 extends Component {
 
 
     async markcheckbox(goal) {
+        console.log(this.state.checkboxValue1, goal, this.props.main)
         await this.setState({
             checkboxValue1: !this.state.checkboxValue1,
+            maincheck: !this.state.maincheck,
+            checkboxValue: !this.state.checkboxValue,
         })
         
         this.props.goalStatusChange(this.state.checkboxValue1, goal, this.props.main );
@@ -71,8 +86,8 @@ class Checkedd2 extends Component {
                         {this.props.main ? (<div>
 
 
-                            <input type="checkbox" checked={this.state.checkboxValue} />
-                            <label onClick={this.markcheckbox.bind(this, this.props.goal)} className="change-label2 huv" ><div className="tick2"></div></label>
+                            <input type="checkbox" checked={this.state.maincheck} />
+                            <label onClick={this.markcheckbox.bind(this, this.props.goal)} className="change-label1  huv" ><div className="tick1"></div></label>
                         </div>) : (<div>
                             <input type="checkbox" checked={this.state.checkboxValue} />
                             <label onClick={this.markcheckbox.bind(this, this.props.goal)} className="change-label1 huv" ><div className="tick1"></div></label>

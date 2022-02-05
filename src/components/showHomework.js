@@ -13,7 +13,11 @@ function ShowHomework(props) {
             role={props.role}
             handleChange={props.handleChange}
             edited={props.edited}
-
+            id={props.id}
+            homeworks={props.homeworks}
+            student={props.student}
+            practice={props.practice}
+            fix={props.fix}
         />
     </div>
 }

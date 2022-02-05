@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import { Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 //uploade above stuff from npm.
@@ -16,8 +16,9 @@ import Calendar from "./pages/calendar";
 import StudentsTeacher from "./pages/students.teacher";
 import legato from "./legato.png";
 import Admin from "./services/admin.js";
+import Menu from "./menu.png";
 
-import BoardUser from "./components/board-user.component";
+//import BoardUser from "./components/board-user.component";
 import Student from "./pages/student";
 import student_routes from "./components/student_routes";
 
@@ -27,13 +28,31 @@ class App extends Component {
         //create state
         super(props);
         this.logOut = this.logOut.bind(this);
+        this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+        this.menu = this.menu.bind(this);
 
+        
         this.state = {
             currentUser: undefined,
+            tooSmall: false,
+            menu: false
         };
+    }
+    menu(){
+        this.setState({menu:!this.state.menu})
+    }
+    updateWindowDimensions() {
+        if(parseInt(window.innerWidth) <= 600){
+        this.setState({ tooSmall: true });
+        }
+     }
+    componentWillUnmount() {
+        window.removeEventListener("resize", this.updateWindowDimensions)
     }
     //get user if it exists from the jwt.sign for browser history. I don't use cookies for this app.
     componentDidMount() {
+        window.addEventListener("resize", this.updateWindowDimensions());
+
         const user = AuthService.getCurrentUser();
 
         if (user) {
@@ -53,6 +72,7 @@ class App extends Component {
             paddingRight: "30px",
             position: "absolute",
             right: 0,
+            top: 0,
 
 
         };
@@ -74,6 +94,8 @@ class App extends Component {
                             
                             {currentUser.role === "student" ?
                                 (
+                                    <div>
+                                        {this.state.tooSmall?(<div><img className="huv" onClick={this.menu} alt="" src={Menu} style={{width:"40px", marginLeft:"20px"}}/></div>):(
                                     <div className="navbar-nav">
                                 <li className="nav-item">
 
@@ -113,11 +135,14 @@ class App extends Component {
                                             </li>
 
                                         </div>
+                                        </div>)}
+
                                         </div>
 
-
-
                                 ) : (
+                                    <div>
+                                    {this.state.tooSmall?(<div><img className="huv" onClick={this.menu} alt="" src={Menu} style={{width:"40px", marginLeft:"20px"}}/></div>):(
+
                                     <div className="navbar-nav">
                                 <li className="nav-item">
                                     <Link to={"/userProfile"} className="nav-link" >
@@ -160,6 +185,7 @@ class App extends Component {
 
                                         </div>
                                     </div>
+                                    )}</div>
                                 )
                                         }
                             <div className="navbar-nav" style={{ marginRight:"300px"}}>
@@ -174,20 +200,25 @@ class App extends Component {
                                     :
                                     (<div></div>)}
                             </div>
-                            <div className="navbar-nav" style={align}>
-                        <li className="nav-item">
-                            <a href="/login" className="nav-link" onClick={this.logOut}>
-                                LogOut
-                </a>
-                        </li>
-                                </div>
+                            {this.state.tooSmall?(<div></div>):(
+
+<div className="navbar-nav" style={align}>
+<li className="nav-item">
+    <a href="/login" className="nav-link" onClick={this.logOut}>
+        LogOut
+</a>
+</li>
+        </div>
+                            )}
+                            
+                                
                     </div>
                     ) : (
                             <div className="navbar-nav">
                             <div className="navbar-nav">
 
                 
-                    <Link to={"/"} className="navbar-brand">
+                                    {/* <Link to={"/"} className="navbar-brand">
                                         <img
                                             src={legato}
                                             alt="profile-img"
@@ -197,27 +228,27 @@ class App extends Component {
 
                                         />
 
-          </Link>
+                                    </Link>*/}
                     <div className="navbar-nav">
                         
 
                         
-                            <li className="nav-item">
+                                        {/*<li className="nav-item">
                                 <Link to={"/about"} className="nav-link">
                                     About
                 </Link>
-                            </li>
+                            </li>*/}
                         
                     </div>
                     <div className="navbar-nav">
 
 
 
-                        <li className="nav-item">
+                        {/*<li className="nav-item">
                             <Link to={"/contact"} className="nav-link">
                                 Contact
                 </Link>
-                        </li>
+                        </li>*/}
 
                     </div>
                                 </div>
@@ -227,13 +258,14 @@ class App extends Component {
                                     <Link to={"/login"} className="nav-link">
                                         Login
                 </Link>
-                                </li>
-
+                                    </li>
+                                    {/* 
                                 <li className="nav-item">
                                     <Link to={"/register"} className="nav-link">
                                         Sign Up
                 </Link>
-                                </li>
+                                    </li>*/}
+
                             </div>
                             </div>
                         )}
@@ -241,16 +273,133 @@ class App extends Component {
                     
                             
                 </nav>
+                {this.state.menu?(<div style={{display: "flex", flexDirection:"column", position: "absolute", zIndex:"2000", background:"white", color:"#696eb5", border:"1px solid gray", borderRadius: "0px 0px 5px 5px", }}>
+                    {currentUser.role === "student"?(<div><div onClick={this.menu} >
+
+
+                                    <Link
+                                        to={{
+                                            pathname: "/student_routes",
+
+                                            state: { current: currentUser }
+                                        }}
+                                        className="nav-link"   style={{ color:"#696eb5"}}>
+
+                                            Dashboard
+                                    </Link>
+                                    </div>
+                                   
+
+                                    <div >
+
+
+
+                                    <div onClick={this.menu}>
+                                    <Link to={"/metro"} className="nav-link" style={{ color:"#696eb5"}}>
+                                                Metronome
+                </Link>
+                </div>
+
+                                        </div>
+                                        <div >
+
+
+
+                                        <div onClick={this.menu}>
+                                                <Link to={"/students.teacher"} className="nav-link" style={{ color:"#696eb5"}}>
+                                                    My Teacher
+                </Link>
+                </div>
+
+                                        </div>
+                                        
+<div style={{ color:"#696eb5"}}>
+                        <div onClick={this.menu}>
+                            <a href="/login" className="nav-link" onClick={this.logOut} style={{ color:"#696eb5"}}>
+                                LogOut
+                </a>
+                        </div>
+                                </div>
+                                        </div>):(<div>
+                                            <div >
+                                            <div >
+
+
+
+<div onClick={this.menu}>
+<Link to={"/userProfile"} className="nav-link" style={{ color:"#696eb5"}}>
+                                        {currentUser.firstname}
+                                    </Link>
+</div>
+
+</div>
+                                        
+                                
+                            
+<div >
+
+
+
+<div onClick={this.menu}>
+<Link to={"/profile"} className="nav-link" style={{ color:"#696eb5"}}>
+                                                Students
+                </Link>
+</div>
+
+</div>
+<div >
+
+
+
+<div onClick={this.menu}>
+<Link to={"/metro"} className="nav-link" style={{ color:"#696eb5"}}>
+                                                Metronome
+                </Link>
+</div>
+
+</div>
+<div >
+
+
+
+<div onClick={this.menu}>
+<Link to={"/calendar"} className="nav-link" style={{ color:"#696eb5"}}>
+                                                Calendar
+                </Link>
+</div>
+
+</div>
+<div style={{ color:"#696eb5"}}>
+                        <div onClick={this.menu}>
+                            <a href="/login" className="nav-link" onClick={this.logOut} style={{ color:"#696eb5"}}>
+                                LogOut
+                </a>
+                        </div>
+                                </div>
+                        
+                           
+
+
+
+                                
+                            
+                                
+
+                                       
+                                    </div>
+                                        </div>)}
+                                </div>):(<div></div>)}
 
                 
                 <div className="myContainer">
+                    
 
                     <Switch >
                         <Route exact path={["/", "/home"]} component={Home} />
                         <Route exact path="/login" component={Login} />
                         <Route exact path="/register" component={Register} />
                         <Route exact path="/profile" component={Profile} />
-                        <Route path="/user" component={BoardUser} />
+                       
                         <Route path="/student/" component={Student} />
                         <Route exact path="/admin" component={Admin} />
 

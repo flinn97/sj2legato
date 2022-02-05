@@ -1,11 +1,13 @@
 import React, { Component } from "react"
 import "./components.css";
 import edit from "./edit.png";
-import trash from "./trash.png";
+import trash from "./Trash1.png";
 import Percent from "./percent.js";
 //import { Dropdown } from "bootstrap";
 import Short from "./short.js";
 import Dropdown from "./dropdown.js";
+import Splashscreen  from "../components/splashscreen.js";
+
 //import AuthService from "../services/auth.service";
 
 //simply sets state and maps every student found in the current list of students to a button that is clickable.
@@ -15,10 +17,12 @@ export default class proStudent extends Component {
         this.dropdown = this.dropdown.bind(this);
         this.backup = this.backup.bind(this);
 
-        
+        this.Splashscreen = this.Splashscreen.bind(this);
+
         this.state = {
             dropdown: false,
             picture: "//ssl.gstatic.com/accounts/ui/avatar_2x.png",
+            splashscreen: false,
             
             
         }
@@ -34,9 +38,14 @@ export default class proStudent extends Component {
             dropdown: false,
         })
     }
+    Splashscreen(){
+        this.setState({splashscreen:false})
+    }
  
-    profile(student) {
-        
+    async profile(student) {
+        await this.setState({splashscreen:true})
+        const delay = ms => new Promise(res => setTimeout(res, ms));
+        await delay(500)
         this.props.history.push({
             pathname: "/student",
             state: { detail: student }
@@ -49,9 +58,11 @@ export default class proStudent extends Component {
        
         return (
             <div style={{ height: "100%", width: "100%" }} >
+                {this.state.splashscreen && (<Splashscreen closesplash={this.Splashscreen}/>)}
+                <h3 style={{margin:"15px"}}> My Students:</h3>
             <table  style={{ width: "100%" }} >
             <tr  style={{height:"50px"}}>
-                <th style={{ height: "50px", width:"120px" }}>
+                <th style={{ height: "50px", width:"100px" }}>
                             <div style={{ opacity: "0", width: "60px"}} >
                         <img
                             src={this.state.picture}
@@ -71,12 +82,12 @@ export default class proStudent extends Component {
                     </th>
                 <th style={{ width: "195px", height: "50px" }}>
                     <div style={{  marginTop: "10px", width:"100%" }}>
-                    <p> Days Practiced</p>
+                    <p> Days Practiced:</p>
                         </div>
                     </th>
                     <th>
                     <div style={{ marginTop: "10px" }}>
-                    <p> Goal Progress </p>
+                    <p> Goal Progress: </p>
                         </div>
                         </th>
                 <th style={{ height: "50px" }}>
@@ -91,7 +102,7 @@ export default class proStudent extends Component {
                         </th>
                     </tr>
                 </table>
-                <div style={{ height: "90%", width: "100%" }} className="homeworkScroll">
+                <div style={{ height: "73%", width: "100%" }} className="homeworkScroll">
 
                                 <table  style={{ width: "100%" }} >
         {
@@ -104,7 +115,7 @@ export default class proStudent extends Component {
                         <div className="centerized">
                             {student.profilepic ? (
                                 <img
-                                    src={'http://localhost:8080' + student.profilepic}
+                                        src={ student.profilepic}
                                     alt="profile-img"
                                         className="proStudpicture cropped1"
 
@@ -143,7 +154,15 @@ export default class proStudent extends Component {
                     </td>
                     <td style={{ height: "35px", }}>
                         <div>
-                            <div style={{ marginTop: "25px", float: "right", marginRight: "20px" }} onClick={this.props.del.bind(this, student)} className="rowss1 huv">Delete Student</div>
+                            <img
+                                src={trash}
+                                alt="profile-img"
+                                onClick={this.props.del.bind(this, student)}
+                                style={{ marginTop: "25px", float: "right", marginRight: "20px", width: "18px", height: "18px" , opacity:".5"}}
+                                className= "huv"
+
+                            />
+                           
                         </div>
                     </td>
                    </tr>

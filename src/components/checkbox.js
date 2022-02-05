@@ -25,8 +25,7 @@ class Checkedd extends Component {
 
         await this.setState({ checkboxValue: !this.state.checkboxValue, });
 
-
-        this.props.props.practice(this.state.checkboxValue, this.props.props.synced, this.props.day);
+        this.props.props.practice(this.state.checkboxValue, this.props.props.synced, this.props.day, this.props.props.prac, );
         
         
 
@@ -48,13 +47,21 @@ class Checkedd extends Component {
 
 
                                         <div className="csyncbox">
+                                        {this.props.day==="s"?(<p style={{ position: "absolute", marginLeft: "-3px", marginTop: "-3px", fontSize: "13px" }}>S</p>
+):(                                            <p style={{ position: "absolute", marginLeft: "-3px", marginTop: "-3px", fontSize: "13px" }}>{this.props.day}</p>
+)}
 
-                                            <p style={{ position: "absolute", marginLeft: "-3px", marginTop: "-3px", fontSize: "13px" }}>{this.props.day}</p>
                                             <div style={{ opacity: "0" }}>
                                                 {this.props.day === "M" ?
                                                     (<h3 style={{ marginLeft: "-1px", marginTop: this.state.hstyle }}>{this.props.day}</h3>)
                                                     : (<div> {this.props.day === "W" ? (<h3 style={{ marginLeft: "-1px", marginTop: this.state.hstyle }}>{this.props.day}</h3>)
-                                                        : (<h3 style={{ marginLeft: this.state.style, marginTop: this.state.hstyle }}>{this.props.day}</h3>)}</div>)}
+                                                        : (
+                                                            <div>
+                                                             {this.props.day==="s"?(<h3 style={{ marginLeft: this.state.style, marginTop: this.state.hstyle }}>S</h3>):(<h3 style={{ marginLeft: this.state.style, marginTop: this.state.hstyle }}>{this.props.day}</h3>)}
+
+                                                            </div>
+                                                        
+                                                        )}</div>)}
                                             </div>
                                         </div>
 
@@ -65,13 +72,22 @@ class Checkedd extends Component {
 
                                 ) : (
                                         <div className="csyncbox">
+                                            
+                                            {this.props.day==="s"?( <p style={{ position: "absolute", marginLeft: "-3px", marginTop: "-3px", fontSize: "13px", opacity: "0" }}>S</p>):(<p style={{ position: "absolute", marginLeft: "-3px", marginTop: "-3px", fontSize: "13px", opacity: "0" }}>{this.props.day}</p>)}
 
-                                            <p style={{ position: "absolute", marginLeft: "-3px", marginTop: "-3px", fontSize: "13px", opacity: "0" }}>{this.props.day}</p>
+                                            
                                             <div >
                                                 {this.props.day === "M" ?
                                                     (<h3 style={{ marginLeft: "-1px", marginTop: this.state.hstyle }}>{this.props.day}</h3>)
                                                     : (<div> {this.props.day === "W" ? (<h3 style={{ marginLeft: "-1px", marginTop: this.state.hstyle }}>{this.props.day}</h3>)
-                                                        : (<h3 style={{ marginLeft: this.state.style, marginTop: this.state.hstyle }}>{this.props.day}</h3>)}</div>)}
+                                                        : (
+                                                            <div>
+                                                            {this.props.day==="s"?(<h3 style={{ marginLeft: this.state.style, marginTop: this.state.hstyle }}>S</h3>):(<h3 style={{ marginLeft: this.state.style, marginTop: this.state.hstyle }}>{this.props.day}</h3>)}
+</div>
+                                                        
+
+                                                        
+                                                        )}</div>)}
                                             </div>
                                         </div>
 
@@ -80,13 +96,20 @@ class Checkedd extends Component {
 
 
                                     <div className="csyncboxa" style={{ opacity: "0" }}>
+                                    {this.props.day==="s"?( <p style={{ position: "absolute", marginLeft: "-3px", marginTop: "-3px", fontSize: "13px" }}>S</p>):( <p style={{ position: "absolute", marginLeft: "-3px", marginTop: "-3px", fontSize: "13px" }}>{this.props.day}</p>)}
 
-                                    <p style={{ position: "absolute", marginLeft: "-3px", marginTop: "-3px", fontSize: "13px" }}>{this.props.day}</p>
+
+                                   
                                     <div style={{ opacity: "0" }}>
                                         {this.props.day === "M" ?
                                             (<h3 style={{ marginLeft: "-1px", marginTop: this.state.hstyle }}>{this.props.day}</h3>)
                                             : (<div> {this.props.day === "W" ? (<h3 style={{ marginLeft: "-1px", marginTop: this.state.hstyle }}>{this.props.day}</h3>)
-                                                : (<h3 style={{ marginLeft: this.state.style, marginTop: this.state.hstyle }}>{this.props.day}</h3>)}</div>)}
+                                                : (<div>
+                                                    {this.props.day==="s"?(<h3 style={{ marginLeft: this.state.style, marginTop: this.state.hstyle }}>S</h3>):(<h3 style={{ marginLeft: this.state.style, marginTop: this.state.hstyle }}>{this.props.day}</h3>)}
+
+                                                </div>
+                                                
+                                                )}</div>)}
                                     </div>
                                 </div>
 
@@ -100,7 +123,7 @@ class Checkedd extends Component {
                             <div className="tick"></div>
                         </label>
                         <div style={{ marginLeft: "10px" }}>
-                            {this.props.props.synctimes ? (<div>{this.props.time ? (<div>{this.props.time} m</div>) : (<div>0 m</div>)}</div>) : (<div> {this.props.time ? (<div>{this.props.time} m</div>) : (<div></div>)}</div>)}
+                            {this.props.props.synctimes ? (<div>{this.props.time ? (<div style={{fontSize:"14px"}}><b>{this.props.time} m</b></div>) : (<div style={{fontSize:"14px"}}><b>0 m</b></div>)}</div>) : (<div> </div>)}
                         </div>
                     </div>
 
@@ -109,59 +132,98 @@ class Checkedd extends Component {
                         </div>
                         <div>
                             <input type="checkbox" checked={this.state.checkboxValue} />
-                            {this.state.p ? (
-                                <label onClick={this.markcheckbox} className="change-label huv" >
-                                        {this.state.p ? (
+                            <label className="change-label2a huv" onClick={this.markcheckbox}>
+                                {this.props.day ? (<div>
+                                    {this.state.p ? (
+                                        <div>
 
-                                                                            <div className="csyncbox">
 
-                                            <p style={{ position: "absolute", marginLeft: "-3px", marginTop: "-3px", fontSize: "13px" }}>{this.props.day}</p>
-                                            <div style={{ opacity: "0" }}>
-                                                {this.props.day === "M" ?
-                                                    (<h3 style={{ marginLeft: "-1px", marginTop: this.state.hstyle, color: "gray" }}>{this.props.day}</h3>)
-                                                    : (<div> {this.props.day === "W" ? (<h3 style={{ color: "gray", marginLeft: "-1px", marginTop: this.state.hstyle }}>{this.props.day}</h3>)
-                                                        : (<h3 style={{ color: "gray", marginLeft: this.state.style, marginTop: this.state.hstyle }}>{this.props.day}</h3>)}</div>)}
+                                            <div className="csyncbox">
+                                            {this.props.day==="s"?(<p style={{ position: "absolute", marginLeft: "-3px", marginTop: "-3px", fontSize: "13px" }}>S</p>):(<p style={{ position: "absolute", marginLeft: "-3px", marginTop: "-3px", fontSize: "13px" }}>{this.props.day}</p>)}
+
+                                                
+                                                <div style={{ opacity: "0" }}>
+                                                    {this.props.day === "M" ?
+                                                        (<h3 style={{ marginLeft: "-1px", marginTop: this.state.hstyle }}>{this.props.day}</h3>)
+                                                        : (<div> {this.props.day === "W" ? (<h3 style={{ marginLeft: "-1px", marginTop: this.state.hstyle }}>{this.props.day}</h3>)
+                                                            : (
+                                                                <div>
+
+{this.props.day==="s"?(<h3 style={{ marginLeft: this.state.style, marginTop: this.state.hstyle }}>S</h3>):(<h3 style={{ marginLeft: this.state.style, marginTop: this.state.hstyle }}>{this.props.day}</h3>)}
+
+                                                                </div>
+                                                            )}</div>)}
+                                                </div>
                                             </div>
-                                            </div>
 
-                                        ) : (
-                                                                                                                        <div className="csyncbox">
-                                                <p style={{ position: "absolute", marginLeft: "-3px", marginTop: "-3px", fontSize: "13px", opacity: "0"}}>{this.props.day}</p>
 
-                                            <div >
-                                                {this.props.day === "M" ?
-                                                    (<h3 style={{ marginLeft: "-1px", marginTop: this.state.hstyle, color: "gray" }}>{this.props.day}</h3>)
-                                                    : (<div> {this.props.day === "W" ? (<h3 style={{ color: "gray", marginLeft: "-1px", marginTop: this.state.hstyle }}>{this.props.day}</h3>)
-                                                        : (<h3 style={{ color: "gray", marginLeft: this.state.style, marginTop: this.state.hstyle }}>{this.props.day}</h3>)}</div>)}
+
+                                        </div>
+
+
+                                    ) : (
+                                            <div className="csyncbox">
+                                                                                            {this.props.day==="s"?(<p style={{ position: "absolute", marginLeft: "-3px", marginTop: "-3px", fontSize: "13px", opacity: "0" }}>S</p>):(<p style={{ position: "absolute", marginLeft: "-3px", marginTop: "-3px", fontSize: "13px", opacity: "0" }}>{this.props.day}</p>)}
+
+
+                                                                                           
+                                                <div >
+                                                    {this.props.day === "M" ?
+                                                        (<h3 style={{ marginLeft: "-1px", marginTop: this.state.hstyle }}>{this.props.day}</h3>)
+                                                        : (<div> {this.props.day === "W" ? (<h3 style={{ marginLeft: "-1px", marginTop: this.state.hstyle }}>{this.props.day}</h3>)
+                                                            : (<div>
+                                                                {this.props.day==="s"?(<h3 style={{ marginLeft: this.state.style, marginTop: this.state.hstyle }}>S</h3>):(<h3 style={{ marginLeft: this.state.style, marginTop: this.state.hstyle }}>{this.props.day}</h3>)}
+
+
+                                                             
+                                                            </div>
+                                                            
+                                                            
+                                                            
+                                                            )}</div>)}
                                                 </div>
                                             </div>
 
                                         )}
+                                </div>) : (<div style={{ opacity: "0" }}>
 
 
-                                    <div className="tick"></div>
-                                </label>
+                                    <div className="csyncboxa" style={{ opacity: "0" }}>
+                                    {this.props.day==="s"?(<p style={{ position: "absolute", marginLeft: "-3px", marginTop: "-3px", fontSize: "13px" }}>S</p>):(<p style={{ position: "absolute", marginLeft: "-3px", marginTop: "-3px", fontSize: "13px" }}>{this.props.day}</p>)}
 
-                            ) : (<label onClick={this.markcheckbox} className="change-label huv" >
-                                <div className="csyncbox">
-                                    {this.state.p ? (<p style={{ position: "absolute", marginLeft: "-3px", marginTop: "-3px", fontSize: "13px" }}>{this.props.day}</p>) : (
-                                        <div >
+
+                                        
+                                        <div style={{ opacity: "0" }}>
                                             {this.props.day === "M" ?
-                                                (<h3 style={{ marginLeft: "-1px", marginTop: this.state.hstyle, color: "gray" }}>{this.props.day}</h3>)
-                                                : (<div> {this.props.day === "W" ? (<h3 style={{ color: "gray", marginLeft: "-1px", marginTop: this.state.hstyle }}>{this.props.day}</h3>)
-                                                    : (<h3 style={{ color: "gray", marginLeft: this.state.style, marginTop: this.state.hstyle }}>{this.props.day}</h3>)}</div>)}
+                                                (<h3 style={{ marginLeft: "-1px", marginTop: this.state.hstyle }}>{this.props.day}</h3>)
+                                                : (<div> {this.props.day === "W" ? (<h3 style={{ marginLeft: "-1px", marginTop: this.state.hstyle }}>{this.props.day}</h3>)
+                                                    : (<div>
+                                                    {this.props.day==="s"?(<h3 style={{ marginLeft: this.state.style, marginTop: this.state.hstyle }}>S</h3>):(<h3 style={{ marginLeft: this.state.style, marginTop: this.state.hstyle }}>{this.props.day}</h3>)}
+                                                    </div>)}</div>)}
                                         </div>
-                                    )}
+                                    </div>
 
-                                </div>
+
+
+                                </div>)}
+
+
+
 
                                 <div className="tick"></div>
-                            </label>)}
+                            </label>
 
                            
+
+                                       
+
+
+                                 
+
                             <div style={{ marginLeft: "10px" }}>
-                                {this.props.time ? (<div>{this.props.time} m</div>) : (<div></div>)}
+                                {this.props.props.synctimes ? (<div>{this.props.time ? (<div style={{fontSize:"14px"}}><b>{this.props.time} m</b></div>) : (<div style={{fontSize:"14px"}}><b>0 m</b></div>)}</div>) : (<div></div>)}
                             </div>
+                            
                             </div>
                     </div>)
                 }

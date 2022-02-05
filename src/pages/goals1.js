@@ -12,6 +12,7 @@ import SetDay from "../components/setday.js";
 import Short from "../components/short.js";
 import moment from 'moment';
 import leaf from "./leaf.png";
+import Starpointz from "../components/starpointz.js"
 
 //not much here but functionality will be added for the goals.
 export default class Goals extends Component {
@@ -381,7 +382,7 @@ export default class Goals extends Component {
                                                                         className="edita"
 
                                                                     />
-                                                                    <p>+</p><p className="rowss huv">New Supporting Goal</p>
+                                                                    <p>+</p><p className="rowss huv">Supporting Goal</p>
                                                                 </span></div>
                                                             </div>)}
 

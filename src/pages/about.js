@@ -1,15 +1,37 @@
-import React from "react";
+import React, { Component } from 'react';
+import axios from "axios";
+axios.defaults.xsrfCookieName = 'csrftoken';
+axios.defaults.xsrfHeaderName = 'X-CSRFToken';
 
-const About = () => (
-    <div>
-        <h1 className="title is-1">This is the About Page</h1>
-        <p>
-            Class aptent taciti sociosqu ad litora torquent per conubia nostra, per
-            inceptos himenaeos. Vestibulum ante ipsum primis in faucibus orci luctus
-            et ultrices posuere cubilia curae; Duis consequat nulla ac ex consequat,
-            in efficitur arcu congue. Nam fermentum commodo egestas.
-    </p>
-    </div>
-);
+
+class About extends Component {
+    constructor(props) {
+        super(props);
+       
+
+        this.state = {
+          
+        }
+
+    }
+    
+   
+        
+        
+
+   
+
+    render() {
+
+        return (
+            <div>
+             
+            </div>
+
+        )
+
+    }
+}
 
 export default About;
+//   <img alt="" src = "/images/treeback.png"/>

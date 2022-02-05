@@ -3,8 +3,12 @@ import AuthService from "../services/auth.service";
 import Route from "./routeFunc";
 import StudentArray from "./student_array.js";
 import axios from "axios";
+import Newuser from "./newuser.js"
+import Splashscreen  from "./splashscreen.js";
 axios.defaults.xsrfCookieName = 'csrftoken';
 axios.defaults.xsrfHeaderName = 'X-CSRFToken';
+
+
 //works as a routing function for the student. Some tricky code here.
 export default class Student_routes extends Component {
     //set state needed for backend usage.
@@ -17,6 +21,8 @@ export default class Student_routes extends Component {
         this.goals = this.goals.bind(this);
         this.handlePage = this.handlePage.bind(this);
         this.changetoRealTime = this.changetoRealTime.bind(this);
+        this.show = this.show.bind(this);
+        this.Splashscreen = this.Splashscreen.bind(this);
 
         
 
@@ -32,10 +38,26 @@ export default class Student_routes extends Component {
             currentUserChange: undefined,
             first: "",
             currentStudents: [],
-           
+            show: true,
+            splashscreen:false,
+            splashed: 0,
+            logoutnewuser: false,
+
             
         };
        
+    }
+    async Splashscreen(){
+        this.setState({
+            splashscreen:!this.state.splashscreen
+        })
+        
+        const delay = ms => new Promise(res => setTimeout(res, ms));
+        await delay(650)
+            window.location.reload();
+
+        
+
     }
     //logged in for a student this mounting step will help pick the first student in the account as the landing page.
     changetoRealTime(firstname, usr) {
@@ -43,6 +65,11 @@ export default class Student_routes extends Component {
         this.setState({
             currentUserChange: usr,
             first: firstname,
+        })
+    }
+    show(){
+        this.setState({
+            show: !this.state.show
         })
     }
 
@@ -114,8 +141,9 @@ export default class Student_routes extends Component {
      componentsMounting() {
         
         let id = this.state.currentUser.id
-         const API_URL = "http://localhost:8080/api/auth/";
-
+       //  const API_URL = "http://localhost:8080/api/auth/";
+         
+         const API_URL = "http://try.flinnapps.com/api/auth/"
 
 
         
@@ -153,20 +181,25 @@ export default class Student_routes extends Component {
         })
     }
     //will be used with buttons later. It's used when there are multiple students on one account.
-    handlePage = (student) => {
+    async handlePage (student)  {
          
-         AuthService.changeactivestudent(this.state.currentPage._id, student._id).then(response => {
+        AuthService.changeactivestudent(this.state.currentPage._id, student._id).then(response => {
              window.location.reload();
 
          })
-
-        window.location.reload();
+        
+         //await this.wait(500);
+        this.Splashscreen();
+        //window.location.reload();
 
 
         
         
        
     }
+    
+    
+
     //this is used when the student logs in for the first time.
     handleLogin = (e) => {
 
@@ -182,6 +215,7 @@ export default class Student_routes extends Component {
                     profile: true,
                     needPassword: false,
                     pastFirstTime: true,
+                    logoutnewuser: true,
                 });
                 const account = [];
                 for (let i = 0; i < this.state.currentUser.account.length; i++) {
@@ -189,7 +223,8 @@ export default class Student_routes extends Component {
                     account.push(this.state.currentUser.account[i]._id);
 
                 }
-                AuthService.setPastFirstTime(this.state.currentUser.id, account, this.state.password1);
+                 AuthService.setPastFirstTime(this.state.currentUser.id, account, this.state.password1);
+                AuthService.login(this.state.currentUser.email, this.state.password1);
             }
 
         }
@@ -223,19 +258,23 @@ export default class Student_routes extends Component {
     render() {
         
         return (
-            <div>
+            <div className="fill1">
+                {this.state.splashscreen && (<Splashscreen closesplash={this.Splashscreen}/>)}
                 {this.state.currentUser ? (
                     <div className="z2">
+                        {this.state.logoutnewuser?(<div> <Newuser /></div>):(<div>
                         {this.state.pastFirstTime ? (
                             <div className="fill1">
-                                <StudentArray handlePage={this.handlePage} props={this.state.currentUser} currentUserChange={this.state.currentUserChange} first={this.state.first} />
+                                {this.state.show?(                                <StudentArray handlePage={this.handlePage} props={this.state.currentUser} currentUserChange={this.state.currentUserChange} first={this.state.first} show={this.state.show}/>
+):(<div></div>)}
 
-                                <Route key={this.state.currentPage} props={this.state} handleChange={this.handleChange} handleLogin={this.handleLogin} currentUserChange={this.changetoRealTime} />
+                                <Route key={this.state.currentPage} props={this.state} handleChange={this.handleChange} handleLogin={this.handleLogin} currentUserChange={this.changetoRealTime} show={this.show}/>
                             </div>
                         ) : (
 
                                 <Route props={this.state} handleChange={this.handleChange} handleLogin={this.handleLogin} />
                             )}
+                            </div>)}
                     </div>
                 ): (<div></div>)}
             

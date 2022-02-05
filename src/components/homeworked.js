@@ -5,10 +5,11 @@ class Homeworkes extends Component {
         super(props);
 
         this.wrapperRef = React.createRef();
-
+        
         this.more = this.more.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleChanges = this.handleChanges.bind(this);
+        this.handleChanges1 = this.handleChanges1.bind(this);
 
         this.handleClickOutside = this.handleClickOutside.bind(this);
         this.setWrapperRef = this.setWrapperRef;
@@ -21,8 +22,8 @@ class Homeworkes extends Component {
             yesnoTimes: false,
             time: false,
             link: false,
-            dailytimebiao: false,
-            hwtime: false,
+            hwdailytimebiao: false,
+            hwtimew: false,
             height: "auto",
         }
 
@@ -50,8 +51,26 @@ class Homeworkes extends Component {
             more: !this.state.more,
         })
     }
-    
+    handleChanges1 = (event) => {
+        const { name, value } = event.target
+
+        if (value === "true") {
+            this.setState({
+                [name]: true,
+            })
+        }
+        else {
+            this.setState({
+                [name]: false,
+            })
+        }
+        this.props.handleChange(event);
+      
+    }
     handleChanges = (event) => {
+        
+        
+
         this.props.handleChange(event);
         this.setState({
             height: "70%"
@@ -59,6 +78,7 @@ class Homeworkes extends Component {
     }
   
     componentDidMount() {
+        
         document.addEventListener('mousedown', this.handleClickOutside);
     }
 
@@ -74,12 +94,12 @@ class Homeworkes extends Component {
     render() {
         return (
             <div className="popup-box" style={{ zIndex: "1010" }}>
-                <div ref={this.wrapperRef} className="boxa " style={{ height:  this.state.height  }}>
+                <div ref={this.wrapperRef} className="boxforhw " style={{ height:  this.state.height  }}>
                     
                     <span className="close-icon-2" onClick={this.props.handleClosing}>x</span>
                     <div className="homeworkScroll ">
                     <div className="form-group">
-                        <label htmlFor="lastName">Add Homework</label>
+                        <label htmlFor="lastName"><b>Homework Name:</b></label>
                         <input
                             type="text"
                             className="form-control"
@@ -91,7 +111,7 @@ class Homeworkes extends Component {
                     </div>
                         <div style={{marginBottom:"15px", marginTop:"10px"}}>
 
-                            <p className="rowss3a huv" onClick={this.more}>Advanced Options?</p>
+                            <p className="rowss3a huv" onClick={this.more}>Advanced Options</p>
                     </div>
 
                     {this.state.more ?
@@ -99,9 +119,11 @@ class Homeworkes extends Component {
                             <div>
                                 <label htmlFor="hwtype">What Type of Homework is This?</label>
                                     <select htmlfor="hwtype" onChange={this.handleChanges } name="hwtype" id="hwtype">
-                                    <option  value="assignment"></option>
+                                    
+                                    <option  value="assignment">Assignment</option>
                                     <option value="practice">Practice</option>
-                                    <option value="assignment">Assignment</option>
+                                    
+                                    
                                     <option  value="research">Research</option>
                                     
 
@@ -113,20 +135,22 @@ class Homeworkes extends Component {
                                     this.props.practice ?
                                         (
                                             <div>
+                                                
                                                 <div className="form-group">
-                                                    <label>Provide a Description for this assignment</label>
-                                                    <input
+                                                    <label>Describe the practice assignment.</label>
+                                                    <textarea
                                                         type="text"
                                                         className="form-control"
+                                                        rows="3"
                                                         id="hwdescription"
-                                                        required
+                                                        
                                                         onChange={this.props.handleChange}
                                                         name="hwdescription"
-                                                    />
+                                                    ></textarea>
 
                                                 </div>
                                                 <div className="form-group">
-                                                    <label>Would you like to use checkboxes to track practice progress for this student?</label>
+                                                    <label>Do you want to use checkboxes to track this practice assignment's progress? </label>
                                                     <select htmlfor="yesnoCheckbox" onChange={this.handleChange} name="yesnoCheckbox" id="yesnoCheckbox">
                                                         <option value=""></option>
                                                         <option value={true}>yes</option>
@@ -136,7 +160,7 @@ class Homeworkes extends Component {
                                                 </div>
                                                 {this.state.yesnoCheckbox ? (<div>
                                                     <div className="form-group">
-                                                        <label>How many times should this student practice every week?</label>
+                                                        <label>How many days should the student practice this assignment?</label>
                                                         <select htmlfor="hwcheckboxes" onChange={this.props.handleChange} name="hwcheckboxes" id="hwcheckboxes">
                                                             <option value=""></option>
                                                             <option value="1">1</option>
@@ -150,7 +174,7 @@ class Homeworkes extends Component {
                                                         </select>
                                                     </div>
                                                     <div className="form-group">
-                                                        <label>Would you like checkboxes to match up with the exact day that this student practiced?</label>
+                                                        <label>Display practice checkboxes with days of the week?</label>
                                                         <select htmlfor="hwsynccheck" onChange={this.props.handleChange} name="hwsynccheck" id="hwsynccheck">
                                                             <option value=""></option>
                                                             <option value={true}>yes</option>
@@ -160,18 +184,9 @@ class Homeworkes extends Component {
                                                     </div>
                                                 </div>) : (<div></div>)}
                                                 
-                                                <div className="form-group">
-                                                    <label>Does this student have a certain amount of times they should practice per day?</label>
-                                                    <select htmlfor="yesnoTimes" onChange={this.handleChange} name="yesnoTimes" id="yesnoTimes">
-                                                        <option value=""></option>
-                                                        <option value={true}>yes</option>
-                                                        <option value={false}>no</option>
-
-                                                    </select>
-                                                </div>
-                                                {this.state.yesnoTimes ? (<div>
+                                                <div>
                                                     <div className="form-group">
-                                                        <label>How many times should this student practice per day?</label>
+                                                        <label>How many times should this student complete this practice assignment per day? </label>
                                                         <input
                                                             type="text"
                                                             className="form-control"
@@ -182,20 +197,21 @@ class Homeworkes extends Component {
                                                         />
 
                                                     </div>
-                                                </div>) : (<div></div>)}
-                                                
+                                                </div>
+                                                  {/*
                                                 <div className="form-group">
                                                     <label>Should this student be required to practice a certain amount of time for this assignment every week?</label>
-                                                    <select htmlfor="hwtime" onChange={this.handleChange} name="hwtime" id="hwtime">
+                                                        <select htmlfor="hwtimew" onChange={this.handleChange} name="hwtimew" id="hwtimew">
                                                         <option value=""></option>
                                                         <option value={true}>yes</option>
                                                         <option value={false}>no</option>
 
                                                     </select>
                                                 </div>
-                                                {this.state.hwtime ? (<div>
+                                                  {this.state.hwtimew ? (*/}
+                                                  <div> 
                                                     <div className="form-group" >
-                                                        <label htmlFor="HWweeklytimebiao">How much time should this student practice every week?</label>
+                                                        <label htmlFor="HWweeklytimebiao">How much time should this student practice per week?</label>
                                                         <input
 
                                                             type="text"
@@ -208,21 +224,8 @@ class Homeworkes extends Component {
 
 
                                                     </div>
-
                                                     <div className="form-group" >
-                                                        <label>Would you like to set a daily time goal?</label>
-                                                        <select htmlFor="dailytimebiao" onChange={this.handleChange} name="dailytimebiao" id="dailytimebiao">
-                                                            <option value=""></option>
-                                                            <option value={true}>yes</option>
-                                                            <option value={false}>no</option>
-                                                            <option value={false}>Not Sure Yet</option>
-
-
-                                                        </select>
-                                                    </div>
-                                                    {this.state.dailytimebiao ? (
-                                                        <div className="form-group" >
-                                                            <label htmlFor="hwdmin">How much time should this student practice every day?</label>
+                                                            <label htmlFor="hwdmin">How much time should this student practice per day?</label>
                                                             <input
 
                                                                 type="text"
@@ -235,19 +238,37 @@ class Homeworkes extends Component {
 
 
                                                         </div>
-                                                    ) : (<div></div>)}
-
-                                                    <div className="form-group" >
-                                                        <label>Sync up practice time with the day it was practiced ie practiced 30 mins on monday. </label>
+                                                         {/*
+                                                        <div className="form-group" >
+                                                        <label>Do you want this practice synced to the day on which it was practiced? </label>
                                                         <select style={{ width: "40%" }} htmlFor="hwtimesync" onChange={this.props.handleChange} name="hwtimesync" id="hwtimesync">
                                                             <option value=""></option>
                                                             <option value={true}>Yes</option>
                                                             <option value={false}>No</option>
 
                                                         </select>
-                                                    </div>
-                                                </div>) : (<div></div>)}
-                                               
+                                                         </div> */}
+
+                                                    
+                                                </div>{/*) : (<div></div>)}
+                                                    
+                                                    <div className="form-group" >
+                                                        <label>Would you like to set a daily time goal?</label>
+                                                        <select htmlFor="hwdailytimebiao" onChange={this.handleChanges1} name="hwdailytimebiao" id="hwdailytimebiao">
+                                                            <option value=""></option>
+                                                            <option value={true}>yes</option>
+                                                            <option value={false}>no</option>
+                                                            <option value={false}>Not Sure Yet</option>
+
+
+                                                        </select>
+                                                    </div>*/}
+                                                    
+                                                        
+                                                   
+
+                                                   
+                                                    {/*}
                                                 <div className="form-group" >
                                                     <label>Is there a website link you would like to add for this assignment </label>
                                                     <select style={{ width: "40%" }} htmlFor="link" onChange={this.handleChange} name="link" id="link">
@@ -256,10 +277,10 @@ class Homeworkes extends Component {
                                                         <option value={false}>No</option>
 
                                                     </select>
-                                                </div>
-                                                {this.state.link ? (<div>
+                                                    </div> */}
+                                                <div>
                                                     <div className="form-group" >
-                                                        <label htmlFor="hwlink">Add link:</label>
+                                                        <label htmlFor="hwlink">Add a link for this homework:</label>
                                                         <input
                                                             style={{ width: "40%" }}
                                                             type="text"
@@ -271,17 +292,9 @@ class Homeworkes extends Component {
                                                         />
 
                                                     </div>
-                                                </div>) : (<div></div>)}
-                                                
-                                                <div className="form-group" >
-                                                    <label>Would you like to add a text box for students to express where they are struggling with this assignment? </label>
-                                                    <select style={{ width: "40%" }} htmlFor="struggles" onChange={this.props.handleChange} name="struggles" id="struggles">
-                                                        <option value=""></option>
-                                                        <option value={true}>Yes</option>
-                                                        <option value={false}>No</option>
-
-                                                    </select>
                                                 </div>
+                                                
+                                                {/** 
                                                 <div className="form-group" >
                                                     <label>Would you like to add a feild for students to ask questions and you to respond? </label>
                                                     <select style={{ width: "40%" }} htmlFor="hwQuestions" onChange={this.props.handleChange} name="hwQuestions" id="hwQuestions">
@@ -291,6 +304,7 @@ class Homeworkes extends Component {
 
                                                     </select>
                                                 </div>
+                                                */}
                                                
                                             </div>
                                         ) :
@@ -298,38 +312,59 @@ class Homeworkes extends Component {
                                             this.props.assignment ?
                                                 (<div>
                                                     <div className="form-group">
-                                                    <label>When is this assignment due?</label>
+                                                    <label>When is the assignment due?</label>
                                                     <input
+                                                    id="hwdate"
+                                                    name="hwdate"
+                                                    
+                                                    type="date"
+                                                    className="form-control"
+
+
+                                                    onChange={this.props.handleChange}
+
+                                                />
+                                                    
+                                                    {/*<input
                                                         type="text"
                                                         className="form-control"
                                                             id="hwdate"
                                                         required
                                                         onChange={this.props.handleChange}
                                                             name="hwdate"
-                                                    />
+                                                    />*/}
 
                                                     </div>
+                                                   
                                                     <div className="form-group">
-                                                        <label>Provide a Description for this assignment</label>
+                                                        <label>Describe the assignment.</label>
+                                                        <textarea
+                                                        type="text"
+                                                        className="form-control"
+                                                        rows="3"
+                                                        id="hwdescription"
+                                                        
+                                                        onChange={this.props.handleChange}
+                                                        name="hwdescription"
+                                                    ></textarea>
+
+                                                        </div>
+                                                        <div>
+                                                    <div className="form-group" >
+                                                        <label htmlFor="hwlink">Add a link for this homework:</label>
                                                         <input
+                                                            style={{ width: "40%" }}
                                                             type="text"
                                                             className="form-control"
-                                                            id="hwdescription"
-                                                            required
+                                                            id="hwlink"
+
                                                             onChange={this.props.handleChange}
-                                                            name="hwdescription"
+                                                            name="hwlink"
                                                         />
 
-                                                        </div>
-                                                        <div className="form-group" >
-                                                            <label>Would you like to add a text box for students to express where they are struggling with this assignment? </label>
-                                                            <select style={{ width: "40%" }} htmlFor="struggles" onChange={this.props.handleChange} name="struggles" id="struggles">
-                                                                <option value=""></option>
-                                                                <option value={true}>Yes</option>
-                                                                <option value={false}>No</option>
-
-                                                            </select>
-                                                        </div>
+                                                    </div>
+                                                </div>
+                                                        {/** 
                                                         <div className="form-group" >
                                                             <label>Would you like to add a feild for students to ask questions and you to respond? </label>
                                                             <select style={{ width: "40%" }} htmlFor="hwQuestions" onChange={this.props.handleChange} name="hwQuestions" id="hwQuestions">
@@ -338,44 +373,63 @@ class Homeworkes extends Component {
                                                                 <option value={false}>No</option>
 
                                                             </select>
-                                                        </div>
+                                                        </div> */}
                                                 </div>)
                                                 :
                                                 (<div>{this.props.research ?
                                                     (<div>
                                                         <div className="form-group">
-                                                            <label>When will this reseach need to be completed?</label>
+                                                            <label>When is the research due?</label>
                                                             <input
+                                                    id="hwdate"
+                                                    name="hwdate"
+                                                    
+                                                    type="date"
+                                                    className="form-control"
+
+
+                                                    onChange={this.props.handleChange}
+
+                                                />
+                                                           {/*} <input
                                                                 type="text"
                                                                 className="form-control"
                                                                 id="hwdate"
                                                                 required
                                                                 onChange={this.props.handleChange}
                                                                 name="hwdate"
-                                                            />
+                                                    />*/}
 
                                                         </div>
                                                         <div className="form-group">
-                                                            <label>Provide a Description for this research assignment</label>
-                                                            <input
-                                                                type="text"
-                                                                className="form-control"
-                                                                id="hwdescription"
-                                                                required
-                                                                onChange={this.props.handleChange}
-                                                                name="hwdescription"
-                                                            />
+                                                            <label>Describe the research.</label>
+                                                            <textarea
+                                                        type="text"
+                                                        className="form-control"
+                                                        rows="3"
+                                                        id="hwdescription"
+                                                        
+                                                        onChange={this.props.handleChange}
+                                                        name="hwdescription"
+                                                    ></textarea>
 
                                                             </div>
-                                                            <div className="form-group" >
-                                                                <label>Would you like to add a text box for students to express where they are struggling with this assignment? </label>
-                                                                <select style={{ width: "40%" }} htmlFor="struggles" onChange={this.props.handleChange} name="struggles" id="struggles">
-                                                                    <option value=""></option>
-                                                                    <option value={true}>Yes</option>
-                                                                    <option value={false}>No</option>
+                                                            <div>
+                                                    <div className="form-group" >
+                                                        <label htmlFor="hwlink">Add a link for this homework:</label>
+                                                        <input
+                                                            style={{ width: "40%" }}
+                                                            type="text"
+                                                            className="form-control"
+                                                            id="hwlink"
 
-                                                                </select>
-                                                            </div>
+                                                            onChange={this.props.handleChange}
+                                                            name="hwlink"
+                                                        />
+
+                                                    </div>
+                                                </div>
+                                                            {/** 
                                                             <div className="form-group" >
                                                                 <label>Would you like to add a feild for students to ask questions and you to respond? </label>
                                                                 <select style={{ width: "40%" }} htmlFor="hwQuestions" onChange={this.props.handleChange} name="hwQuestions" id="hwQuestions">
@@ -384,7 +438,7 @@ class Homeworkes extends Component {
                                                                     <option value={false}>No</option>
 
                                                                 </select>
-                                                            </div>
+                                                            </div>*/}
                                                     </div>)
                                                     :
                                                     (<div></div>)}
@@ -411,3 +465,14 @@ class Homeworkes extends Component {
 };
 
 export default Homeworkes;
+/* for all three.
+ <div className="form-group" >
+                                                            <label>Would you like to add a text box for students to express where they are struggling with this assignment? </label>
+                                                            <select style={{ width: "40%" }} htmlFor="struggles" onChange={this.props.handleChange} name="struggles" id="struggles">
+                                                                <option value=""></option>
+                                                                <option value={true}>Yes</option>
+                                                                <option value={false}>No</option>
+
+                                                            </select>
+                                                        </div>
+ */

@@ -17,7 +17,7 @@
     margin-top:20%;
 }
 .spacer-bottom {
-    margin-bottom: 50px;
+    margin-bottom: 70px;
 }
 .circles {
     
@@ -47,6 +47,7 @@
 .front {
     width: 100%;
     display: flex;
+    flex-direction: column;
     justify-content:flex-start;
 }
 .front1 {
@@ -71,9 +72,9 @@
 }
 .overlapsaab {
     position: absolute;
-    margin-top: 15%;
+    
     z-index: 5;
-    width: 30%;
+    width: 150px;
 }
 .overlaps1 {
     position: absolute;
@@ -81,14 +82,10 @@
     z-index: 5;
     width: 30%;
 }
-.overlaps1a {
-    margin-top: 8%;
-    z-index: 5;
-    width: 100%;
-}
+
 .columbized {
     display: flex;
-    justify-content: center;
+    
     margin: 0 auto;
     flex-direction:column;
 }
@@ -111,7 +108,8 @@
     margin: 0 auto;
     flex-direction: column;
     width: 100%;
-    height: 100%;
+    height: 1100px;
+    
 }
 .columbized3 {
     display: flex;
@@ -150,7 +148,7 @@
     display: flex;
 }
 .makeitwork0abc {
-    margin-top: 7%;
+    margin-top: 5%;
     width: 100%;
     justify-content: center;
     align-items: center;
@@ -175,7 +173,6 @@
     display: flex;
 }
 .makeitwork1a {
-    margin-top: 3%;
     width: 100%;
     justify-content: center;
     align-items: center;
@@ -185,7 +182,7 @@
 .makeitwork2{
     display:flex;
     justify-content:flex-end;
-    width:80%;
+    width:95%;
 }
 .makeitwork3 {
     display: flex;
@@ -212,4 +209,16 @@
 }
 .fill2 {
     width: 100%;
+}
+
+@media only screen and (max-width: 1200px){
+    .columbized2a {
+        display: flex;
+        margin: 0 auto;
+        flex-direction: column;
+        width: 100%;
+        height: 3000px
+        
+    }
+    
 }

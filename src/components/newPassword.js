@@ -61,7 +61,7 @@ export default class Student_routes extends Component {
                         </div>
 
                         <div className="form-group">
-                            <label htmlFor="password2">Password</label>
+                            <label htmlFor="password2">Retype New Password</label>
                             <Input
                                 type="password"
                                 className="form-control"
@@ -74,7 +74,7 @@ export default class Student_routes extends Component {
 
                         <div className="form-group">
                             <button
-                                className="btn btn-primary btn-block">
+                                className="btn  btn-block" style={{ background: "#696eb5", height: "35px", color: "#F0F2EF", width: "125px" }}>
                                 Change Password
                             </button>
                         </div>

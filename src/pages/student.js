@@ -2,9 +2,9 @@
 //probably going to have to have the backend update the email on the account for the student for login.
 import React, { Component } from "react"
 import AuthService from "../services/auth.service";
-import background from "./music.jpg";
+import background from "./music.png";
 import edit from "./edit.png";
-import Editing from "../components/studentEdit";
+import Editing from "../components/studentEdit.js";
 import axios from "axios";
 import Checkboxnum from "../components/practice.js";
 import Homework from "../components/homeworks";
@@ -15,6 +15,7 @@ import trash from "./Trash1.png";
 import Archive from "../components/archive.js"
 import Notes from "../components/notes.js"
 import EditAlltheHomework from "../components/editAlltheHomework.js"
+import Splashscreen  from "../components/splashscreen.js";
 
 
 import authService from "../services/auth.service";
@@ -46,8 +47,12 @@ export default class Student extends Component {
         this.editAlltheHomework = this.editAlltheHomework.bind(this);
         this.editAlltheHomeworkdiaOpen = this.editAlltheHomeworkdiaOpen.bind(this);
         this.editAlltheHomeworkdiaClose = this.editAlltheHomeworkdiaClose.bind(this);
-
-
+        this.changestyle = this.changestyle.bind(this);
+        this.selectDay = this.selectDay.bind(this);
+        this.changeTime = this.changeTime.bind(this);
+        this.changestyle1 = this.changestyle1.bind(this);
+       
+        
         this.notes = this.notes.bind(this);
         this.keep = this.keep.bind(this);
         this.handletheclose = this.handletheclose.bind(this);
@@ -60,7 +65,10 @@ export default class Student extends Component {
 
         this.editMe = this.editMe.bind(this);
         this.handletime = this.handletime.bind(this);
+        this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+        this.Splashscreen = this.Splashscreen.bind(this);
 
+        
         this.state = {
             currentUsr: authService.getCurrentUser(),
             homework: "",
@@ -84,7 +92,7 @@ export default class Student extends Component {
             hwtype: "",
             hwchecked: "",
             hwdescription: "",
-            hwcheckboxes: "",
+            hwcheckboxes: "0",
             hwdate: "",
             hwreasearch: "",
             assignment: false,
@@ -92,7 +100,7 @@ export default class Student extends Component {
             practice: false,
             currentHomework: undefined,
             showHomework: false,
-            daily: "",
+            daily: "0",
             totalDays: "",
             studentaccount: "",
             changetime: "",
@@ -105,7 +113,7 @@ export default class Student extends Component {
             hwtimesync: false,
             hwlink: "",
             struggles: false,
-            hwQuestions: false,
+            hwQuestions: true,
             editAlltheHomework: false,
             yesnoCheckboxsync: false,
             yesnoStreak: false,
@@ -116,15 +124,138 @@ export default class Student extends Component {
             yesnoDaytext: "",
             c: false,
             t: false,
+            hwdailytimebiao: false,
+            hwtimew: false,
+            alignself: "flex-start",
+            width: "64%",
+            width2: "50%",
+            tooSmall: false,
+            width1: "22%",
+            height: "1000px",
+            height1:"1500px",
+            thousand: false,
+            alignself1: "flex-start",
+            showProfile: false,
+            justifyContent1: "",
+            marginLeftedit:"400px",
+            splashscreen:false,
 
         };
     }
+    async Splashscreen(){
+        this.setState({
+            splashscreen:!this.state.splashscreen
+        })
+        
+        const delay = ms => new Promise(res => setTimeout(res, ms));
+        await delay(650)
+            window.location.reload();
+
+        
+
+    }
+    updateWindowDimensions() {
+       
+        if(parseInt(window.innerWidth) <= 550){
+        this.setState({ tooSmall: true, 
+            width1: "0px",
+            height: "2500px",
+            height1:"2000px",
+            marginLeftedit:"80vw"
+            
+        });
+    }
+        if(parseInt(window.innerWidth) <= 1200){
+        this.setState({ tooSmall: true, 
+            width1: "0px",
+            height: "2500px",
+            height1:"2000px"
+          
+            
+        });
+        if(parseInt(window.innerWidth) >= 550){
+            this.setState({ marginLeftedit:"350px"
+              
+                
+            });
+        }
+    
+        if(parseInt(window.innerWidth) >= 1000){
+            this.setState({ tooSmall: true, 
+                thousand: true,
+                width1: "0px",
+                height: "2500px",
+                height1:"2000px",
+                marginLeftedit:"400px"
+              
+                
+            });
+        }
+    }
+        
+     }
+    componentWillUnmount() {
+        window.removeEventListener("resize", this.updateWindowDimensions)
+    }
+    
+    
     async handletime() {
 
     }
+    changestyle() {
+        if (this.state.alignself === "flex-start") {
+            this.setState({
+                alignself: "flex-end",
+                width: "41%",
+                notes: true
+            })
+        }
 
+        else {
+            this.setState({
+                alignself: "flex-start",
+                width: "64%",
+                notes:false
+            })
+        }
+    }
+    changestyle1() {
+        if (this.state.alignself1 === "flex-start") {
+            this.setState({
+                alignself1: "flex-end",
+                width2: "50%",
+                width1: "100%",
+                showProfile: true,
+                height: "1000px",
+                justifyContent1: "center"
+            })
+        }
+
+        else {
+            this.setState({
+                alignself1: "flex-start",
+                width2: "50%",
+                showProfile:false,
+                width1: "0px",
+                height: "2500px",
+                justifyContent1: ""
+            })
+        }
+    }
+    selectDay(day) {
+        this.setState({
+            day: day
+        })
+    }
+    changeTime(time) {
+        this.setState({
+            changetime: time
+        })
+    }
 
     componentDidMount() {
+        window.addEventListener("resize", this.updateWindowDimensions());
+
 
         if (this.state.currentUsr) {
 
@@ -135,13 +266,16 @@ export default class Student extends Component {
             }
             else {
                 if (this.props.location.state) {
+                    
                     //this.setState({
                     //  currentUser: this.props.location.state.detail,
                     //password: this.props.location.state.detail.password,
                     //studentid: "",
 
                     //                    })
-                    const API_URL = "http://localhost:8080/api/auth/";
+                                        const API_URL = "https://legato.flinnapps.com/api/auth/";
+
+                    //const API_URL = "http://localhost:8080/api/auth/";
                     const id = this.props.location.state.detail._id;
                     axios.post(API_URL + "getstudent", {
 
@@ -152,11 +286,11 @@ export default class Student extends Component {
                         console.log(this.state.realtimestudent);
 
                         if (this.state.realtimestudent.profilepic) {
-                            const porfilePic = 'http://localhost:8080' + this.state.realtimestudent.profilepic;
+                            const porfilePic = this.state.realtimestudent.profilepic;
                             this.setState({ picture: porfilePic });
                         }
                         if (this.state.realtimestudent.backgroundpic) {
-                            const background = 'http://localhost:8080' + this.state.realtimestudent.backgroundpic;
+                            const background =  this.state.realtimestudent.backgroundpic;
                             this.setState({ background: background });
                         }
                         var ar = "";
@@ -314,9 +448,9 @@ export default class Student extends Component {
                             totalDays: totaldays,
                             newlyadded: this.state.realtimestudent.newlyadded,
                             yesnoCheckboxsync: this.state.realtimestudent.syncedCheckbox,
-                            //yesnoStreak: this.state.realtimestudent.newlyadded,
-                            yesnocheckboxes: this.state.realtimestudent.checkbox,
-                            yesnoWeek: !this.state.realtimestudent.timeday,
+                            yesnoStreak: this.state.realtimestudent.dayStreak,
+                            yesnocheckboxes: this.state.realtimestudent.checkboxes,
+                            yesnoWeek: this.state.realtimestudent.time,
                             yesnoWeektext: this.state.realtimestudent.min,
                             yesnoDay: this.state.realtimestudent.timeday,
                             yesnoDaytext: this.state.realtimestudent.dmin,
@@ -348,12 +482,14 @@ export default class Student extends Component {
     }
     deleteHomework(homework) {
         AuthService.deleteHomework(this.state.realtimestudent._id, homework);
-        window.location.reload();
+        this.Splashscreen();
+        //window.location.reload();
     }
     clearTime() {
 
         AuthService.clearTime(this.state.realtimestudent._id);
-        window.location.reload();
+        this.Splashscreen();
+        //window.location.reload();
     }
     clearChecks() {
         let homework = false;
@@ -366,7 +502,8 @@ export default class Student extends Component {
             AuthService.clearChecks(this.state.realtimestudent._id, homework);
 
         }
-        window.location.reload();
+        this.Splashscreen();
+       // window.location.reload();
 
     }
 
@@ -400,27 +537,114 @@ export default class Student extends Component {
 
 
 
-        window.location.reload();
+        //window.location.reload();
+        this.setState({edit:false})
+        this.Splashscreen();
 
 
     }
     //change whatever is needed in the state
     handleChange = (event) => {
         const { name, value } = event.target
+        if(name==="yesnoDaytext"){
+            if(value!==""){
+                if(value ==="0"){
+                    this.setState({
+                        yesnoDay: false
+                    })
+                }
+                else{
+                    this.setState({
+                        yesnoDay: true
+                    })
+                }
+                
+            }
+            else{
+                this.setState({
+                    yesnoDay: false
+                })
+            }
+
+        }
+        if(name==="yesnoWeektext"){
+            if(value!==""){
+                if(value ==="0"){
+                    this.setState({
+                        yesnoWeek: false
+                    })
+                }
+                else{
+                    this.setState({
+                        yesnoWeek: true
+                    })
+                }
+            }
+            else{
+                this.setState({
+                    yesnoWeek: false
+                })
+            }
+        }
+    
+
 
         this.setState({
             [name]: value,
         })
+
+        if (value === "true") {
+            this.setState({
+                [name]: true,
+            })
+        }
+        else if (value === "false") {
+            this.setState({
+                [name]: false,
+            })
+        }
+
+
     }
 
 
 
+
     handlehwChange = (event) => {
+        
         const { name, value } = event.target
+        if(name==="hwdmin"){
+            if(value !== ""){
+                this.setState({
+                    hwdailytimebiao: true,
+                    hwtimesync: true,
+                })
+            }
+
+        }
+        if(name==="HWweeklytimebiao"){
+            if(value !== ""){
+                this.setState({
+                    hwtimew: true,
+                })
+            }
+        }
+
+        
 
         this.setState({
             [name]: value,
         })
+        if (value === "true") {
+            this.setState({
+                [name]: true,
+            })
+        }
+        else if (value==="false") {
+            this.setState({
+                [name]: false,
+            })
+        }
         if (value === "assignment") {
             this.setState({
                 assignment: true,
@@ -478,10 +702,16 @@ export default class Student extends Component {
         this.setState({
             showHomework: false
         });
+        
+        window.location.reload();
     };
     handleHomeworkClose() {
         this.setState({
-            homeworked: false
+            homeworked: false,
+            practice: false,
+            assignment: false,
+            research: false,
+            
         });
     };
     //Uses controller to change the homework of the student.
@@ -520,13 +750,19 @@ export default class Student extends Component {
             this.state.hwtimesync,
             this.state.hwlink,
             this.state.struggles,
-            this.state.hwQuestions
+            this.state.hwQuestions,
+            this.state.hwdailytimebiao,
+            this.state.hwtimew,
+           
+            true,
+
 
         );
 
 
 
-        window.location.reload();
+        //window.location.reload();
+        this.Splashscreen()
     }
     showHomework(homework) {
         this.setState({
@@ -538,7 +774,8 @@ export default class Student extends Component {
 
     }
 
-    handletheclose(id, title, description, type, day, checkboxes, date,) {
+    handletheclose(id, title, description, type, day, checkboxes, date, research, HWweeklytimebiao, hwsynccheck, week, daygoal, hwstruggles, hwQuestions, hwdmin, hwlink, syncedCheckboxes, checked, hwtime) {
+
         let newHW = {
 
             title: title,
@@ -547,9 +784,21 @@ export default class Student extends Component {
             description: description,
             date: date,
             daily: day,
-            _id: this.state.currentHomework._id
+            _id: this.state.currentHomework._id,
+            research: research,
+            HWweeklytimebiao: HWweeklytimebiao,
+            hwsynccheck: hwsynccheck,
+            week: week,
+            daygoal: daygoal,
+            hwstruggles: hwstruggles,
+            hwQuestions: hwQuestions,
+            hwdmin: hwdmin,
+            hwlink: hwlink,
+            syncedCheckboxes: syncedCheckboxes,
+            checked: checked,
+            hwtime: hwtime,
         }
-
+        console.log(newHW);
         let ar = [];
         for (let i = 0; i < this.state.homeworks.length; i++) {
             if (this.state.homeworks[i]._id === newHW._id) {
@@ -570,7 +819,9 @@ export default class Student extends Component {
                 ar
             );
 
-        window.location.reload();
+        //window.location.reload();
+        this.Splashscreen();
+        
 
     }
 
@@ -578,12 +829,20 @@ export default class Student extends Component {
 
     }
     editAlltheHomework() {
-        AuthService.editAlltheHomeworkdiaClose(this.props.location.state.detail._id, this.state.yesnoCheckboxsync, this.state.yesnoStreak, this.state.yesnocheckboxes, this.state.yesnoWeek, this.state.yesnoWeektext, this.state.yesnoDay, this.state.yesnoDaytext);
+        console.log(this.state.yesnocheckboxes);
 
-        this.setState({
-            editAlltheHomework: false,
+        AuthService.editAlltheHomeworkdiaClose(this.props.location.state.detail._id, this.state.yesnoCheckboxsync, this.state.yesnoStreak, this.state.yesnocheckboxes, this.state.yesnoWeek, this.state.yesnoWeektext, this.state.yesnoDay, this.state.yesnoDaytext).then(response =>
+        {
+            console.log(response)
+            this.setState({
+                editAlltheHomework: false,
+            })
+           //window.location.reload();
+           
         })
-        window.location.reload();
+        this.Splashscreen();
+
+       
     }
     editAlltheHomeworkdiaOpen() {
         this.setState({
@@ -601,122 +860,256 @@ export default class Student extends Component {
             <div className="z2 fill1 example" >
                 {this.state.realtimestudent ? (
                     <div className="fill1 ">
-                        {this.state.edit && (<Editing handleSub={this.handleSub} handleEditClose={this.handleEditClose} handleChange={this.handleChange} student={this.props.location.state.detail.firstName} />)}
+                        {this.state.splashscreen && (<Splashscreen closesplash={this.Splashscreen}/>)}
+                        {this.state.edit && (<Editing handleSub={this.handleSub} handleEditClose={this.handleEditClose} handleChange={this.handleChange} student={this.props.location.state.detail.firstName}  selectDay={this.selectDay} changeTime={ this.changeTime } state={this.state} />)}
                         {this.state.homeworked && (<Homework handleHomework={this.handleHomework} handleChange={this.handlehwChange} handleClose={this.handleHomeworkClose} practice={this.state.practice} research={this.state.research} assignment={this.state.assignment} />)}
                         {this.state.editAlltheHomework && (<EditAlltheHomework editAlltheHomework={this.editAlltheHomework} handleChange={this.handleChange} handleClose={this.editAlltheHomeworkdiaClose} yesnoCheckboxsync={this.state.realtimestudent.syncedCheckbox}
-                            //yesnoStreak: this.state.realtimestudent.newlyadded,
-                            yesnocheckboxes={this.state.realtimestudent.checkbox}
-                            yesnoWeek={!this.state.realtimestudent.timeday}
+                            yesnoStreak={ this.state.realtimestudent.dayStreak}
+                            yesnocheckboxes={this.state.realtimestudent.checkboxes}
+                            yesnoWeek={this.state.realtimestudent.time}
                             yesnoWeektext={this.state.realtimestudent.min}
                             yesnoDay={this.state.realtimestudent.timeday}
                             yesnoDaytext={this.state.realtimestudent.dmin} />)}
 
-                        {this.state.showHomework && (<ShowHomework homework={this.state.currentHomework} hideHomework={this.hideHomeworkClose} role="teacher" handletheclose={this.handletheclose}  />)}
+                        {this.state.showHomework && (<ShowHomework homework={this.state.currentHomework} hideHomework={this.hideHomeworkClose} role="teacher" handletheclose={this.handletheclose} id={this.state.currentHomework._id} homeworks={this.state.homeworks} student={this.props.location.state.detail._id }/>)}
                         {
-                            this.state.realtimestudent.newlyadded ? (<div className="fill1"> <AddedStudent state={this.state} changestate={this.changestate} /></div>) :
+                            this.state.realtimestudent.newlyadded ? (<div className="fill1"> <AddedStudent state={this.state} changestate={this.changestate} history={this.props.history}/></div>) :
                                 (
                                     <div className="fill1 checkboxstuff1 ">
-                                        <div style={{ height: "1000px", width: "22%", }} >
-                                            <div className="card-container4" style={{ height: "1250px", width: "22%", position: "fixed" }}>
+                                        <div style={{ height: this.state.height, width: this.state.width1,   }} >
+                                            
+                                            {this.state.tooSmall?(<div style={{width:"100vw",}}><div style={{width:"100%", }}>
+                    <div style={{ width: "250px", height: "35px", border: "2px solid gray", display: "flex", flexDirection: "row", justifyContent: this.state.alignself1, margin:"0 auto" }} class="progress-bar2 huv" onClick={this.changestyle1}>
+                        <div style={{ width: "250px", height: "35px", zIndex: "50", position: "absolute", background: "none", display: "flex", color: "#F0F2EF", flexDirection:"row", justifyContent:"space-around", marginTop:"3px"}}><p>{this.state.alignself1==="flex-start"?(<span>Stats &#62;&#62;&#62;</span>):(<span>Stats</span>)}</p><p>{this.state.alignself1==="flex-start"?(<span>Profile </span>):(<span>&#60;&#60;&#60;Profile</span>)}</p></div>
+       
+                        <div style={{ width: this.state.width2, height: "37px", border: "3px solid gray", alignSelf: "center", zIndex: "2" }} ></div>
+                    </div>
+                </div></div>):(
+
+<div className="card-container4" style={{ height: "1250px", width: "22%", position: "fixed", }}>
 
                                                 
 
-                                                <div>
-                                                    <div className="front">
+<div>
+    <div className="front">
+    <div className="makeitwork2">
+        <img
+            src={edit}
+            alt="edit"
+            className="edit2 huv"
+            onClick={this.editMe}
+
+        />
+    </div>
 
 
 
-                                                       
+       
 
 
-                                                        <div className="overlaps1a" >
+        <div className="overlaps1a" >
 
-                                                            <img
-                                                                src={this.state.picture}
-                                                                alt="profile-img"
-                                                                className="profile-img-cardabc cropped1"
+            <img
+                src={this.state.picture}
+                alt="profile-img"
+                className="profile-img-cardabc cropped1"
+                style={{marginLeft:"5vw"}}
 
-                                                            />
-
-
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="makeitwork1a">
-                                                    <div className="makeitwork2">
-                                                        <img
-                                                            src={edit}
-                                                            alt="edit"
-                                                            className="edit2 huv"
-                                                            onClick={this.editMe}
-
-                                                        />
-                                                    </div>
-                                                    <div style={{ marginBottom: "15px", alignSelf:"flex-start", marginLeft:"75px" }}>
-
-                                                        <div className="">
-                                                            <h2>{this.state.first} {this.state.last}</h2>
-
-                                                        </div>
-
-                                                    </div>
-                                                    <div className="makeitwork3">
-                                                        <div >
-                                                            <div style={{ float: "left", color: "gray", marginBottom: "5px" }}>Contact Info:</div>
-                                                        </div>
-                                                        <div>
-                                                            <u style={{ color: "blue" }}>{this.state.email}</u>
-                                                        </div>
-                                                        <div>
-                                                            {this.state.phone}
-                                                        </div>
-                                                        <div>
-                                                            <div style={{ float: "left", color: "gray", marginBottom: "5px", marginTop: "15px" }}>More Info:</div>
-                                                        </div>
-                                                        <div>
-
-                                                            {this.state.about}
-                                                        </div>
-                                                        <div>
-                                                            appointment time: {this.state.time}
-                                                        </div>
-
-                                                        <div>
-                                                            Student ID: {this.state.studentid}
-
-                                                        </div>
-                                                        <div>
-                                                            Student Password: {this.state.password}
-                                                        </div>
-
-                                                    </div>
-                                                    <div className="makeitwork4" style={{ marginTop: "40px" }}>
-                                                        {this.state.realtimestudent ? (
-
-                                                            <div >
-                                                                {this.state.notes ? (
-                                                                    <Notes notes={this.state.realtimestudent.notes} changenotes={this.notes} student={this.props.location.state.detail._id} keep={ this.keep}/>
-                                                                    ) : (
-                                                                        <Archive archived={this.state.realtimestudent.archive} changenotes={this.notes}/>
-                                                                    )}
-
-                                                            </div>
+            />
 
 
-                                                        ) : (<div></div>)}
-                                                    </div>
-                                                </div>
-                                            </div>
+
+        </div>
+    </div>
+</div>
+<div className="makeitwork1a">
+    
+    <div style={{ marginBottom: "15px", alignSelf:"flex-start", margin:"0 auto" }}>
+
+        <div className="">
+            <h2>{this.state.first} {this.state.last}</h2>
+
+        </div>
+
+    </div>
+    <div className="makeitwork3" style={{ display:"flex", flexDirection:"column", justifyContent:"center" }}>
+        <div >
+            <div style={{ alignSelf:"center", color: "gray",  margin:"0 auto", marginBottom: "5px" }}>Student Info:</div>
+        </div>
+        <div>
+            <u style={{ margin:"0 auto", color: "blue", alignSelf:"center" }}>{this.state.email}</u>
+        </div>
+        <div>
+            {this.state.phone}
+        </div>
+        <div>
+            <div style={{ margin:"0 auto", color: "gray", alignSelf:"center" }}></div>
+        </div>
+        <div>
+
+            {this.state.about}
+        </div>
+        <div>
+        Scheduled Time: {this.state.time} {this.state.realtimestudent.day}
+        </div>
+
+        
+        {this.state.password==="******"?(
+            <div>
+        </div>
+        ):(
+            <div>
+            Student Password: {this.state.password}
+        </div>
+        )}
+
+    </div>
+    <div className="makeitwork4" style={{ marginTop: "40px" }}>
+        {this.state.realtimestudent ? (
+
+            <div >
+                <div>
+                    <div style={{ width: "250px", height: "35px", border: "2px solid gray", display: "flex", flexDirection: "row", justifyContent: this.state.alignself }} class="progress-bar2 huv" onClick={this.changestyle}>
+                        <div style={{ width: "250px", height: "35px", zIndex: "50", position: "absolute", background: "none", display: "flex", color: "#F0F2EF", flexDirection:"row", justifyContent:"space-around", marginTop:"3px"}}>
+                            <p>{this.state.alignself==="flex-start"?(<span>Achievements&#62;&#62;&#62;</span>):(<span>Achievements</span>)}</p><p>{this.state.alignself==="flex-start"?(<span>Notes </span>):(<span>&#60;&#60;&#60;Notes</span>)}</p>
+                            </div>
+       
+                        <div style={{ width: this.state.width, height: "37px", border: "3px solid gray", alignSelf: "center", zIndex: "2" }} ></div>
+                    </div>
+                </div>
+
+                {this.state.notes ? (
+                    <Notes notes={this.state.realtimestudent.notes} changenotes={this.notes} student={this.props.location.state.detail._id} keep={ this.keep}/>
+                    ) : (
+                        <Archive archived={this.state.realtimestudent.archive} changenotes={this.notes} Splashscreen={this.Splashscreen}/>
+                    )}
+
+            </div>
+
+
+        ) : (<div></div>)}
+    </div>
+</div>
+</div>
+                                            )}
+                                            
+                                            {this.state.showProfile?(<div style={{width:"100vw",   position:"absolute", zIndex:"4000", }}><div className="card-container4" style={{ height: "1250px", margin: "0 auto" }}>
+
+                                                
+
+<div>
+    <div className="front">
+
+
+
+       
+
+
+        <div className="overlaps1a" >
+
+            <img
+                src={this.state.picture}
+                alt="profile-img"
+                className="profile-img-cardabc cropped1"
+
+            />
+
+
+
+        </div>
+    </div>
+</div>
+<div className="makeitwork1a">
+    <div className="makeitwork2">
+        <img
+            src={edit}
+            alt="edit"
+            className="edit2 huv"
+            onClick={this.editMe}
+
+        />
+    </div>
+    <div style={{ marginBottom: "15px", alignSelf:"flex-start", marginLeft:"75px" }}>
+
+        <div className="">
+            <h2>{this.state.first} {this.state.last}</h2>
+
+        </div>
+
+    </div>
+    <div className="makeitwork3">
+        <div >
+            <div style={{ float: "left", color: "gray", marginBottom: "5px" }}>Contact Info:</div>
+        </div>
+        <div>
+            <u style={{ color: "blue" }}>{this.state.email}</u>
+        </div>
+        <div>
+            {this.state.phone}
+        </div>
+        <div>
+            <div style={{ float: "left", color: "gray", marginBottom: "5px", marginTop: "15px" }}>More Info:</div>
+        </div>
+        <div>
+
+            {this.state.about}
+        </div>
+        <div>
+            appointment time: {this.state.time}
+        </div>
+
+        {this.state.password==="******"?(
+            <div>
+        </div>
+        ):(
+            <div>
+            Student Password: {this.state.password}
+        </div>
+        )}
+        
+
+    </div>
+    <div className="makeitwork4" style={{ marginTop: "40px" }}>
+        {this.state.realtimestudent ? (
+
+            <div >
+                <div className="noted">
+                    <div style={{ width: "250px", height: "35px", border: "2px solid gray", display: "flex", flexDirection: "row", justifyContent: this.state.alignself }} class="progress-bar2 huv" onClick={this.changestyle}>
+                        <div style={{ width: "250px", height: "35px", zIndex: "50", position: "absolute", background: "none", display: "flex", color: "#F0F2EF", flexDirection:"row", justifyContent:"space-around", marginTop:"3px"}}>
+                        <p>{this.state.alignself==="flex-start"?(<span>Achievements&#62;&#62;&#62;</span>):(<span>Achievements</span>)}</p><p>{this.state.alignself==="flex-start"?(<span>Notes </span>):(<span>&#60;&#60;&#60;Notes</span>)}</p></div>
+       
+                        <div style={{ width: this.state.width, height: "37px", border: "3px solid gray", alignSelf: "center", zIndex: "2" }} ></div>
+                    </div>
+                </div>
+
+                {this.state.notes ? (
+                    <Notes notes={this.state.realtimestudent.notes} changenotes={this.notes} student={this.props.location.state.detail._id} keep={ this.keep}/>
+                    ) : (
+                        <Archive archived={this.state.realtimestudent.archive} changenotes={this.notes}/>
+                    )}
+
+            </div>
+
+
+        ) : (<div></div>)}
+    </div>
+</div>
+</div></div>):(<div></div>)}
+                                            
                                             <p style={{opacity:"0"}}>This is the footer to it all I need to make it invisable</p>
                                         </div>
+                                        {this.state.showProfile?(<div></div>):(
 
-                                        <div className="forthegoals " style={{height:"1300px"}}>
-                                            
-                                            <div className=" columbized card-container4ab5">
+                                        <div className="forthegoals " style={{height:this.state.height1}}>
+                                            {this.state.tooSmall?(<div className="fill2" style={{marginTop:"20px"}}>
+                                                <div className=" columbized card-container4ab5tooSmall" >
                                                 {this.state.realtimestudent ?
                                                     (<div className="fill1">
-                                                        {this.state.realtimestudent ? (<Goals main={this.state.realtimestudent.mainGoal} goals={this.state.realtimestudent.goals} student={this.props.location.state.detail._id} daysPracticed={this.state.realtimestudent.daysPracticed} totalDays={this.state.realtimestudent.totalDays} totalTime={this.state.realtimestudent.wmin} timePracticed={"0"}/>
+                                                        {this.state.realtimestudent ? (<Goals totalDaysPracticed={this.state.realtimestudent.totalDaysPracticed} main={this.state.realtimestudent.mainGoals} goals={this.state.realtimestudent.goals} student={this.props.location.state.detail._id} daysPracticed={this.state.realtimestudent.daysPracticed} 
+                                                        totalDays={this.state.realtimestudent.totalDays} totalTime={this.state.realtimestudent.wmin} timePracticed={this.state.realtimestudent.timeTotal} starpoints={this.state.realtimestudent.starpoints} 
+                                                        spGoal= {this.state.realtimestudent.starpointsGoal} level={this.state.realtimestudent.level} daystreak={this.state.realtimestudent.daystreak} timebool={this.state.realtimestudent.timebool}
+                                                        iwantgoals={true} daysbool={this.state.realtimestudent.daysbool} thousand={this.state.thousand} finalTotalTime={this.state.realtimestudent.finalTotalTime} starPoints={this.state.realtimestudent.starPoints} tooSmall={this.state.tooSmall} 
+                                                        splashscreen={this.Splashscreen} MainGoals={this.state.realtimestudent.mainGoals}/>
                                                         ) : (<div> </div>
                                                             )}
                                                         {this.state.realtimestudent.goals[100] ? (<Goals goals={this.state.realtimestudent.goals} student={this.props.location.state.detail._id} />
@@ -725,6 +1118,48 @@ export default class Student extends Component {
                                                     ) : (<div></div>)}
 
                                             </div>
+                                            <div className=" columbized card-container4ab5tooSmall" style={{marginTop:"60px"}}>
+                                                {this.state.realtimestudent ?
+                                                    (<div className="fill1">
+                                                        {this.state.realtimestudent ? (<Goals totalDaysPracticed={this.state.realtimestudent.totalDaysPracticed} main={this.state.realtimestudent.mainGoals} goals={this.state.realtimestudent.goals} student={this.props.location.state.detail._id} daysPracticed={this.state.realtimestudent.daysPracticed} 
+                                                        totalDays={this.state.realtimestudent.totalDays} totalTime={this.state.realtimestudent.wmin} timePracticed={this.state.realtimestudent.timeTotal} starpoints={this.state.realtimestudent.starpoints} 
+                                                        spGoal= {this.state.realtimestudent.starpointsGoal} level={this.state.realtimestudent.level} daystreak={this.state.realtimestudent.daystreak} timebool={this.state.realtimestudent.timebool}
+                                                        iwantgoals={false} daysbool={this.state.realtimestudent.daysbool} thousand={this.state.thousand} finalTotalTime={this.state.realtimestudent.finalTotalTime} starPoints={this.state.realtimestudent.starPoints} tooSmall={this.state.tooSmall} 
+                                                        splashscreen={this.Splashscreen} MainGoals={this.state.realtimestudent.mainGoals}/>
+                                                        ) : (<div> </div>
+                                                            )}
+                                                        {this.state.realtimestudent.goals[100] ? (<Goals goals={this.state.realtimestudent.goals} student={this.props.location.state.detail._id} />
+                                                        ) : (<div> </div>
+                                                            )}</div>
+                                                    ) : (<div></div>)}
+
+                                            </div>
+
+
+                                            </div>
+
+
+                                            ):(
+
+                                                <div className=" columbized card-container4ab5">
+                                                {this.state.realtimestudent ?
+                                                    (<div className="fill1">
+                                                        {this.state.realtimestudent ? (<Goals totalDaysPracticed={this.state.realtimestudent.totalDaysPracticed} main={this.state.realtimestudent.mainGoals} goals={this.state.realtimestudent.goals} student={this.props.location.state.detail._id} daysPracticed={this.state.realtimestudent.daysPracticed} 
+                                                        totalDays={this.state.realtimestudent.totalDays} totalTime={this.state.realtimestudent.wmin} timePracticed={this.state.realtimestudent.timeTotal} starpoints={this.state.realtimestudent.starpoints} 
+                                                        spGoal= {this.state.realtimestudent.starpointsGoal} level={this.state.realtimestudent.level} daystreak={this.state.realtimestudent.daystreak} timebool={this.state.realtimestudent.timebool}
+                                                        daysbool={this.state.realtimestudent.daysbool} thousand={this.state.thousand} finalTotalTime={this.state.realtimestudent.finalTotalTime} starPoints={this.state.realtimestudent.starPoints} tooSmall={this.state.tooSmall} 
+                                                        splashscreen={this.Splashscreen} MainGoals={this.state.realtimestudent.mainGoals}/>
+                                                        ) : (<div> </div>
+                                                            )}
+                                                        {this.state.realtimestudent.goals[100] ? (<Goals goals={this.state.realtimestudent.goals} student={this.props.location.state.detail._id} />
+                                                        ) : (<div> </div>
+                                                            )}</div>
+                                                    ) : (<div></div>)}
+
+                                            </div>
+                                            )}
+                                            
+                                            
 
                                             <div className="card-container6abc" style={{ marginTop: "60px" }}>
                                                 <div className="fill1" >
@@ -738,7 +1173,7 @@ export default class Student extends Component {
                                                         alt="edit"
                                                         className="edit2 huv"
                                                         onClick={this.editAlltheHomeworkdiaOpen}
-                                                        style={{ position: "absolute", marginLeft:"400px", marginTop: "-60px" }}
+                                                        style={{ position: "absolute", marginLeft:this.state.marginLeftedit, marginTop: "-60px" }}
 
                                                     />
                                                         <div className="centerized ">
@@ -753,35 +1188,35 @@ export default class Student extends Component {
                                                                                     <div className="checkboxstuff1 centerized">
                                                                                         <div style={{ flexDirection: "column", marginRight: "15px" }}>
                                                                                             <div className=" centerized">Mon</div>
-                                                                                            <div className=" centerized">0 M</div>
+                                                                                        <div className=" centerized">{this.state.realtimestudent.hwtime.mon } M</div>
                                                                                         </div>
                                                                                         <div style={{ flexDirection: "column", marginRight: "15px" }}>
                                                                                             <div className=" centerized">Tues</div>
-                                                                                            <div className=" centerized">60 M</div>
+                                                                                        <div className=" centerized">{this.state.realtimestudent.hwtime.tues} M</div>
                                                                                         </div>
                                                                                         <div style={{ flexDirection: "column", marginRight: "15px" }}>
                                                                                             <div className=" centerized">Wed</div>
-                                                                                            <div className=" centerized">0 M</div>
+                                                                                        <div className=" centerized">{this.state.realtimestudent.hwtime.wed} M</div>
                                                                                         </div>
                                                                                         <div style={{ flexDirection: "column", marginRight: "15px" }}>
                                                                                             <div className=" centerized">Thurs</div>
-                                                                                            <div className=" centerized">0 M</div>
+                                                                                        <div className=" centerized">{this.state.realtimestudent.hwtime.thur} M</div>
                                                                                         </div>
                                                                                         <div style={{ flexDirection: "column", marginRight: "15px" }}>
                                                                                             <div className=" centerized">Fri</div>
-                                                                                            <div className=" centerized">0 M</div>
+                                                                                        <div className=" centerized">{this.state.realtimestudent.hwtime.fri} M</div>
                                                                                         </div>
                                                                                         <div style={{ flexDirection: "column", marginRight: "15px" }}>
                                                                                             <div className=" centerized">Sat</div>
-                                                                                            <div className=" centerized">0 M</div>
+                                                                                        <div className=" centerized">{this.state.realtimestudent.hwtime.sat} M</div>
                                                                                         </div>
                                                                                         <div style={{ flexDirection: "column", marginRight: "15px" }}>
                                                                                             <div className=" centerized">Sun</div>
-                                                                                            <div className=" centerized">0 M</div>
+                                                                                        <div className=" centerized">{this.state.realtimestudent.hwtime.sun} M</div>
                                                                                         </div>
                                                                                         <div style={{ flexDirection: "column", marginRight: "15px" }}>
                                                                                             <div className=" centerized">Total</div>
-                                                                                            <div className=" centerized"> 120 M</div>
+                                                                                        <div className=" centerized"> {parseInt(this.state.realtimestudent.hwtime.mon) + parseInt(this.state.realtimestudent.hwtime.tues) + parseInt(this.state.realtimestudent.hwtime.wed) + parseInt(this.state.realtimestudent.hwtime.thur) + parseInt(this.state.realtimestudent.hwtime.fri) + parseInt(this.state.realtimestudent.hwtime.sat) + parseInt(this.state.realtimestudent.hwtime.sun) } M</div>
                                                                                         </div>
 
                                                                                     </div>
@@ -799,8 +1234,8 @@ export default class Student extends Component {
                                                                    
                                                                 ) : (
                                                                         <div>
-                                                                            {this.state.realtimestudent.edityesnoWeek ? (<div>
-                                                                                {!this.state.c ? (<h3>Total Time Practiced this Week: <b> / {this.state.realtimestudent.min} Minutes </b> </h3>) : (
+                                                                            {this.state.realtimestudent.edityesnoWeek ? (<div style={{display:"flex", flexDirection:"row"}}>
+                                                                                {!this.state.c ? (<h6><b>Weekly Time Total:</b>  {this.state.realtimestudent.totalWeekTime.total===""?(<span>0</span>):(<span>{this.state.realtimestudent.totalWeekTime.total}</span>)}/{this.state.realtimestudent.min} Minutes  </h6>) : (
                                                                                         <div>
                                                                                             </div>
 
@@ -848,7 +1283,7 @@ export default class Student extends Component {
                                                                     {this.state.c ? (<div >
 
                                                                         {this.state.t ? (<div className=" checkboxstuff1a  " style={{ width: "265px", marginLeft: "7px" }}>
-                                                                            <button className="btn  btn-block" style={{ background: "#696eb5", height: "35px", color: "#F0F2EF", width: "125px" }} onClick={this.clearChecks}><span className="fill1"><p style={{ marginBottom: "10px" }}>Clear Checks</p></span></button>
+                                                                            <button className="btn  btn-block"  style={{ background: "#696eb5", height: "35px", color: "#F0F2EF", width: "125px" }} onClick={this.clearChecks}><span className="fill1"><p style={{ marginBottom: "10px" }}>Clear Checks</p></span></button>
                                                                             <button className="btn btn-block" style={{ background: "#696eb5", height: "35px", color: "#F0F2EF", width: "125px" }} onClick={this.clearTime}><span className="fill1"><p style={{ marginBottom: "10px" }}>Clear Time</p></span></button>
 
                                                                         </div>
@@ -942,27 +1377,27 @@ export default class Student extends Component {
                                                         <div className="checkboxstuff1a fill2" style={{marginTop:"15px"}}>
                                                             
                                                             <div style={{ flexDirection: "column", marginRight: "30px" }}>
-                                                                {this.state.realtimestudent.checkboxes ? (<div>{this.state.realtimestudent.checkboxes !== "0" ? (<div>Practice Goal: {this.state.realtimestudent.checked}/{this.state.realtimestudent.checkboxes}</div>
+                                                                {this.state.realtimestudent.checkboxes ? (<div>{this.state.realtimestudent.checkboxes !== "0" ? (<div style={{display:"flex", flexDirection:"row"}}> <b style={{marginRight:"5px"}}>Practice Goal: </b> {!this.state.realtimestudent.checked ?(<div>0</div>):(<div>{this.state.realtimestudent.checked}</div>)}/{this.state.realtimestudent.checkboxes}</div>
                                                                 ) : (<div></div>)}</div>
                                                                 ) : (<div>
                                                                         {this.state.realtimestudent.syncedCheckbox ? (<div style={{ width: "125px" }} >
-                                                                            {this.state.realtimestudent.checkboxes ? (<div>Practice Goal: {this.state.realtimestudent.checked}/{this.state.realtimestudent.checkboxes}</div>
+                                                                            {this.state.realtimestudent.checkboxes ? (<div style={{display:"flex", flexDirection:"row"}}> <b style={{marginRight:"5px"}}>Practice Goal: </b> {!this.state.realtimestudent.checked ?(<div>0</div>):(<div>{this.state.realtimestudent.checked}</div>)}/{this.state.realtimestudent.checkboxes}</div>
                                                                             ) : (<div></div>)}
                                                                         </div>
                                                                         ) : (<div></div>)}
                                                                     </div>)}
                                                                 
-                                                                <div> Streak: 0</div>
-                                                                <div>{this.state.c ? (<div>
-                                                                    {this.state.realtimestudent.edityesnoWeek ? (<p>Total Time Practiced this Week: / {this.state.realtimestudent.min} Minutes  </p>) : (<div></div>)}
+                                                                {this.state.realtimestudent.dayStreak ? (<div><b> Streak: </b> {this.state.realtimestudent.daystreak}</div>): (<div></div>)}
+                                                                <div>{this.state.c ? (<div style={{display:"flex", flexDirection:"row"}}>
+                                                                    {parseInt(this.state.realtimestudent.min) > 0 ? (<p style={{display:"flex", flexDirection:"row"}}> <b> Weekly Time: </b> {this.state.realtimestudent.totalWeekTime.total===""?(<div style={{marginLeft:"5px", }}>0</div>):(<div style={{marginLeft:"5px",}}>{this.state.realtimestudent.totalWeekTime.total}</div>)}/{this.state.realtimestudent.min} Minutes  </p>) : (<div></div>)}
                                                                    
                                                                             
                                                                       
 
-                                                                </div>) : (<div>
+                                                                </div>) : (<div style={{display:"flex", flexDirection:"row"}}>
                                                                         {this.state.realtimestudent.timeday ? (
-                                                                            <div>
-                                                                                { this.state.realtimestudent.edityesnoWeek ? (<p>Total Time Practiced this Week: / {this.state.realtimestudent.min} Minutes  </p>) : (<div></div>)}</div>
+                                                                            <div style={{display:"flex", flexDirection:"row"}}>
+                                                                                { parseInt(this.state.realtimestudent.min) > 0  ? (<p style={{display:"flex", flexDirection: "row"}}><b>Weekly Time:</b> {this.state.realtimestudent.totalWeekTime.total===""?(<div style={{marginLeft:"5px", }}>0</div>):(<div style={{marginLeft:"5px", }}>{this.state.realtimestudent.totalWeekTime.total}</div>)}/{this.state.realtimestudent.min} Minutes  </p>) : (<div></div>)}</div>
                                                                         ) : (<div></div>)}
                                                                             </div>)}
                                                                 </div>
@@ -1005,6 +1440,7 @@ export default class Student extends Component {
                                             
 
                                         </div>
+                                        )}
                                     </div>
 
 

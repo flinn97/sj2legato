@@ -13,7 +13,7 @@ function AddStudent(props) {
 
     }
     
-    return <div style={{zIndex: "1005", width: "20%", marginTop:"5px"}}>
+    return <div style={{zIndex: "1005", width: "120px", marginTop:"5px"}}>
         <button
             className="btn btn-block"
             type="button"
@@ -25,6 +25,8 @@ function AddStudent(props) {
             handleClose={togglePopup}
             message={props.message}
             messag={props.messag}
+            selectDay={props.selectDay}
+            changeTime={props.changeTime}
         />}
     </div>
 }

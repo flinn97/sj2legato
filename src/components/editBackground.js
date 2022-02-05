@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Files from "./diapiccontent.js";
-import background from "./music.jpg";
+import background from "./music.png";
 import AuthService from "../services/auth.service";
 
 //allows me to create a dialog box to pop up for adding students with names and emails.
@@ -8,7 +8,9 @@ class EditBack extends Component {
     constructor(props) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
-
+        this.wrapperRef = React.createRef();
+        this.handleClickOutside = this.handleClickOutside.bind(this);
+        this.setWrapperRef = this.setWrapperRef;
         this.state = {
             setIsOpen: false,
             backsrc: background,
@@ -19,15 +21,23 @@ class EditBack extends Component {
 
     }
     componentDidMount() {
-        
+        document.addEventListener('mousedown', this.handleClickOutside);
         if (this.props.realusr.backgroundpic) {
-            const backgroundpic = 'http://localhost:8080' + this.props.realusr.backgroundpic;
-
+            //const backgroundpic = 'http://localhost:8080' + this.props.realusr.backgroundpic;
+            const backgroundpic = this.props.realusr.backgroundpic;
             this.setState({ backsrc: backgroundpic })
 
         }
 
 
+    }
+    componentWillUnmount() {
+        document.removeEventListener('mousedown', this.handleClickOutside);
+    }
+    handleClickOutside(event) {
+        if (this.wrapperRef && !this.wrapperRef.current.contains(event.target)) {
+            this.props.handleBackClose();
+        }
     }
     handleChange = (files) => {
         this.setState({
@@ -38,9 +48,9 @@ class EditBack extends Component {
 
     render() {
         return (
-            <div className="popup-box to-front">
+            <div className="popup-box to-front" >
 
-                <div className="diapicbox3">
+                <div className="diapicbox3" ref={this.wrapperRef}>
 
 
                     <div>

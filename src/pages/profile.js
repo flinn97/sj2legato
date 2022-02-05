@@ -4,6 +4,7 @@ import StudentList from '../components/studentList.js';
 import AdddStudent from '../components/dialoghelp.js';
 import ExistingEmail from '../components/existingEmail.js';
 import DeleteStudent from '../components/deletestudent.js';
+import Splashscreen  from "../components/splashscreen.js";
 
 
 //this is the teachers profile page. A lot of react stuff going on here using state and pass along functions and such. I'll try to explain.
@@ -21,7 +22,14 @@ export default class Profile extends Component {
         this.windowreload = this.windowreload.bind(this);
         this.deleteStudent0 = this.deleteStudent0.bind(this);
         this.deleteStudent = this.deleteStudent.bind(this);
+        this.selectDay = this.selectDay.bind(this);
+        this.changeTime = this.changeTime.bind(this);
+        this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+        this.Splashscreen = this.Splashscreen.bind(this);
+        this.splashscreen = this.splashscreen.bind(this);
 
+        
+        
         this.deleted = this.deleted.bind(this);
 
 
@@ -46,15 +54,28 @@ export default class Profile extends Component {
             delStudent: "",
             message: "",
             messag: false,
+            tooSmall: false,
+            splashscreen: true,
         };
 
     }
+    
     //handles any change for state
     handleChange = (event) => {
         const { name, value } = event.target
 
         this.setState({
             [name]: value,
+        })
+    }
+    selectDay(day) {
+        this.setState({
+            day: day
+        })
+    }
+    changeTime(time) {
+        this.setState({
+            time: time
         })
     }
     //When a new student is added to the teachers account this function collects all the students and spits them into state.
@@ -73,17 +94,54 @@ export default class Profile extends Component {
     }
 
     deleted(e) {
+        
         AuthService.deleteStudent(this.state.delStudent._id, this.state.delStudent.email);
-        this.windowreload();
+        this.splashscreen();
     }
+    updateWindowDimensions() {
+        if(parseInt(window.innerWidth) <= 600)
+        this.setState({ tooSmall: true });
+     }
+    componentWillUnmount() {
+        window.removeEventListener("resize", this.updateWindowDimensions)
+    }
+    async Splashscreen(){
+        this.setState({
+            splashscreen:false
+        })
+        
+        
+
+        
+
+    }
+    async splashscreen(){
+        this.setState({
+            splashscreen:!this.state.splashscreen
+        })
+        
+        const delay = ms => new Promise(res => setTimeout(res, ms));
+        await delay(600)
+            window.location.reload();
+
+        
+
+    }
+    //get user if it exists from the jwt.sign for browser history. I don't use cookies for this app.
 
     //this will help populate screen with all the students in the database for the teacher at mount time.
     componentDidMount() {
+        
+
+
+        window.addEventListener("resize", this.updateWindowDimensions());
+
         if (this.state.currentUser) {
 
 
 
             if (this.state.currentUser.role !== "teacher") {
+                
                 this.props.history.push("/");
                 window.location.reload();
 
@@ -96,6 +154,7 @@ export default class Profile extends Component {
 
                         currentStudents: response.data,
                     });
+                    
 
                 });
                 //console.log(this.state.currentstudents);
@@ -106,6 +165,7 @@ export default class Profile extends Component {
             window.location.reload();
 
         }
+        
     }
     windowreload() {
         window.location.reload();
@@ -189,8 +249,7 @@ export default class Profile extends Component {
             this.state.day,
 
         ).then(response => {
-            this.profile(response.data);
-            //window.location.reload();
+            window.location.reload();
         })
 
         //window.location.reload();
@@ -218,8 +277,7 @@ export default class Profile extends Component {
             this.state.day,
 
         ).then(response => {
-           this.profile(response.data);
-            //window.location.reload();
+            window.location.reload();
         })
        
         this.update();
@@ -238,23 +296,49 @@ export default class Profile extends Component {
     //I'm going to render StudentList for the list of students and the line after that only renders as a popup for when a student is added with the same email as another student.
     //I'm passing handleclose doubleAccount and separate to the next component Existing Email.
     render() {
+
         const { history } = this.props;
         return (
-            <div className="container example">
+            <div className="  fill1" >
+                
             {
                 this.state.currentUser ? (
+                    
                         <div className=" container example fill1" style={{
                         zIndex: "1",
+                        padding:"0px",
+                        
                         }}>
-                            <div className="forfiles" >
+                            {this.state.splashscreen && (<Splashscreen closesplash={this.Splashscreen}/>)}
+                           
+                            {this.state.currentStudents.length === 0?(
+                             <div style={{height:"200px", marginTop:"250px"}}>
+                            <div className="card-container5ab centerized" style={{display:"flex", flexDirection:"column", }}>
+                            You have no students currently. 
 
-                            <h1 className="underlining">My Students: </h1>
-                            <AdddStudent addStudentButton={this.addStudent} handleChange={this.handleChange} message={this.state.message} messag={this.state.messag} />
+                            <AdddStudent addStudentButton={this.addStudent} handleChange={this.handleChange} message={this.state.message} messag={this.state.messag} selectDay={this.selectDay} changeTime={this.changeTime}/>
+
+
+                            </div>
+                            </div>):(
+                                <div>
+                                <div className="forfiles fill2" style={{width:"76%", marginTop:"20px",}}>
+                                    {this.state.tooSmall?(<h1  style={{margin: "0 auto", marginTop:"5px", fontFamily:"Lora" }}>STUDENTS </h1>):(<h2 style={{marginTop:"5px", fontFamily:"Lora" }}className="">STUDENTS: </h2>)}
+
+                                    {this.state.tooSmall?(<div></div>):(<AdddStudent addStudentButton={this.addStudent} handleChange={this.handleChange} message={this.state.message} messag={this.state.messag} selectDay={this.selectDay} changeTime={this.changeTime}/>)}
+                                
                         </div>
+                        {this.state.tooSmall?(<div  style={{ margin: "0 auto", marginTop:"7px", width:"100%", display:"flex", flexDirection:"row", justifyContent:"center"}}><AdddStudent addStudentButton={this.addStudent} handleChange={this.handleChange} message={this.state.message} messag={this.state.messag} selectDay={this.selectDay} changeTime={this.changeTime}/></div>):(<div></div>)}
+
+                        </div>
+                            )}
+                            
                         {this.state.existing_email && (<ExistingEmail handleClose={this.handleClose} doubleAccount={this.doubleAccount} separate={this.separate} />)}
                         {this.state.deleteStudent && (<DeleteStudent handleClose={this.deleteStudent} delete={this.deleted} />)}
 
                         <StudentList role={this.state.currentUser.role} students={this.state.currentStudents} history={history} deleted={this.deleteStudent0} />
+
+                        <div style={{width:"200px", height:"500px", opacity:"0"}}>Spacer</div>
 
 
                     </div>

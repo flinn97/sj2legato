@@ -4,8 +4,13 @@ import "bulma/css/bulma.min.css";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import "./index.css"
-import Tree from "./treeback.png";
-import Samantha from"./legato.png"
+import Tree from "./app_backdrop.png";
+import Samantha from "./legato.png"
+import Amplify, { Storage } from 'aws-amplify';
+import awsconfig from './aws-exports';
+
+Amplify.configure(awsconfig);
+
 ReactDOM.render(
      //using browser router for entire app.
     <BrowserRouter >
@@ -13,7 +18,7 @@ ReactDOM.render(
             <img
                 src={Tree}
                 alt="tree"
-                className="back-screen1 cropped1"
+                className="back-screen1"
             />
             <App />
             </div>

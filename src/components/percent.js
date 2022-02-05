@@ -66,7 +66,8 @@ export default class Percent extends Component {
         return (
             
             <div>
-                {this.state.percent}%
+                {this.props.one?(<div>{this.state.percent}% Goals Completed</div>):(<div>{this.state.percent}%</div>)}
+                
                 
             </div>
         );

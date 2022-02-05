@@ -10,13 +10,39 @@ export default class Progress extends Component {
             styler: "rotate(180deg)",
             completedGoals: 0,
             incompletGoals: 0,
-            totalGoals: (this.props.goals.length+1),
+            totalGoals: 0,
             percent: "",
 
         };
     }
     componentDidMount() {
+        console.log(this.props.goals)
+        var totalgoals= this.props.goals.length
+        for (let i=0; i<this.props.goals.length; i++){
+            console.log(this.props.goals[i].mainGoal);
+            let goalz= this.props.goals[i]
+            for(let i=0; i<goalz.mainGoal.goals.length; i++){
+                
+                totalgoals++
+            }
+        }
+        if(this.props.main){
+            this.setState({
+                totalGoals: totalgoals
+            })
+        }
+        else{
+            this.setState({
+                totalGoals: totalgoals
+            })
+        }
+   
         this.progressCalc();
+
+       
+        
+            
+        
     }
     async progressCalc() {
 
@@ -25,11 +51,23 @@ export default class Progress extends Component {
 
         for (let i = 0; i < this.props.goals.length; i++) {
 
-            if (this.props.goals[i].complete) {
+            if (this.props.goals[i].mainGoal.complete) {
                 completedGoals += 1;
             }
             else {
                 goals += 1;
+            }
+            let goalz= this.props.goals[i]
+            for(let i=0; i<goalz.mainGoal.goals.length; i++){
+                if(goalz.mainGoal.goals[i]){
+                if(goalz.mainGoal.goals[i].complete){
+                    console.log(goalz.mainGoal.goals[i].complete);
+                    completedGoals += 1;
+                }
+                else {
+                    goals += 1;
+                }
+            }
             }
         }
         if (this.props.main) {
@@ -81,6 +119,18 @@ export default class Progress extends Component {
             styler: styler,
 
         });
+
+        if(!this.props.main){
+            if(this.props.goals.length===0){
+                this.setState({
+                    percent: "0",
+                    stylel: "rotate(" + "0" + "deg)",
+                    styler: "rotate(" + "0" + "deg)"
+
+                })
+            }
+        }
+    
     }
     /*
      
@@ -91,7 +141,101 @@ export default class Progress extends Component {
             <div>
                 {this.props.profile ? (
                     <div>
-                        <div className="circles4">
+                        {this.props.userProfile?(
+                        
+                        <div  >
+                            {this.state.percent==="0"?(<div>
+                                <div className="circlesI">
+                            <div className="inner">
+                                <img
+                                    src={this.props.pic}
+                                    alt="profile-img"
+                                    className="profile-img-carda  cropped1 "
+
+                                />
+                            </div>
+                           
+                                
+
+                            
+                           
+                        
+                            <div className="circleI">
+                            <div className="bar left">
+                                <div className="progress" style={{ transform: this.state.stylel }}></div>
+                            </div>
+                            <div className="bar right">
+                                <div className="progress" style={{ transform: this.state.styler }}></div>
+                            </div>
+                        </div>
+                        
+                        
+                    </div>
+
+
+
+
+                            </div>):(<div>
+
+                                <div className="circles5">
+                            <div className="inner">
+                                <img
+                                    src={this.props.pic}
+                                    alt="profile-img"
+                                    className="profile-img-carda  cropped1 "
+
+                                />
+                            </div>
+                           
+                                
+
+                            
+                           
+                        
+                            <div className="circle5">
+                            <div className="bar left">
+                                <div className="progress" style={{ transform: this.state.stylel }}></div>
+                            </div>
+                            <div className="bar right">
+                                <div className="progress" style={{ transform: this.state.styler }}></div>
+                            </div>
+                        </div>
+                        
+                        
+                    </div>
+                            </div>)}
+                            
+                        
+
+
+                        </div>):(<div>
+
+                            {this.state.percent==="0"?(<div className="circlesIa">
+                            <div className="inner">
+                                <img
+                                    src={this.props.pic}
+                                    alt="profile-img"
+                                    className="profile-img-carda  cropped1 "
+
+                                />
+                            </div>
+                           
+                                
+
+                            
+                           
+                        
+                            <div className="circleIa">
+                            <div className="bar left">
+                                <div className="progress" style={{ transform: this.state.stylel }}></div>
+                            </div>
+                            <div className="bar right">
+                                <div className="progress" style={{ transform: this.state.styler }}></div>
+                            </div>
+                        </div>
+                        
+                        
+                    </div>):(<div className="circles4">
                             <div className="inner">
                                 <img
                                     src={this.props.pic}
@@ -116,11 +260,31 @@ export default class Progress extends Component {
                         </div>
                         
                         
-                    </div>
+                    </div>)}
+                            
                         <div className="number2" style={{marginTop:"25px"}}>{this.state.percent}% Towards Goal</div>
+                            
+                        </div>)}
+                        
                     </div>
 
-                ) : (
+                ) : (<div>
+                    {this.state.percent==="0"?(
+
+                        <div className="circlesI3 ">
+                            <div className="inner "></div><div className=" innera"></div>
+                    <div className="number">{this.state.percent}%</div>
+                            <div className="circleI3">
+                                <div className="bar left">
+                                    <div className="progress" style={{ transform: this.state.stylel }}></div>
+                                </div>
+                                <div className="bar right">
+                                    <div className="progress" style={{ transform: this.state.styler }}></div>
+                                </div>
+                            </div>
+                        </div>
+                    ):(
+
                         <div className="circles3 ">
                             <div className="inner "></div><div className=" innera"></div>
                     <div className="number">{this.state.percent}%</div>
@@ -133,8 +297,10 @@ export default class Progress extends Component {
                                 </div>
                             </div>
                         </div>
-
                     )}
+                        
+
+                    </div>)}
             
                 
             </div>

@@ -5,7 +5,8 @@ import edit from "./edit.png";
 import leaf from "./leaf.png";
 
 
-import trash from "./trash.png";
+import trash from "./Trash1.png";
+
 
 //not much here but functionality will be added for the goals.
 export default class Notes extends Component {
@@ -218,15 +219,10 @@ export default class Notes extends Component {
                 
 
                 <div >
-                    <div className="checkboxstuff " style={{ marginBottom: "10px" }} >
-                        <div style={{ width: "150px", height: "40px" }}><button className="btn btn-block" onClick={this.props.changenotes.bind(this, false)} style={{ marginRight: "10px", background: "#C8CAE4", color: "#F0F2EF", width: "150px", height: "40px" }}>Completed Goals</button></div>
-                        <div style={{ width: "100px", height: "40px" }}><button className="btn btn-block" style={{ marginLeft: "10px", background: "#696eb5",  color: "#F0F2EF" }}  onClick={this.props.changenotes.bind(this, true)} >Notes</button></div>
-
-
-                    </div>
+                    
                     
               
-                    <div className="fill2" style={{ height: "275px" }} >
+                    <div className="fill2" style={{ height: "275px",  marginTop:"15px"}} >
                         <div className="homeworkScroll fill2">
                             {this.props.notes ? (<div className="fill2">
                                 {
@@ -253,7 +249,7 @@ export default class Notes extends Component {
                                                     <div >
                                                        
                                                         
-                                                        <button style={{ width: "150px", float: "right" }} className="btn btn-primary btn-block" onClick={this.saveEdit.bind(this, note)}>Submit</button>
+                                                        <button style={{ height: "45px",  width: "125px", float:"right" }} className="btn  btn-block" onClick={this.saveEdit.bind(this, note)}>Submit</button>
 
                                                            
                                                         
@@ -280,7 +276,7 @@ export default class Notes extends Component {
                                                                 <div >
 
 
-                                                                    <button style={{ width: "150px", float: "right" }} className="btn btn-primary btn-block" onClick={this.saveEdit.bind(this, note)}>Submit</button>
+                                                                    <button style={{  height: "45px",  width: "125px", float:"right" }} className="btn  btn-block" onClick={this.saveEdit.bind(this, note)}>Submit</button>
 
 
 
@@ -299,6 +295,8 @@ export default class Notes extends Component {
                                                                             alt="edit"
                                                                             onClick={this.editnotes.bind(this, note)}
                                                                             className="huv edit3"
+                                                                            style={{ width: "20px", height: "20px", opacity: ".5" }}
+
 
                                                                         />
                                                                         <img
@@ -306,6 +304,8 @@ export default class Notes extends Component {
                                                                             alt="delete"
                                                                             onClick={this.deleted.bind(this, note)}
                                                                             className="huv edit3"
+                                                                            style={{ width: "20px", height: "20px", opacity: ".5" }}
+
 
                                                                         />
                                                                     </div>
@@ -329,12 +329,14 @@ export default class Notes extends Component {
                                                 <p className=" " style={{ marginRight: "10px" }}>{note.description}</p>
                                                         </div>
                                                         <div className="checkboxstuff3">
-                                                            <div className="checkboxstuff3" style={{ marginRight: "7px" }}>
+                                                            <div className="checkboxstuff3forarchive" style={{ marginRight: "7px" }}>
                                                                 <img
                                                                     src={edit}
                                                                     alt="edit"
                                                                     onClick={this.editnotes.bind(this, note)}
                                                                     className="huv edit3" 
+                                                                    style={{ width: "23px", height: "23px", opacity: ".5" }}
+
 
                                                                 />
                                                                 <img
@@ -342,6 +344,8 @@ export default class Notes extends Component {
                                                                     alt="delete"
                                                                     onClick={this.deleted.bind(this, note)}
                                                                 className="huv edit3" 
+                                                                style={{ width: "23px", height: "23px", opacity: ".5" }}
+
 
                                                                 />
                                                             </div>
@@ -380,10 +384,12 @@ export default class Notes extends Component {
                                         </div>
 
                                     </div>
-                                    <button style={{ width: "150px", float: "right" }} className="btn btn-primary btn-block" onClick={this.sub}><span className="checkboxstuff1" style={{ width: "250" }}>
+                                    <button style={{ height: "45px",  width: "125px", float:"right" }} className="btn btn-block" onClick={this.sub}><span className="checkboxstuff1" style={{ width: "250" }}>
                                         <img
                                             src={leaf}
                                             className="edita"
+                                            style={{ width: "25px", height: "25px", opacity: "1" }}
+
 
                                         />
                                         <p className="rowss huv">Submit</p>
@@ -395,6 +401,8 @@ export default class Notes extends Component {
                                                 <img
                                                     src={leaf}
                                                     className="edita"
+                                                    style={{ width: "20px", height: "20px", opacity: ".75" }}
+
 
                                                 />
                                                 <h6>+</h6><h6 className="rowss huv"> New Note</h6>
@@ -425,3 +433,11 @@ export default class Notes extends Component {
         );
     }
 }
+/*
+ * 
+ * <div className="checkboxstuff " style={{ marginBottom: "10px" }} >
+                        <div style={{ width: "150px", height: "40px" }}><button className="btn btn-block" onClick={this.props.changenotes.bind(this, false)} style={{ marginRight: "10px", background: "#C8CAE4", color: "#F0F2EF", width: "150px", height: "40px" }}>Completed Goals</button></div>
+                        <div style={{ width: "100px", height: "40px" }}><button className="btn btn-block" style={{ marginLeft: "10px", background: "#696eb5",  color: "#F0F2EF" }}  onClick={this.props.changenotes.bind(this, true)} >Notes</button></div>
+
+
+                    </div>*/

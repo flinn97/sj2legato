@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import background from "./music.jpg";
+import background from "./music.png";
 import Pic from "../components/diapicture";
 import AuthService from "../services/auth.service";
 import "./pages.css"
@@ -12,13 +12,20 @@ import axios from "axios";
 //import Goals from "./goals1";
 import Goals from "./goals2";
 import Timess from "../components/timess.js"
-
+import leaf from "./leaf.png";
 import ShowHomework from "../components/showHomework"
 import Goal from "../components/showgoal.js";
-import Checkboxnum3 from "../components/practice3.js"
+import Checkboxnum3 from "../components/practice3.js";
+import bullet from "./bulletarrow.png"
 
-import Checkboxnum2 from "../components/practice2.js"
+import Checkboxnum2 from "../components/practice2.js";
 import authService from "../services/auth.service";
+import Starpointz from "../components/starpointz.js";
+import Splashscreen  from "../components/splashscreen.js";
+
+
+
+
 export default class Student_profile extends Component {
     constructor(props) {
         super(props);
@@ -38,8 +45,10 @@ export default class Student_profile extends Component {
         this.handlegoalClose = this.handlegoalClose.bind(this);
         this.handletimesClose = this.handletimesClose.bind(this);
         this.changeweek = this.changeweek.bind(this);
-
+        this.hwpractice = this.hwpractice.bind(this);
+        this.starpointz = this.starpointz.bind(this);
         this.handletimesOpen = this.handletimesOpen.bind(this);
+        this.Splashscreen = this.Splashscreen.bind(this);
 
         
         this.changetimes = this.changetimes.bind(this);
@@ -57,7 +66,7 @@ export default class Student_profile extends Component {
             first: "",
             last: "",
             email: "",
-            phone: "update phone info ->",
+            phone: "",
             edittheBackground: false,
             background: background,
             currentStudent: undefined,
@@ -65,6 +74,7 @@ export default class Student_profile extends Component {
             time: "",
             checkboxes: "",
             homework: "",
+            hwpractice: 0,
             practice: 0,
             daysPracticed: 0,
             totalDays: 0,
@@ -77,58 +87,269 @@ export default class Student_profile extends Component {
             timeedit: "",
             timesedit: false,
             weeklyTimeEdit: "",
+            c: false,
+            t: false,
+            starpointz: false,
+            timecheck: false,
+            timedaycheck: false,
+            statsmargin: "60px",
+            timepracmargin: "40%",
+            timepracmarginr: "40%",
+            dayspracmargin: "40%",
+            splashscreen:false,
+            pracgoalmargin: "40%",
+            amarginLeft: "30px",
+            aheight:"140px",
+            tmarginTop:"25px",
+            widthforedit: "80%",
+            sp: "0",
+            main: undefined
+            
         }
 
     };
-    showGoal(goal) {
+    async Splashscreen(){
+        this.setState({
+            splashscreen:!this.state.splashscreen
+        })
+        
+        const delay = ms => new Promise(res => setTimeout(res, ms));
+        await delay(650)
+            window.location.reload();
+
+        
+
+    }
+
+    starpointz() {
+        if(this.state.realtimeusr.starPoints){
+        this.setState({
+            starpointz: !this.state.starpointz
+        })
+    }
+        this.props.props.show();
+    }
+    showGoal(goal, main) {
+        
         this.setState({
             showGoal: true,
             currentgoal: goal,
+            main: main
         });
+        this.props.props.show();
 
     }
     handlegoalClose() {
         this.setState({
             showGoal: false,
+            main: false,
         });
+        this.props.props.show();
     }
 
     practice(sign, sync, day) {
+        
         if (sync) {
-            console.log("here");
-            let x = this.state.practice;
-            let xx = this.state.daysPracticed;
+            let sp= "";
+            let pass = false;
+            let npass= false;
+            let daystreak = parseInt(this.state.realtimeusr.daystreak);
+            let x = parseInt(this.state.practice);
+            let xx = parseInt(this.state.daysPracticed);
             if (sign) {
+                daystreak++;
                 x++;
                 xx++;
-                this.setState({ practice: x, daysPracticed: xx, });
+                sp = ((parseInt(this.state.realtimeusr.starpoints)) + (20*daystreak)).toString();
+
+
+            
+            if (parseInt(sp) >= parseInt(this.state.realtimeusr.starpointsGoal)){
+                pass= true;
+            
+
+            }
+            if(this.state.realtimeusr.edityesnoWeek){
+                this.setState({   timesedit:true, timecheck:true});
+
+            }
+            if(this.state.realtimeusr.timeday){
+                console.log(daystreak, this.state.realtimeusr.timeday, sp)
+                let nday ={
+                    M: "mon",
+                    T: "tues",
+                    W: "wed",
+                    R: "thur",
+                    F: "fri",
+                    S: "sat",
+                    s: "sun",
+
+                    
+                }
+                let theday= nday[day];
+                this.setState({timesedit:true, timecheck:true, timedaycheck: true, timeedit: theday  });
+            }
+            else{
+                if(this.state.realtimeusr.starPoints){
+                    this.setState({sp: sp});
+                this.setState({  starpointz: true, });
+                }
+                this.props.props.show();
+            }
+            this.setState({ practice: x.toString(), daysPracticed: xx.toString(), });
+
 
             }
             else {
+                sp = ((parseInt(this.state.realtimeusr.starpoints)) - (20*daystreak)).toString();
+                
+
+
+            
+                if (parseInt(sp) <= 0){
+                    
+                    pass= true;
+                    npass= true;
+    
+                }
+
+                
+                
+                daystreak--;
                 x--;
                 xx--;
-                this.setState({ practice: x, daysPracticed: xx, });
+                
+
+
+            
+               
+                
+               
+                this.setState({ practice: x.toString(), daysPracticed: xx.toString(), });
 
             }
-            AuthService.syncedchecking(this.props.props.props.currentPage._id, day, sign, this.state.practice, this.state.daysPracticed )
+            console.log(this.props.props.props.currentPage._id, day, sign, this.state.practice, this.state.daysPracticed, this.state.realtimeusr.level, sp, this.state.realtimeusr.starpointsGoal, pass, daystreak, npass )
+            
+            AuthService.syncedchecking(this.props.props.props.currentPage._id, day, sign, this.state.practice, this.state.daysPracticed, this.state.realtimeusr.level, sp, this.state.realtimeusr.starpointsGoal, pass, daystreak, npass )
         }
         else {
+            let sp= "";
+            let pass = false;
+            let npass= false;
+            let daystreak = parseInt(this.state.realtimeusr.daystreak);
+
             let x = this.state.practice;
             let xx = this.state.daysPracticed;
             if (sign) {
+                daystreak++;
                 x++;
                 xx++;
+                sp = ((parseInt(this.state.realtimeusr.starpoints)) + (20*daystreak)).toString();
+
+
+            
+                if (parseInt(sp) >= parseInt(this.state.realtimeusr.starpointsGoal)){
+                    pass= true;
+                
+    
+                }
+                if(this.state.realtimeusr.edityesnoWeek){
+                    this.setState({   timesedit:true, timecheck:true});
+    
+                }
+                if(this.state.realtimeusr.timeday){
+                    let nday ={
+                        1: "mon",
+                        2: "tues",
+                        3: "wed",
+                        4: "thur",
+                        5: "fri",
+                        6: "sat",
+                        7: "sun",
+    
+                        
+                    }
+                    console.log(x);
+                    let theday= nday[x];
+                    console.log(theday);
+                    this.setState({timesedit:true, timecheck:true, timedaycheck: true, timeedit: theday  });
+                }
+                else{
+                    if(this.state.realtimeusr.starPoints){
+                        this.setState({sp:sp})
+                    this.setState({  starpointz: true, });
+                    }
+                    this.props.props.show();
+                }
+                this.setState({ practice: x.toString(), daysPracticed: xx.toString(), });
+
+            }
+            else {
+                
+                sp = ((parseInt(this.state.realtimeusr.starpoints)) - (20*daystreak)).toString();
+                console.log(sp)
+                
+
+
+            
+                if (parseInt(sp) <= 0){
+                    
+                    pass= true;
+                    npass= true;
+    
+                }
+
+                
+                
+                daystreak--;
+                x--;
+                xx--;
+               
                 this.setState({ practice: x, daysPracticed: xx, });
+
+            }
+            
+            AuthService.checked(this.props.props.props.currentPage._id, this.state.practice, this.state.realtimeusr.level, sp, this.state.realtimeusr.starpointsGoal, pass, daystreak, npass);
+            AuthService.daysPracticed(this.props.props.props.currentPage._id, this.state.daysPracticed,);
+        }
+    }
+
+    hwpractice(sign, sync, day, practice) {
+        if (sync) {
+            console.log(practice);
+            let x = practice;
+            if (sign) {
+                x++;
+                this.setState({ hwpractice: x,  });
 
             }
             else {
                 x--;
-                xx--;
-                this.setState({ practice: x, daysPracticed: xx, });
+                this.setState({ hwpractice: x,  });
 
             }
-            AuthService.checked(this.props.props.props.currentPage._id, this.state.practice,);
-            AuthService.daysPracticed(this.props.props.props.currentPage._id, this.state.daysPracticed,);
+            AuthService.hwsyncedchecking(this.props.props.props.currentPage._id, day, sign, this.state.hwpractice, this.state.currentHomework._id, this.state.currentHomework.syncedCheckboxes)
+        }
+        else {
+            console.log(practice);
+            let x;
+            if (!practice) {
+                x = 0;
+            }
+            else {
+                x = practice;
+            }
+            if (sign) {
+                x++;
+                this.setState({ hwpractice: x, });
+
+            }
+            else {
+                x--;
+                this.setState({ hwpractice: x, });
+
+            }
+            AuthService.hwchecked(this.props.props.props.currentPage._id, this.state.currentHomework._id, this.state.hwpractice,);
         }
     }
 
@@ -137,8 +358,10 @@ export default class Student_profile extends Component {
         
 
         console.log(currentStudent._id);
-            let id = currentStudent._id;
-            const API_URL = "http://localhost:8080/api/auth/";
+        let id = currentStudent._id;
+                const API_URL = "https://legato.flinnapps.com/api/auth/";
+
+        //const API_URL = "http://localhost:8080/api/auth/";
         console.log(id);
 
         console.log(this.props);
@@ -151,7 +374,10 @@ export default class Student_profile extends Component {
                 this.setState({ realtimeusr: response.data.student });
 
                 if (this.state.realtimeusr.profilepic) {
-                    const porfilePic = 'http://localhost:8080' + this.state.realtimeusr.profilepic;
+
+                                        const porfilePic = this.state.realtimeusr.profilepic;
+
+                    //const porfilePic = 'http://localhost:8080' + this.state.realtimeusr.profilepic;
                     this.setState({ picture: porfilePic });
                 }
                 else {
@@ -159,7 +385,9 @@ export default class Student_profile extends Component {
                     this.setState({ picture: porfilePic });
                 }
                 if (this.state.realtimeusr.backgroundpic) {
-                    const background = 'http://localhost:8080' + this.state.realtimeusr.backgroundpic;
+                                        const background = this.state.realtimeusr.backgroundpic;
+
+                    //const background = 'http://localhost:8080' + this.state.realtimeusr.backgroundpic;
                     this.setState({ background: background });
                 }
                 else {
@@ -297,7 +525,27 @@ export default class Student_profile extends Component {
                 if (this.state.realtimeusr.totalDays === undefined) {
                     totaldays = 0;
                 }
+                if (this.state.realtimeusr.syncedCheckbox) {
+                    this.setState({
+                        c: true,
+                    })
+                }
+                if (this.state.realtimeusr.checkboxes !== "0") {
+                    this.setState({
+                        c: true,
+                    })
 
+                }
+                if (this.state.realtimeusr.edityesnoWeek) {
+                    this.setState({
+                        t: true,
+                    })
+                }
+                if (this.state.realtimeusr.timeday) {
+                    this.setState({
+                        t: true,
+                    })
+                }
                 this.setState({
                     about: this.state.realtimeusr.about,
                     first: this.state.realtimeusr.firstName,
@@ -319,6 +567,24 @@ export default class Student_profile extends Component {
         
     }
      async componentDidMount() {
+        
+        if(parseInt(window.innerWidth) <= 550){
+            this.setState({ tooSmall: true, 
+                statsmargin: "45px",
+                timepracmargin: "48%",
+                timepracmarginr: "37%",
+                dayspracmargin: "43%",
+                amarginLeft: "10px",
+                aheight:"300px",
+                tmarginTop:"50px",
+                
+                pracgoalmargin: "42%",
+                
+                
+            });
+        }
+
+        
          
 
          await this.setState({
@@ -375,18 +641,21 @@ export default class Student_profile extends Component {
         this.setState({
             edit: true
         })
+        this.props.props.show()
     }
 
     handleEditClose() {
         this.setState({
             edit: false
         });
+        this.props.props.show();
     };
 
     handleClose() {
         this.setState({
             diaPic: false
         });
+        this.props.props.show();
     };
 
     changePic(pic) {
@@ -400,6 +669,8 @@ export default class Student_profile extends Component {
             {
                 diaPic: true
             });
+            this.props.props.show();
+
 
     };
     handleSub(e) {
@@ -435,10 +706,11 @@ export default class Student_profile extends Component {
             .catch(e => {
                 console.log(e);
             });
-       window.location.reload();
+       //window.location.reload();
+       this.Splashscreen();
 
 
-        
+        this.props.props.show();
 
     }
     showHomework(homework) {
@@ -446,6 +718,7 @@ export default class Student_profile extends Component {
             showHomework: true,
             currentHomework: homework,
         })
+        this.props.props.show();
 
 
 
@@ -454,50 +727,266 @@ export default class Student_profile extends Component {
         this.setState({
             showHomework: false
         });
+        this.props.props.show();
+
     };
     handletimesOpen() {
         this.setState({
             timesedit: true
         });
     };
-    handletimesClose() {
+    handletimesClose(stars) {
+        
         this.setState({
             timesedit: false
         });
+        if(stars){
+            if(this.state.realtimeusr.starPoints){
+            this.setState({
+                starpointz: true
+            }); 
+        }
+            this.props.props.show();
+        }
     };
     changetimes() {
-        authService.changetimes(this.props.props.props.currentPage._id, this.state.timeedit, this.state.minedit);
-        this.setState({
-            timesedit: false
-        });
-        window.location.reload();
-    }
+        let sp = this.state.realtimeusr.starpoints;
+        let daystreak = parseInt(this.state.realtimeusr.daystreak)
+        let pass = false;
+        let npass= false;
+        if(!this.state.realtimeusr.syncedCheckbox){
+            if(parseInt(this.state.realtimeusr.checkboxes)=== 0){
+               
+                if(parseInt(this.state.realtimeusr.hwtime[this.state.timeedit]) ===0)
+                {
+                if(parseInt(this.state.minedit)===0){
+                    
+                    sp = (parseInt(this.state.realtimeusr.starpoints) - (20*daystreak)).toString();
+                    if (parseInt(sp) <= 0){
+                    
+                        pass= true;
+                        npass= true;
+        
+                    }
+                    daystreak --;
 
+                }
+                else{
+                
+                daystreak = parseInt(this.state.realtimeusr.daystreak) + 1;
+            sp = (parseInt(this.state.realtimeusr.starpoints) + (20*daystreak)).toString();
+
+
+           
+            if (parseInt(sp) >= parseInt(this.state.realtimeusr.starpointsGoal)){
+                pass= true;
+
+            }
+        }
+
+
+
+            }
+        else{
+            if(parseInt(this.state.minedit)===0){
+                    
+                sp = (parseInt(this.state.realtimeusr.starpoints) - (20*daystreak)).toString();
+                if (parseInt(sp) <= 0){
+                
+                    pass= true;
+                    npass= true;
+    
+                }
+                daystreak --;
+
+            }
+        }
+        
+    }
+        }
+        
+        if(!this.state.realtimeusr.syncedCheckbox){        authService.changetimes(this.props.props.props.currentPage._id, this.state.timeedit, this.state.minedit, this.state.realtimeusr.level, sp, this.state.realtimeusr.starpointsGoal, pass, daystreak.toString(), this.state.realtimeusr.timeTotal, npass   );
+        }
+        else{
+            authService.changetimes(this.props.props.props.currentPage._id, this.state.timeedit, this.state.minedit, this.state.realtimeusr.level, false, this.state.realtimeusr.starpointsGoal, pass, daystreak.toString(), this.state.realtimeusr.timeTotal, npass   );
+
+        }
+        
+         
+        
+
+       
+
+        if(!this.state.realtimeusr.syncedCheckbox){
+            if(parseInt(this.state.realtimeusr.checkboxes) === 0){
+                if(parseInt(this.state.realtimeusr.hwtime[this.state.timeedit]) ===0){
+                    if(this.state.realtimeusr.starPoints){
+                    this.setState({
+                    starpointz:true,
+
+                })
+            }
+                this.setState({
+                    timesedit: false,
+                })
+                this.props.props.show();
+            }
+            else{
+                if(this.state.timecheck){
+                    if(this.state.realtimeusr.starPoints){
+                    this.setState({
+                        starpointz: true,
+
+                    })
+                }
+                    this.setState({timesedit:false})
+                    this.props.props.show();
+                }
+                else{
+                //window.location.reload();
+                this.Splashscreen();
+            }
+
+
+            }
+                
+            
+            
+        }
+        else{
+            if(this.state.timecheck){
+                if(this.state.realtimeusr.starPoints){
+                this.setState({
+                    starpointz: true,
+
+                })
+            }
+            this.setState({timesedit:false})
+                this.props.props.show();
+            }
+            else{
+            //window.location.reload();
+            this.Splashscreen();
+        }
+        }
+
+
+
+
+            }
+         else{
+            if(this.state.timecheck){
+                if(this.state.realtimeusr.starPoints){
+                this.setState({
+                    starpointz: true,
+
+                })
+            }
+            this.setState({
+                timesedit:false
+            })
+                this.props.props.show();
+            }
+            else{
+           // window.location.reload();
+            this.Splashscreen();
+        }
+         }      
+            
+            
+        
+        
+    }
     changeweek() {
+        console.log("iget here")
+        let sp = this.state.realtimeusr.starpoints
+        let pass = false;
 
-        authService.changeweek(this.props.props.props.currentPage._id, this.state.weeklyTimeEdit);
-        this.setState({
-            timesedit: false
-        });
-        window.location.reload();
+
+        if(parseInt(this.state.realtimeusr.totalWeekTime.total) < parseInt(this.state.realtimeusr.min)){
+            if((parseInt(this.state.realtimeusr.totalWeekTime.total)+parseInt(this.state.weeklyTimeEdit)) >= parseInt(this.state.realtimeusr.min))
+
+            sp = (parseInt(this.state.realtimeusr.starpoints) + 100).toString();
+
+            
+            if (parseInt(sp) >= parseInt(this.state.realtimeusr.starpointsGoal)){
+                pass= true;
+
+            }
+        }
+
+       
+
+        authService.changeweek(this.props.props.props.currentPage._id, this.state.weeklyTimeEdit, this.state.realtimeusr.level, sp, this.state.realtimeusr.starpointsGoal, pass, this.state.realtimeusr.timeTotal, this.state.realtimeusr.totalWeekTime.total);
+
+        
+        if ((parseInt(this.state.realtimeusr.totalWeekTime.total)+parseInt(this.state.weeklyTimeEdit)) >= parseInt(this.state.realtimeusr.min)){
+            if (parseInt(this.state.realtimeusr.totalWeekTime.total) <  parseInt(this.state.realtimeusr.min)){
+                if(this.state.realtimeusr.starPoints){
+                this.setState({
+               starpointz: true,
+            });
+        }
+            this.props.props.show();
+        }
+        else{
+            if(this.state.timecheck){
+                if(this.state.realtimeusr.starPoints){
+                this.setState({
+                    starpointz:true,
+                })
+            }
+                this.props.props.show();
+            }
+            else{
+            //window.location.reload();
+            this.Splashscreen();
+            }
+
+        }
     }
+        else{
+            if(this.state.timecheck){
+                if(this.state.realtimeusr.starPoints){
+                this.setState({
+                    starpointz:true,
+                })
+            }
+                this.props.props.show();
+            }
+            else{
+            //window.location.reload();
+            this.Splashscreen();
+            }
+    }
+       
+        
+
+        //window.location.reload();
+        this.setState({
+            timesedit: false,
+        });
+    }
+    
     //render student information.  
     render() {
         
         return (
 
 
-            <div className="z2 fill1 example">
-                <div className="columbized card-container0 " style={{marginTop:"25px"}}>
+            <div className="z2 fill1 example" >
+                {this.state.splashscreen && (<Splashscreen closesplash={this.Splashscreen}/>)}
+                <div className="columbized card-container0 " style={{marginTop:this.state.tmarginTop}}>
                     {this.state.diaPic && (<Pic handleClose={this.handleClose} realusr={this.state.realtimeusr} />)}
 
-                    {this.state.timesedit && (<Timess handleClose={this.handletimesClose} handleChange={this.handleChange} change={this.changetimes} changeweek={this.changeweek} weekly={this.state.timeday }/>)}
+                    {this.state.timesedit && (<Timess timedaycheck={this.state.timedaycheck} timecheck={this.state.timecheck} handleClose={this.handletimesClose} handleChange={this.handleChange} change={this.changetimes} changeweek={this.changeweek} weekly={this.state.realtimeusr.timeday } syncedCheckbox={this.state.realtimeusr.syncedCheckbox} checkboxes={this.state.realtimeusr.checkboxes}/>)}
 
                 {this.state.edittheBackground && (<EditBack handleBackClose={this.handleBackClose} realusr={this.state.realtimeusr} />)}
 
-                {this.state.edit && (<Editing handleSub={this.handleSub} handleEditClose={this.handleEditClose} handleChange={this.handleChange} currentUser={this.state.currentUser.role}/>)}
-                    {this.state.showHomework && (<ShowHomework homework={this.state.currentHomework} hideHomework={this.hideHomeworkClose} student={this.props.props.props.currentPage._id} role="student"/>)}
-                    {this.state.showGoal && (<Goal Goal={this.state.currentgoal} hideGoal={this.handlegoalClose} />)}
+                {this.state.edit && (<Editing state={this.state} handleSub={this.handleSub} handleEditClose={this.handleEditClose} handleChange={this.handleChange} currentUser={this.state.currentUser.role}/>)}
+                    {this.state.showHomework && (<ShowHomework homework={this.state.currentHomework} hideHomework={this.hideHomeworkClose} student={this.props.props.props.currentPage._id} role="student" practice={this.hwpractice}/> )}
+                    {this.state.showGoal && (<Goal main={this.state.main} Goal={this.state.currentgoal} handleClose={this.handlegoalClose} role="student" handletheclose={this.handlegoalsClose}/>)}
+                    {this.state.starpointz && (<Starpointz handleClose={this.starpointz} sp ={this.state.sp}/>)}
 
 
                     
@@ -510,13 +999,13 @@ export default class Student_profile extends Component {
                                 <img
                                     src={this.state.background}
                                     alt="music"
-                                    className="back-screen huv cropped1"
-                                    onClick={this.editBackground}
+                                    className="back-screen  cropped1"
+                                    
                                 />
                             </div>
 
 
-                        <div className="overlapsaab" >
+                        <div className="overlapsaab" style={{marginTop: "8%"}} >
 
                                 <img
                                 src={this.state.picture}
@@ -538,7 +1027,8 @@ export default class Student_profile extends Component {
                         <h2>{this.state.first} {this.state.last}</h2>
 
                     </div>
-                    <div className="makeitworkagain">
+                    <div className="makeitworkagain" style={{width:this.state.widthforedit, display:"flex", justifyContent:"center"}}>
+
                         {this.state.about}
 
                     </div>
@@ -549,9 +1039,9 @@ export default class Student_profile extends Component {
                         {this.state.phone}
                     </div>
                     <div>
-                        appointment time and day: {this.state.time} {this.state.day}
+                    Scheduled Time: {this.state.time} {this.state.day}
                         </div>
-                        <div onClick={this.editMe} className="huv rowss1">
+                        <div onClick={this.editMe} className="huv ">
                                 <p className="huv rowss3">Edit Profile</p>
 
 
@@ -563,20 +1053,24 @@ export default class Student_profile extends Component {
 
                
                 </div>
-                <div className="columbized2a fill1" style={{marginTop:"25px"}}>
+                <div className="columbized2a" style={{marginTop:"25px"}}>
                 <div className="proStud5 ">
                     <div className=" card-container5ab">
                         {this.state.realtimeusr ? (<div className="fill1">{
-                                this.state.realtimeusr.mainGoal ?
+                                this.state.realtimeusr ?
                                 (<div className="fill1">
-                                        {this.state.realtimeusr ? (<Goals goalss={false} role={"student"} main={this.state.realtimeusr.mainGoal} goals={this.state.realtimeusr.goals} student={this.state.realtimeusr._id} daysPracticed={this.props.props.props.currentPage.daysPracticed} totalDays={this.props.props.props.currentPage.totalDays} />
+                                        {this.state.realtimeusr ? (<Goals goalss={false} role={"student"} main={this.state.realtimeusr.mainGoals} goals={this.state.realtimeusr.goals} student={this.state.realtimeusr._id} 
+                                        daysPracticed={this.props.props.props.currentPage.daysPracticed} totalDays={this.props.props.props.currentPage.totalDays} starpoints={this.state.realtimeusr.starpoints} 
+                                        starpointsGoal={this.state.realtimeusr.starpointsGoal} level = {this.state.realtimeusr.level}  totalTime={this.state.realtimeusr.wmin} timePracticed={this.state.realtimeusr.timeTotal}
+                                        checkboxes={this.state.realtimeusr.checkboxes} wmin={this.state.realtimeusr.wmin} starPointz={this.state.realtimeusr.starPoints} show={this.props.props.show}
+                                        splashscreen={this.Splashscreen} MainGoals={this.state.realtimeusr.mainGoals}/>
                                     ) : (<div> </div>
                                         )}
                                     {this.state.realtimeusr.goals[100] ? (<Goals goals={this.state.realtimeusr.goals} student={this.state.realtimeusr._id} />
                                     ) : (<div> </div>
                                         )}</div>
-                                    ) : (<div className="fill2 centerized"><h4 style={{ borderBottom: "1px solid gray", color: "gray", height: "40px", marginTop:"20%"}} >You have no goals assigned yet </h4></div>)
-                            }</div>) : (<div className="fill2 centerized"><h4 style={{ borderBottom: "1px solid gray", color: "gray", height: "40px", marginTop:"20%" }} >You have no goals assigned yet </h4> </div>)}
+                                    ) : (<div className="fill2 centerized"><h6 style={{  color: "gray", height: "40px", marginTop:"20%"}} >No Goals assigned yet! </h6></div>)
+                            }</div>) : (<div className="fill2 centerized"><h6 style={{  color: "gray", height: "40px", marginTop:"20%" }} >No Goals assigned yet! </h6> </div>)}
                     
 
                         </div>
@@ -585,14 +1079,34 @@ export default class Student_profile extends Component {
                             {this.state.realtimeusr ? (<div className="fill1">{
                                 this.state.realtimeusr.mainGoal ?
                                     (<div className="fill1">
-                                        {this.state.realtimeusr ? (<Goals goalss={true} role={"student"} main={this.state.realtimeusr.mainGoal} goals={this.state.realtimeusr.goals} student={this.state.realtimeusr._id} daysPracticed={this.props.props.props.currentPage.daysPracticed} totalDays={this.props.props.props.currentPage.totalDays} />
+                                        {this.state.realtimeusr ? (<Goals goalss={true} role={"student"} main={this.state.realtimeusr.mainGoal} goals={this.state.realtimeusr.goals} student={this.state.realtimeusr._id} daysPracticed={this.props.props.props.currentPage.daysPracticed} 
+                                        totalDays={this.props.props.props.currentPage.totalDays} show={this.props.props.show}  
+                                        starpoints={this.state.realtimeusr.starpoints} starpointsGoal={this.state.realtimeusr.starpointsGoal} level = {this.state.realtimeusr.level}
+                                         daystreak={this.state.realtimeusr.daystreak} starPointz={this.state.realtimeusr.starPoints}
+                                         splashscreen={this.Splashscreen} MainGoals={this.state.realtimeusr.mainGoals}
+                                         />
                                         ) : (<div> </div>
                                             )}
                                         {this.state.realtimeusr.goals[100] ? (<Goals goals={this.state.realtimeusr.goals} student={this.state.realtimeusr._id} />
                                         ) : (<div> </div>
                                             )}</div>
-                                    ) : (<div className="fill2 centerized"><h4 style={{ borderBottom: "1px solid gray", color: "gray", height: "40px", marginTop: "20%" }} >You have no goals assigned yet </h4></div>)
-                            }</div>) : (<div className="fill2 centerized"><h4 style={{ borderBottom: "1px solid gray", color: "gray", height: "40px", marginTop: "20%" }} >You have no goals assigned yet </h4> </div>)}
+                                    ) : (<div>
+                                        {this.state.realtimeusr.goals.length !==0?(
+                                            <div className="fill1">
+                                            {this.state.realtimeusr ? (<Goals goalss={true} role={"student"} main={this.state.realtimeusr.mainGoal} goals={this.state.realtimeusr.goals} student={this.state.realtimeusr._id} daysPracticed={this.props.props.props.currentPage.daysPracticed} 
+                                            totalDays={this.props.props.props.currentPage.totalDays} show={this.props.props.show} starpoints={this.state.realtimeusr.starpoints} starPointz={this.state.realtimeusr.starPoints} starpointsGoal={this.state.realtimeusr.starpointsGoal} level = {this.state.realtimeusr.level} daystreak={this.state.realtimeusr.daystreak}/>
+                                            ) : (<div> </div>
+                                                )}
+                                            {this.state.realtimeusr.goals[100] ? (<Goals goals={this.state.realtimeusr.goals} student={this.state.realtimeusr._id} />
+                                            ) : (<div> </div>
+                                                )}</div>
+
+
+                                        ):(<div className="fill2 centerized"><h5 style={{  color: "gray", height: "40px", marginTop: "20%" }} >No Goals assigned yet! </h5> </div>)}
+                                    </div>
+                                    
+                                        )
+                            }</div>) : (<div className="fill2 centerized"><h5 style={{  color: "gray", height: "40px", marginTop: "20%" }} >No Goals assigned yet! </h5> </div>)}
 
 
                         </div>
@@ -602,28 +1116,110 @@ export default class Student_profile extends Component {
                                     <div className="fill1" >
                                 <div className="fill2 centerized" style={{ marginBottom: "5px" }}><h2>Homework</h2></div>
                                 <div className=" fill2">
-                                    {this.state.currentStudent ? (<div className="checkboxstuff centerized">
-                                        {this.state.currentStudent.syncedCheckbox ? (<Checkboxnum2 checkboxes={7} prac={this.state.currentStudent.checked} synced={true} practice={this.practice} sync={this.state.currentStudent.syncedCheckboxes} times={this.state.currentStudent.hwtime}/>
-                                        ) : (<div className="checkboxstuff centerized">
-                                            {
-                                                this.state.newcheck ? (<div>{this.state.realtimeusr ? (<div className="checkboxstuff centerized" style={{ marginBottom: "15px" }}>
-                                                        <Checkboxnum checkboxes={this.state.realtimeusr.checkboxes} prac={this.state.realtimeusr.checked} practice={this.practice} times={this.state.currentStudent.hwtime}/>
-                                                </div>) : (<div></div>)}</div>) : (<div>{this.state.realtimeusr ? (<div className="checkboxstuff centerized" style={{ marginBottom: "15px" }}>
-                                                            <Checkboxnum3 checkboxes={this.state.realtimeusr.checkboxes} prac={this.state.realtimeusr.checked} practice={this.practice} times={this.state.currentStudent.hwtime}/>
-                                                </div>) : (<div></div>)}</div>)
-                                            }
+                                    {this.state.currentStudent ? (<div className="checkboxstuff centerized fill2">
 
-                                        </div>)
+                                        <div className="fill2">{this.state.realtimeusr ? (
+                                            <div className="checkboxstuff1 fill2 " style={{ marginBottom: "10px", flexDirection: "column" }}>
+
+                                                {this.state.realtimeusr.timeday ? (
+                                                    <div className=" centerized">
+                                                        {!this.state.c ? (
+                                                            <div className=" centerized" style={{marginRight:"5px"}}>
+                                                                <div className="checkboxstuff1 centerized" style={{fontSize:"13px"}}>
+                                                                    <div style={{ flexDirection: "column", marginRight: "15px" }}>
+                                                                        <div className=" centerized">Mon</div>
+                                                                        <div className=" centerized">{this.state.realtimeusr.hwtime.mon} M</div>
+                                                                    </div>
+                                                                    <div style={{ flexDirection: "column", marginRight: "15px" }}>
+                                                                        <div className=" centerized">Tues</div>
+                                                                        <div className=" centerized">{this.state.realtimeusr.hwtime.tues} M</div>
+                                                                    </div>
+                                                                    <div style={{ flexDirection: "column", marginRight: "15px" }}>
+                                                                        <div className=" centerized">Wed</div>
+                                                                        <div className=" centerized">{this.state.realtimeusr.hwtime.wed} M</div>
+                                                                    </div>
+                                                                    <div style={{ flexDirection: "column", marginRight: "15px" }}>
+                                                                        <div className=" centerized">Thurs</div>
+                                                                        <div className=" centerized">{this.state.realtimeusr.hwtime.thur} M</div>
+                                                                    </div>
+                                                                    <div style={{ flexDirection: "column", marginRight: "15px" }}>
+                                                                        <div className=" centerized">Fri</div>
+                                                                        <div className=" centerized">{this.state.realtimeusr.hwtime.fri} M</div>
+                                                                    </div>
+                                                                    <div style={{ flexDirection: "column", marginRight: "15px" }}>
+                                                                        <div className=" centerized">Sat</div>
+                                                                        <div className=" centerized">{this.state.realtimeusr.hwtime.sat} M</div>
+                                                                    </div>
+                                                                    <div style={{ flexDirection: "column", marginRight: "15px" }}>
+                                                                        <div className=" centerized">Sun</div>
+                                                                        <div className=" centerized">{this.state.realtimeusr.hwtime.sun} M</div>
+                                                                    </div>
+                                                                    <div style={{ flexDirection: "column", marginRight: "0px" }}>
+                                                                        <div className=" centerized">Total</div>
+                                                                        <div className=" centerized"> {parseInt(this.state.realtimeusr.hwtime.mon) + parseInt(this.state.realtimeusr.hwtime.tues) + parseInt(this.state.realtimeusr.hwtime.wed) + parseInt(this.state.realtimeusr.hwtime.thur) + parseInt(this.state.realtimeusr.hwtime.fri) + parseInt(this.state.realtimeusr.hwtime.sat) + parseInt(this.state.realtimeusr.hwtime.sun) } M</div>
+                                                                    </div>
+
+                                                                </div>
+
+                                                            </div>
 
 
 
-                                        }
+                                                        ) : (<div>
+
+
+                                                        </div>)}
+
+                                                    </div>
+
+                                                ) : (
+                                                        <div className="centerized">
+                                                            {this.state.realtimeusr.edityesnoWeek ? (<div className="centerized">
+                                                                {!this.state.c ? (<h6>Weekly Time Total:  {this.state.realtimeusr.totalWeekTime.total}/{this.state.realtimeusr.min} Minutes  </h6>) : (
+                                                                    <div>
+                                                                    </div>
+
+                                                                )
+                                                                }
+                                                            </div>
+
+
+
+                                                            ) : (<div>
+
+
+                                                            </div>)}
+
+
+
+
+                                                        </div>)}
+
+                                                <div className="checkboxstuff1a centerized" >
+
+                                                    {this.state.realtimeusr.syncedCheckbox ? (<Checkboxnum2 checkboxes={7} prac={this.state.currentStudent.checked} practice={this.practice} synced={true} sync={this.state.currentStudent.syncedCheckboxes} times={this.state.realtimeusr.hwtime} synctimes={this.state.currentStudent.timeday} />
+                                                    ) : (
+
+                                                            <Checkboxnum checkboxes={this.state.realtimeusr.checkboxes} prac={this.state.realtimeusr.checked} practice={this.practice} times={this.state.realtimeusr.hwtime} synctimes={this.state.realtimeusr.timeday} />
+                                                        )}
+                                                </div>
+
+                                            </div>
+                                        ) : (<div></div>)}
+
+
+                                        </div>
+
+
 
 
                                     </div>) : (<div></div>)}
-                                    <div className="fill2 centerized">
-                                        <div style={{ width: "125px", height: "40px", marginTop: "5px", marginBottom: "7px" }} ><button style={{ height: "30px", background: "#696eb5", color: "#F0F2EF"  }} className="btn btn-block centerized" onClick={this.handletimesOpen}>Log Time</button></div>
+                                    {this.state.t ? (
+                                        <div className="fill2 centerized">
+                                            <div style={{ width: "125px", height: "40px", marginTop: "5px", marginBottom: "7px" }} ><button style={{ height: "30px", background: "#696eb5", color: "#F0F2EF" }} className="btn btn-block centerized" onClick={this.handletimesOpen}>Submit Time</button></div>
                                         </div>
+                                    ) : (<div></div>)}
+                                   
 
                                     <div className=" fill2">
                                         <table className="fill2" >
@@ -632,12 +1228,13 @@ export default class Student_profile extends Component {
                                                 <div className="centerized fill2" style={{ height: "200px", marginBottom: "15px" }}>
                                                     <td style={{ width: "75%", height: "100%", border: "2px solid green", borderRadius:"3%" }}>
                                                         <div style={{ width: "100%", height: "98%",  }}>
-                                                            {this.state.homeworks[0] ? (<div className="homeworkScroll1" style={{ width: "100%"}} >
+                                                            {this.state.homeworks[0] ? (<div className="homeworkScroll1" style={{ width: "100%", marginTop:"6px"}} >
                                                         {
                                                             this.state.homeworks.map((homework, index) =>
 
-                                                                <div className="checkboxstuff1 centerized rowss" key={index} >
-                                                                    <div className="huv checkboxstuff2 centerized" onClick={this.showHomework.bind(this, homework)}>{homework.title}</div>
+                                                                <div className="checkboxstuff1  rowss" key={index} style={{marginBottom:"7px"}}>
+                                                                    <div><img src={leaf} style={{ width: "22px", hieght: "22px", marginRight: "10px", marginLeft: "5px" }} /></div>
+                                                                    <div className="huv checkboxstuff2 " onClick={this.showHomework.bind(this, homework)}>{homework.title}</div>
 
                                                                     
                                                                 </div>
@@ -646,7 +1243,7 @@ export default class Student_profile extends Component {
                                                 }
 
                                                     </div>) : (
-                                                                <div>You have no Homework assigned yet.</div>)}
+                                                                <div>No Homework assigned yet!</div>)}
                                                     </div>
                                                             </td>
                                                         
@@ -655,21 +1252,8 @@ export default class Student_profile extends Component {
                                             </tr>
                                             </table>
                                     </div>
-                                    {this.state.currentStudent ? (<div>
-                                        {this.state.currentStudent.timeday ? (<div>
-
-
-                                        </div>
-                                        ) : (
-                                                <div>
-                                                    {this.state.currentStudent.totalWeekTime ? (<h3>Total Time Practiced this Week: <b>{this.state.currentStudent.totalWeekTime.total} </b> </h3>) : (<div>
-
-
-                                                    </div>)}
-
-
-                                                </div>)}
-                                    </div>) : (<div></div>)}
+                                    
+                            
 
                                     
                                    
@@ -679,6 +1263,31 @@ export default class Student_profile extends Component {
                                             
 
                                         </div>
+                                        {this.state.realtimeusr?(<div>
+                                            {this.state.realtimeusr.edityesnoWeek ? (<div style={{marginLeft:"15px"}}>
+                                                                {this.state.c ? (<p>Weekly Time Total:  {this.state.realtimeusr.totalWeekTime.total}/{this.state.realtimeusr.min} Minutes  </p>) : (
+                                                                    <div>
+                                                                        {this.state.realtimeusr.timeday?(
+                                                                            <div style={{marginLeft:"15px"}}>
+                                                                                <p>Weekly Time Total:  {this.state.realtimeusr.totalWeekTime.total}/{this.state.realtimeusr.min} Minutes  </p>
+                                                                            </div>
+                                                                        ):(<div></div>)}
+                                                                    </div>
+
+                                                                )
+                                                                }
+                                                            </div>
+
+
+
+                                                            ) : (<div>
+
+
+                                                            </div>)}
+
+
+                                        </div>):(<div></div>)}
+                                        
                                        
 
 
@@ -699,46 +1308,73 @@ export default class Student_profile extends Component {
                     <div className="proStud5a ">
                         <div className=" card-container5ab1 " >
                             {this.state.realtimeusr ? (<div className="centerized fill2" style={{ height: "200px" }}>
-                                <div className="fill2" style={{ alignSelf: "flex-start" }}>
+                                <div className="fill2 " style={{ alignSelf: "flex-start" }}>
                                     <h2 className="centerized fill2">Stats</h2>
-                                    <div className="homeworkScroll fill2">
-                                        <div className="centerized columbized " style={{ marginTop: "25px", width: "90%", marginLeft: "30px", }}>
+                                    <div style={{display:"flex", flexDirection:"row", justifyContent:"center"}}>
+                                    {!this.state.c || !this.state.realtimeusr.dayStreak || this.state.realtimeusr.starPoints || this.state.realtimeusr.wmin ?(<div ></div>):(<div style={{ marginTop:"20px"}}>No Results</div>) }
+</div>
+                                    <div className="homeworkScroll fill2 centerized">
+                                        <div className="centerized columbized " style={{ marginTop: "25px", width: "90%", marginLeft: this.state.statsmargin }}>
 
 
+                                        {this.state.realtimeusr.starPoints?(
                                             <div className="centerized fill2" style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                                                <div style={{ width: "40%" }}><b>Week Streak:</b></div>
-                                                <div style={{ width: "40%" }} className="centerized " > 0</div>
+                                            <div style={{ width: "40%" }}> <b>Student Level:</b> </div>
+                                    <div style={{ width: "40%" }} className="centerized ">  {this.state.realtimeusr.level}</div>
 
+
+                                </div>
+                                        ):(<div></div>)}
+                                        {this.state.realtimeusr.wmin !== "" ?(
+
+<div className="centerized fill2" style={{ flexDirection: "row", justifyContent: "space-between" }}>
+<div style={{ width: this.state.timepracmargin  }}><b>Time Practiced:</b></div>
+<div style={{ width: this.state.timepracmarginr  }} className="centerized "> {this.state.realtimeusr.timeTotal} min</div>
+
+
+
+
+</div>
+                                        ):(<div></div>)}
+                                        
+
+                                           
+                                        {this.state.c ? (
+                                            <div className="centerized fill2" style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                                            <div style={{ width: this.state.dayspracmargin  }}> <b>Practice Days:</b> </div>
+                                        {this.state.realtimeusr.daysPracticed?(<div style={{ width: "40%" }} className="centerized ">{this.state.realtimeusr.daysPracticed}</div>):(<div style={{ width: "40%" }} className="centerized ">0</div>)}
                                             
+
+                                        
                                         </div>
 
-                                            <div className="centerized fill2" style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                                                <div style={{ width: "40%" }}><b>Time Practiced:</b></div>
-                                                <div style={{ width: "40%" }} className="centerized "> 2 hr 40 min</div>
 
+                                        ):(<div></div>)}
+                                        {this.state.realtimeusr.dayStreak ?(
+                                              <div className="centerized fill2" style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                                              <div style={{ width: "40%" }}> <b>Streak:</b> </div>
+                                      <div style={{ width: "40%" }} className="centerized ">  x{this.state.realtimeusr.daystreak}</div>
+
+
+                                  </div>
+                                        ):(<div></div>)}
                                             
 
 
-                                        </div>
+                                            {/*{this.state.realtimeusr.totalDays !== "" ? (
+                                           <div className="centerized fill2" style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                                           <div style={{ width: this.state.pracgoalmargin }}> <b> Practice Goal:</b> </div>
+                                           <div style={{ width: "40%" }} className="centerized ">  {this.state.realtimeusr.checked}/{this.state.realtimeusr.totalDays}</div>
 
-                                            <div className="centerized fill2" style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                                                <div style={{ width: "40%" }}> <b>Practice Days:</b> </div>
-                                                <div style={{ width: "40%" }} className="centerized ">50</div>
 
+                                       </div>
+
+                                        
+                                        
+
+
+                                            ):(<div></div>)}*/}
                                             
-                                            </div>
-                                            <div className="centerized fill2" style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                                                        <div style={{ width: "40%" }}> <b>Streak:</b> </div>
-                                                <div style={{ width: "40%" }} className="centerized ">  0</div>
-
-
-                                            </div>
-                                            <div className="centerized fill2" style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                                                <div style={{ width: "40%" }}> <b>Practice Goal:</b> </div>
-                                                <div style={{ width: "40%" }} className="centerized ">  0/7</div>
-
-
-                                            </div>
                                         
 
                                             </div>
@@ -750,21 +1386,45 @@ export default class Student_profile extends Component {
                         <div className=" card-container5ab1 " >
                             {this.state.realtimeusr ? (<div className="centerized" style={{ height: "75%" }}>
                                 <div style={{ alignSelf: "flex-start" }}>
-                                    <h2 style={{ marginBottom: "25px" }} className="centerized">Accomplished Goals</h2>
-                                <div className="homeworkScroll ">
-                                {this.state.realtimeusr.archive.map((goal, index) =>
-                                    <div className="huv rowss centerized" onClick={this.showGoal.bind(this, goal) }>
-                                {goal.title}
-                            </div>
+                                    <h2 style={{ marginBottom: "20px" }} className="centerized">Accomplished Goals</h2>
+                                    <div style={{height: this.state.aheight,}}>
+                                    {this.state.realtimeusr.archive[0] ? (
+                                        <div className="homeworkScroll ">
+                                            {this.state.realtimeusr.archive.map((goal, index) =>
+                                                <div style={{display:"flex", flexDirection:"row", justifyContent:"space-between", }} >
+                                                    <span><img alt = "leaf" src = {leaf} style={{ width: "22px", hieght: "22px", }}/></span>
+                                                    <div key={index} onClick={this.showGoal.bind(this, goal, true)} className="huv  rowss" style={{width:"50%", color: "#696eb5", marginLeft:this.state.amarginLeft}}>{goal.mainGoal.title}</div><div>{goal.mainGoal.completed?(<div>{goal.mainGoal.completed}</div>):(<div style={{opacity:"0"}}>12/21/2021</div>)}</div>
+                                                </div>
 
-                                    )}</div>
+                                            )}</div>
+                                    ) : (<div className="centerized">No Accomplished Goals Yet.</div>)}
+                                    </div>
+
+                                
+
+
                             </div>
                             </div>) : (<div></div>)}
                             
                         </div>
                         
                     </div>
-                    <div className="proStud5ab " style={{ opacity: "0" }}>
+                    
+                   
+                    
+                    
+                    
+                   
+
+                </div>
+
+                </div>
+
+        );
+    }
+}
+/*
+  <div className="proStud5ab " style={{ opacity: "0" }}>
                         <div className=" card-container5ab1 " >
                             {this.state.realtimeusr ? (<div className="centerized fill2" style={{ height: "200px" }}>
                                 <div className="fill2" style={{ alignSelf: "flex-start" }}>
@@ -810,14 +1470,4 @@ export default class Student_profile extends Component {
                        
 
                     </div>
-
-                </div>
-
-                </div>
-
-        );
-    }
-}
-/*
-  
  * */

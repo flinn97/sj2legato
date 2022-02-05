@@ -12,6 +12,7 @@ function ShowGoal(props) {
             role={props.role}
             handleChange={props.handleChange}
             handletheclose={props.handletheclose}
+            main={props.main}
         />
     </div>
 }

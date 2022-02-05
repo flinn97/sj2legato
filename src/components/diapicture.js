@@ -9,7 +9,9 @@ class Pic extends Component {
         super(props);
         this.handleChange = this.handleChange.bind(this);
         this.openFull = this.openFull.bind(this);
-        
+        this.wrapperRef = React.createRef();
+        this.handleClickOutside = this.handleClickOutside.bind(this);
+        this.setWrapperRef = this.setWrapperRef;
 
         this.state = {
             current: AuthService.getCurrentUser(),
@@ -22,9 +24,14 @@ class Pic extends Component {
 
     }
     componentDidMount() {
+        document.addEventListener('mousedown', this.handleClickOutside);
+
+
         if (this.props.realusr) {
             if (this.props.realusr.profilepic) {
-                const porfilePic = 'http://localhost:8080' + this.props.realusr.profilepic;
+                const porfilePic = this.props.realusr.profilepic;
+
+                //const porfilePic = 'http://localhost8080/api/' + this.props.realusr.profilepic;
 
                 this.setState({ src: porfilePic })
 
@@ -39,6 +46,15 @@ class Pic extends Component {
 
 
     }
+    componentWillUnmount() {
+        document.removeEventListener('mousedown', this.handleClickOutside);
+    }
+    handleClickOutside(event) {
+        if (this.wrapperRef && !this.wrapperRef.current.contains(event.target)) {
+            this.props.handleClose();
+        }
+    }
+
     handleChange = (files) => {
         this.setState({
             src: files,
@@ -63,7 +79,7 @@ class Pic extends Component {
            
             <div className="popup-box to-front">
                 { this.state.fullpic && (<Full handleClose={this.handleClose} img={this.state.src}/>)}
-                <div className="diapicbox">
+                <div className="diapicbox" ref={this.wrapperRef}>
 
                     
                         <div>

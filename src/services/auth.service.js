@@ -1,8 +1,8 @@
 import axios from "axios";
 axios.defaults.xsrfCookieName = 'csrftoken';
 axios.defaults.xsrfHeaderName = 'X-CSRFToken';
-//const API_URL = "http://try.flinnapps.com/api/auth/";
-const API_URL = "http://try.flinnapps.com/api/auth/";
+const API_URL = "https://legato.flinnapps.com/api/auth/";
+//const API_URL = "http://localhost:8080/api/auth/";
 //be sure to upload axios. This is my controller for everything that I do for the backend.
 class AuthService {
     login(email, password) {
@@ -38,13 +38,21 @@ class AuthService {
         //delete jwt sign.
         localStorage.removeItem("user");
     }
-    syncedchecking(student, day, checked, checkedd, daysPracticed) {
+    syncedchecking(student, day, checked, checkedd, daysPracticed, level, sp, starpointsGoal, pass, daystreak,npass ) {
         console.log("then here");
         return axios
             .post(API_URL + "syncedchecking", {
-                student, day, checked, checkedd, daysPracticed
+                student, day, checked, checkedd, daysPracticed, level, sp, starpointsGoal, pass, daystreak, npass
             });
     }
+    hwsyncedchecking(student, day, checked, checkedd, homework, syncedhw) {
+        console.log("then here");
+        return axios
+            .post(API_URL + "hwsyncedchecking", {
+                student, day, checked, checkedd, homework, syncedhw
+            });
+    }
+
 
     addStudent(user, first, last, email, double, separate, time, checkbox, day) {
         //add student to the database using axios.
@@ -70,28 +78,62 @@ class AuthService {
 
 
     }
-    changeweek(id, time) {
+    changeweek(id, time, level, sp, starpointsGoal, pass, timeTotal, totalWeekTime) {
         return axios
             .post(API_URL + "changeweek", {
+                id, time, level, sp, starpointsGoal, pass, timeTotal, totalWeekTime
+
+
+            })
+    }
+    hwchangeweek(id, time) {
+        return axios
+            .post(API_URL + "hwchangeweek", {
                 id, time,
 
 
             })
     }
+    cleartimepracticed(id){
+        console.log("here")
+        return axios
+        .post(API_URL + "cleartimepracticed", {
+            id
 
-    editAlltheHomeworkdiaClose(id, yesnoCheckboxsync, yesnoStreak, yesnocheckboxes, yesnoWeek, yesnoWeektext, yesnoDay, yesnoDaytext) {
+
+        })
+    }
+    cleartotaldays(id){
+        console.log("hereio")
+        return axios
+        .post(API_URL + "cleartotaldays", {
+            id
+
+
+        })
+    }
+    editAlltheHomeworkdiaClose(id, yesnoCheckboxsync, yesnoStreak, yesnocheckboxes, edityesnoWeek, yesnoWeektext, yesnoDay, yesnoDaytext) {
         return axios
             .post(API_URL + "editAlltheHomeworkdiaClose", {
-                id, yesnoCheckboxsync, yesnoStreak, yesnocheckboxes, yesnoWeek, yesnoWeektext, yesnoDay, yesnoDaytext
+                id, yesnoCheckboxsync, yesnoStreak, yesnocheckboxes, edityesnoWeek, yesnoWeektext, yesnoDay, yesnoDaytext
 
 
             })
     }
-    changetimes(id, day, time) {
+    changetimes(id, day, time, level, sp, starpointsGoal, pass, daystreak, timeTotal, npass) {
         return axios
             .post(API_URL + "changetimes", {
-                id, day, time,
+                id, day, time, level, sp, starpointsGoal, pass, daystreak, timeTotal, npass
                 
+
+            })
+    }
+    hwchangetimes
+        (id, day, time, syncedhw) {
+        return axios
+            .post(API_URL + "hwchangetimes", {
+                id, day, time, syncedhw
+
 
             })
     }
@@ -135,6 +177,13 @@ class AuthService {
                 min,
                 daybiao,
                 dmin
+
+            })
+    }
+    hwmessage(id, message, date, role) {
+        return axios
+            .post(API_URL + "hwmessage", {
+                id, message, date, role
 
             })
     }
@@ -212,7 +261,49 @@ class AuthService {
 
 
     }
-    hwchecked(id, homework, practice) {
+
+     
+editalltheProgress(id, temptimegoal, temppracticegoal, totalTime, totalDays, starPoints, tempsmonths, tempemonths, temptsmonths, temptemonths, daysbool, timebool,) {
+        
+
+        return axios
+            .post(API_URL + "editalltheProgress", {
+                id, temptimegoal, temppracticegoal, totalTime, totalDays, starPoints, tempsmonths, tempemonths, temptsmonths, temptemonths, daysbool, timebool,
+            })
+
+
+
+
+
+    }
+    doitAll(
+            /*this is everything for checkboxes*/id, yesnoCheckboxes, syncCheckbox, checkbox,
+            /*this is everything for time*/ yesnoTime, timeSync, weeklytimebiao, dailytimebiao, dmin, timebool, time1,
+        /*this is days practiced*/ daysbool, day1,
+        /*updating time frame practiced for days.*/ days, smonths, emonths, timeframePracticebiao, min, tsmonths, temonths,
+        /*updating streak info and star points (last two)*/ dayStreak, weekStreak, starPoints, manualsetup,
+        /*add the goals, first one is the goals of 0. */ goal, goals, maingoal, maindescription, maindate,
+        /*add the homeworks*/ homeworks,
+        /*done updating new student.*/ done,) {
+
+    return axios
+        .post(API_URL + "doitAll", {
+             /*this is everything for checkboxes*/id, yesnoCheckboxes, syncCheckbox, checkbox,
+            /*this is everything for time*/ yesnoTime, timeSync, weeklytimebiao, dailytimebiao, dmin, timebool, time1,
+        /*this is days practiced*/ daysbool, day1,
+        /*updating time frame practiced for days.*/ days, smonths, emonths, timeframePracticebiao, min, tsmonths, temonths,
+        /*updating streak info and star points (last two)*/ dayStreak, weekStreak, starPoints, manualsetup,
+        /*add the goals, first one is the goals of 0. */ goal, goals, maingoal, maindescription, maindate,
+        /*add the homeworks*/ homeworks,
+        /*done updating new student.*/ done,
+
+        })
+}
+    
+      
+
+
+    hwchecked(id, homework, practice, level, sp, starpointsGoal, pass, daystreak) {
         //get all students from the database for that teacher.
         //console.log(user);
 
@@ -220,7 +311,8 @@ class AuthService {
             .post(API_URL + "hwchecked", {
                 id,
                 homework,
-                practice
+                practice,
+                level, sp, starpointsGoal, pass, daystreak
             })
 
 
@@ -241,12 +333,37 @@ class AuthService {
 
     }
 
+    clearhwTime(id,) {
+        //get all students from the database for that teacher.
+        //console.log(user);
+
+        return axios
+            .post(API_URL + "clearhwTime", {
+                id,
+
+
+            })
+
+    }
     clearChecks(id, homework) {
         //get all students from the database for that teacher.
         //console.log(user);
 
         return axios
             .post(API_URL + "clearChecks", {
+                id,
+                homework
+
+            })
+
+    }
+
+    clearhwChecks(id, homework) {
+        //get all students from the database for that teacher.
+        //console.log(user);
+
+        return axios
+            .post(API_URL + "clearhwChecks", {
                 id,
                 homework
 
@@ -364,7 +481,7 @@ class AuthService {
 
 
    
-AddHomework(id, homework, type, hwchecked, description, hwcheckboxes, date, hwresearch, day, hwsynccheck, hwdmin, HWweeklytimebiao, hwtimesync, hwlink, struggles, hwQuestions) {
+    AddHomework(id, homework, type, hwchecked, description, hwcheckboxes, date, hwresearch, day, hwsynccheck, hwdmin, HWweeklytimebiao, hwtimesync, hwlink, struggles, hwQuestions, firstMessage, hwdailytimebiao, hwtimew,) {
         //add homework for student. Homework appears on students page.
         //console.log(name, email, password);
         //binding parameters.
@@ -378,7 +495,7 @@ AddHomework(id, homework, type, hwchecked, description, hwcheckboxes, date, hwre
             date,
             hwresearch,
             day,
-            hwsynccheck, hwdmin, HWweeklytimebiao, hwtimesync, hwlink, struggles, hwQuestions
+            hwsynccheck, hwdmin, HWweeklytimebiao, hwtimesync, hwlink, struggles, hwQuestions, firstMessage, hwdailytimebiao, hwtimew,
         });
         //console.log(response.data);
 
@@ -479,7 +596,7 @@ AddHomework(id, homework, type, hwchecked, description, hwcheckboxes, date, hwre
 
         });
     }
-    goalStatusChange(id, checked, goal, main, complete) {
+    goalStatusChange(id, checked, goal, main, complete, level, sp, starpointsGoal, pass, npass) {
         //add homework for student. Homework appears on students page.
         //console.log(name, email, password);
         //binding parameters.
@@ -488,7 +605,8 @@ AddHomework(id, homework, type, hwchecked, description, hwcheckboxes, date, hwre
             checked,
             goal,
             main,
-            complete
+            complete,
+            level, sp, starpointsGoal, pass, npass
 
            
         });
@@ -583,6 +701,16 @@ AddHomework(id, homework, type, hwchecked, description, hwcheckboxes, date, hwre
             password
         })
     }
+    newMainGoal(id, goal, ){
+        return axios.post(API_URL + "newMainGoal", {
+            
+            id,
+            goal,
+            
+            
+           
+        })
+    }
     changeStudentinfo(id, accountid, firstname, lastname, about, email, phone, time, checkbox,day) {
         console.log(id);
 
@@ -631,12 +759,16 @@ AddHomework(id, homework, type, hwchecked, description, hwcheckboxes, date, hwre
     }
     uploadPhoto(photo, id, background, role) {
         console.log(background);
-        
-        return axios.post('http://localhost:8080/api/auth/postpic', photo).then(response => {
+        return axios.post('https://legato.flinnapps.com/api/auth/postpic',  photo ).then(response => {
+
+        //return axios.post('http://localhost:8080/api/auth/postpic', photo, )
+
+           // .then(response => {
             console.log(response.data);
             const picpath = response.data.path;
-            
-            return axios.post("http://localhost:8080/api/auth/profilepic", {
+                        return axios.post("https://legato.flinnapps.com/api/auth/profilepic", {
+
+           // return axios.post("http://localhost:8080/api/auth/profilepic", {
                 picpath,
                 id,
                 background,
@@ -648,12 +780,13 @@ AddHomework(id, homework, type, hwchecked, description, hwcheckboxes, date, hwre
 
         }
 
-    checked(id, checked,) {
+    checked(id, checked, level, sp, starpointsGoal, pass, daystreak, npass) {
         console.log(id);
 
         return axios.post(API_URL + "checked", {
             id,
             checked,
+            level, sp, starpointsGoal, pass, daystreak, npass
 
            
 

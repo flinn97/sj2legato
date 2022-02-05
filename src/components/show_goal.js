@@ -128,8 +128,11 @@ class Show_goal extends Component {
 
         return (
             <div className="popup-box to-front">
-                <div ref={this.wrapperRef} className="diapicboxa">
+                <div ref={this.wrapperRef} className="diapicboxastudentgoal">
+                    <div style= {{display:"flex", flexDirection:"row", justifyContent:"space-between"}}>
                     <span className="close-icon-2" onClick={this.handleClose}>x</span>
+                    
+                                    </div>
 
                    
                     <div>
@@ -153,15 +156,19 @@ class Show_goal extends Component {
                                                 name="tempGoal"
                                         />
                                     </div>
+                                    
                                       
                                     </div>
 
 
                                 </div>) : (<div className="centerize" style={{ margin: "0 auto" }}>
                                         <div className="checkboxstuff" style={{ margin: "0 auto" }}>
-                                        <h1 >{this.state.tempGoal} </h1>
+                                        <h1 >{this.state.tempGoal} </h1>{this.state.edit ? (
+                                    <div  >
+                                    </div>) : (<img className="huv" src={edit} style={{width:"30px", height:"30px", marginLeft:"40px"}} onClick={this.editMe}/> )}
                                         
                                         </div>
+                                        
                                     </div>)}
 
 
@@ -173,7 +180,7 @@ class Show_goal extends Component {
                                         {this.state.edit ? (<div >
 
                                             <div >
-                                            <label htmlFor="tempDescription"><h5>Description</h5></label>
+                                            <label htmlFor="tempDescription"><h5>Describe this goal.</h5></label>
                                                 <div className="form-group" >
 
                                                     <textarea
@@ -231,11 +238,24 @@ class Show_goal extends Component {
                         )
                             :
 
-                            (<div className="centerized" ><h1>{this.props.Goal.title} </h1>
+                            (<div>
+                            {this.props.main? (
+                                 <div className="" style={{display:"flex", flexDirection:"column", marginTop:"15px"}} ><h1  style={{alignSelf: "center"}}>{this.props.Goal.mainGoal.title} </h1>
+                                 <span className="close-icon-2" onClick={this.props.handleClose}>x</span>
+                                 <div style={{alignSelf: "center"}} >
+                                 {this.props.Goal.mainGoal.description}
+                                 </div></div>
+
+
+                            ) : (
+
+                                <div className="" style={{display:"flex", flexDirection:"column", marginTop:"15px"}} ><h1  style={{alignSelf: "center"}}>{this.props.Goal.title} </h1>
                             <span className="close-icon-2" onClick={this.props.handleClose}>x</span>
-                            <div className="centerized" >
+                            <div style={{alignSelf: "center"}} >
                             {this.props.Goal.description}
-                            </div></div>)}
+                            </div></div>
+                            )}</div>
+                            )}
                         
                            
                         {this.props.role !== "student" ? (
@@ -244,7 +264,7 @@ class Show_goal extends Component {
                                 {this.state.edit ? (
                                     <div style={{ width: "125px" }} >
                                         <button className="btn btn-block" style={{ background: "#696eb5", height: "35px", color: "#F0F2EF" }} onClick={this.save}><span className="fill1"><p style={{ marginBottom: "10px" }}>Save</p></span></button>
-                                    </div>) : (<p className="rowss2a huv centerized" onClick={this.editMe}>edit</p>)}
+                                    </div>) : (<div></div>)}
 
                             </div>) : (
 

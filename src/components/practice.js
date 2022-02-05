@@ -17,8 +17,20 @@ var Checkboxnum = function (props) {
             moreprac = false;
         }
         let goal = { complete: false}
+
+        var day = {
+            0: "mon",
+            1: "tues",
+            2: "wed",
+            3: "thur",
+            4: "fri",
+            5: "sat",
+            6: "sun",
+        }
+        
+       
       
-        rows.push(<Checkd props={props} flag={moreprac} checkboxes={true}  />);
+        rows.push(<Checkd props={props} flag={moreprac} checkboxes={true} time={props.times[day[i]]} />);
         
         
         prac--;

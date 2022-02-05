@@ -27,6 +27,11 @@ class Homesarecool extends Component {
                 }
             }
         }
+        else {
+            this.props.history.push({
+                pathname: "/login",
+            });
+        }
     }
     render() {
 

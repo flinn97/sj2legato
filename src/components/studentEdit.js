@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import { isEmail } from "validator";
+import Dropdown from "./dropdown.js";
+import Down from "./downarrow.png";
+import clock from "./clock.png";
 const email = value => {
     if (!isEmail(value)) {
         return (
@@ -23,21 +26,78 @@ const phone = value => {
 //allows me to create a dialog box to pop up for adding students with names and emails.
 class Studentedit extends Component {
     constructor(props) {
-        super(props);
 
-        this.state = {
+            super(props);
+            this.wrapperRef = React.createRef();
+            this.handleClickOutside = this.handleClickOutside.bind(this);
+            this.setWrapperRef = this.setWrapperRef;
+            this.selectDay = this.selectDay.bind(this);
+        this.selectDays = this.selectDays.bind(this);
+        this.selectTime = this.selectTime.bind(this);
+        this.closedrop = this.closedrop.bind(this);
+        this.changeTime = this.changeTime.bind(this);
+
+            this.state = {
+                selectDay: false,
+            selectTime: false,
+            day: "",
+            time: "",
+            }
 
         }
 
-    }
+        componentDidMount() {
+            document.addEventListener('mousedown', this.handleClickOutside);
+        }
 
-
-
+        componentWillUnmount() {
+            document.removeEventListener('mousedown', this.handleClickOutside);
+        }
+        handleClickOutside(event) {
+            if (this.wrapperRef && !this.wrapperRef.current.contains(event.target)) {
+                this.props.handleEditClose();
+            }
+        }
+        selectDays(day) {
+            this.props.selectDay(day);
+    
+            this.setState({
+                day: day
+            })
+            console.log(day);
+            this.selectDay();
+            
+        }
+        selectDay() {
+            this.setState({
+                selectDay: !this.state.selectDay,
+            })
+            
+        }
+        closedrop() {
+            this.setState({
+                selectDay: false,
+                selectTime: false,
+    
+            })
+        }
+        changeTime(time, showtime) {
+            this.setState({
+                time: showtime
+            })
+            this.props.changeTime(time);
+        }
+        selectTime() {
+            this.setState({
+                selectTime: !this.state.selectTime,
+                
+            })
+        }
     render() {
         return (
-            <div className="popup-box to-front">
-                <div className="diapicbox2">
-                    <h1>Student Information </h1>
+            <div className="popup-boxa to-fronta1" style={{display:"flex", flexDirection:"row", justifyContent:"center"}}>
+                <div className="diapicbox2a" ref={this.wrapperRef} >
+                    <h1>Student Information: </h1>
                     <span className="close-icon-2" onClick={this.props.handleEditClose}>x</span>
 
                     <Form
@@ -49,94 +109,101 @@ class Studentedit extends Component {
 
                     <div>
                         <div className="form-group">
-                            <label htmlFor="firstName">First Name</label>
+                            <label htmlFor="firstName"><b>First Name:</b></label>
                             <input
                                 type="text"
                                 className="form-control"
                                 id="first"
-                                
+                                placeholder={this.props.state.first}
                                 onChange={this.props.handleChange}
                                 name="first"
                             />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="lastName">Last Name</label>
+                            <label htmlFor="lastName"><b>Last Name:</b></label>
                             <input
                                 type="text"
                                 className="form-control"
                                 id="last"
-                                
+                                placeholder={this.props.state.last}
                                 onChange={this.props.handleChange}
                                 name="last"
                             />
                         </div>
                         
-                        <h3>Contact Info:</h3>
+                        
                         <div className="form-group">
-                            <label htmlFor="email">Email</label>
+                            <label htmlFor="email"><b>Email:</b></label>
                             <Input
                                 type="text"
                                 className="form-control"
                                 id="email"
                                     validations={[email]}
-
+                                    placeholder={this.props.state.email}
                                 onChange={this.props.handleChange}
                                 name="email"
                             />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="phone">Phone Number</label>
+                            <label htmlFor="phone"><b>Phone Number:</b></label>
                             <Input
                                 type="text"
                                 className="form-control"
                                 id="phone"
                                     validations={[phone]}
-
+                                    placeholder={this.props.state.phone}
                                 onChange={this.props.handleChange}
                                 name="phone"
                             />
                         </div>
-                        <h3>Scheduled Teaching Block:</h3>
-                        <div className="form-group forfiles">
-                            <div>
-                                <label htmlFor="changetime">Scheduled Time:</label>
-                                <input type="time" id="changetime" onChange={this.props.handleChange} name="changetime"
-                                    min="0:00" max="23:59" />
-                            </div>
-                            <div>
-                                <label htmlFor="day">Every:</label>
-                                <select htmlfor="day" onChange={this.props.handleChange} name="day" id="day">
-                                    <option value=""></option>
-                                    <option value="Monday">Monday</option>
-                                    <option value="Tuesday">Tuesday</option>
-                                    <option value="Wednesday">Wednesday</option>
-                                    <option value="Thursday">Thursday</option>
-                                    <option value="Friday">Friday</option>
-                                    <option value="Saturday">Saturday</option>
-                                    <option value="Sunday">Sunday</option>
+                        <h3 style={{marginTop:"10px"}}>Scheduled Teaching Block:</h3>
+                        
+                        <div className="form-group forfiles" >
+                                
+                                <div>
+                                    <label htmlfor="time"><b>Scheduled Time:</b></label>
+                                    <div
 
-                                </select>
-                            </div>
-                            <div style={{ opacity: "0" }}>
+                                        className="form-control"
+                                        id="time"
+                                        onClick={this.selectTime}
+                                        style={{ width: "120px", height: "30px", flexDirection: "row", display: "flex" }}
+
+
+                                    >
+                                        <div style={{ width: "90px", alignSelf: "center" }}>{this.state.time}</div>
+                                        <img src={clock} alt="clock" style={{ width: "15px", height: "15px", }} />
+
+                                    </div>
+                                    {this.state.selectTime ? (<Dropdown selectDay={this.selectDays} clock={true} closedrop={this.closedrop} changeTime={this.changeTime}/>) : (<div></div>)}
+
+
+                                </div>
+                                <div>
+                                    <label htmlfor="day"><b>Day: </b></label>
+                                    <div
+
+                                        className="form-control"
+                                        id="day"
+                                        onClick={this.selectDay}
+                                        style={{ width: "110px", height: "30px", flexDirection: "row", display:"flex" }}
+
+
+                                    >
+                                        <div style={{width:"90px", alignSelf:"center"}}>{this.state.day}</div>
+                                        <img src={Down} alt="arrowdow" style={{ width: "17px", height: "17px",  }} />
+
+                                    </div>
+                                    {this.state.selectDay ? (<Dropdown selectDay={this.selectDays} clock={false} closedrop={this.closedrop} />) : (<div></div>)}
+                                </div>
+                            <div style={{opacity:"0"}}>
                                 thanks!
                                 </div>
                         </div>
-                        <div className="form-group">
-                                <label >How many times per week should {this.props.student} practice?</label>
-                            <select htmlfor="checkbox" onChange={this.props.handleChange} name="checkbox" id="checkbox">
-                                <option value=""></option>
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
-                                    <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="0">I don't want Taylor to have practice checkboxes</option>
-                            </select>
-                                </div>
-                        <div style={{ marginTop: "35px" }}>
-                            <button className="btn btn-primary" value="submit" >Save</button>
+                        
+                       
+                        <div style={{ marginTop: "105px" }}>
+                                <button className="btn " style={{ background: "#696eb5", height: "35px", color: "#F0F2EF", width: "75px", }} value="submit" >Save</button>
                         </div>
                         </div>
                         </Form>

@@ -1,14 +1,17 @@
 import React, { Component } from "react";
-import background from "./music.jpg";
+import background from "./music.png";
 import AuthService from "../services/auth.service";
 import "./pages.css"
 import axios from "axios";
+import Splashscreen  from "../components/splashscreen.js";
+
 axios.defaults.xsrfCookieName = 'csrftoken';
 axios.defaults.xsrfHeaderName = 'X-CSRFToken';
 class StudentsTeacher extends Component {
     constructor(props) {
         super(props);
         this.getCurrentUserinRealTime = this.getCurrentUserinRealTime.bind(this);
+        this.Splashscreen = this.Splashscreen.bind(this);
 
 
         this.state = {
@@ -17,6 +20,7 @@ class StudentsTeacher extends Component {
             picture: "//ssl.gstatic.com/accounts/ui/avatar_2x.png",
             newPic: "",
             currentUser: AuthService.getCurrentUser(),
+            
             realtimeusr: undefined,
             about: "this is how you learn",
             first: "",
@@ -25,15 +29,19 @@ class StudentsTeacher extends Component {
             phone: "",
             edittheBackground: false,
             background: background,
+            splashscreen:true,
         }
 
     };
-
+    Splashscreen(){
+        this.setState({splashscreen:false})
+    }
     getCurrentUserinRealTime() {
         console.log("i get here");
         let id = this.state.currentUser.account[0].userID;
         console.log(id);
-        const API_URL = "http://localhost:8080/api/auth/";
+
+        const API_URL = "https://legato.flinnapps.com/api/auth/";
        
         axios.post(API_URL + "getuser", {
             id,
@@ -44,11 +52,11 @@ class StudentsTeacher extends Component {
             this.setState({ realtimeusr: response.data.user })
             
             if (this.state.realtimeusr.profilepic) {
-                const porfilePic = 'http://localhost:8080' + this.state.realtimeusr.profilepic;
+                const porfilePic = this.state.realtimeusr.profilepic;
                 this.setState({ picture: porfilePic });
             }
             if (this.state.realtimeusr.backgroundpic) {
-                const background = 'http://localhost:8080' + this.state.realtimeusr.backgroundpic;
+                const background =  this.state.realtimeusr.backgroundpic;
                 this.setState({ background: background });
             }
             this.setState({
@@ -83,16 +91,26 @@ class StudentsTeacher extends Component {
         return (
 
             <div className= "z2 columbized3">
-                <div className="columbized3" style={{ height: "100%", width: "30%", marginTop: "5%" }}>
+                {this.state.splashscreen && (<Splashscreen closesplash={this.Splashscreen}/>)}
+                <div className="columbized3" style={{ height: "100%", width: "600px", marginTop: "5%" }}>
 
-                    <div className=" columbized card-container0b " >
+                    <div className=" columbized4 card-container0b " >
                 
 
                 <div>
                     <div className="front">
 
 
+                    <div className="overlapsaab" >
 
+<img
+    src={this.state.picture}
+    alt="profile-img"
+    className="profile-img-cardabc cropped1"
+    
+/>
+
+</div>
                         <div className="overlap">
 
                             <img
@@ -104,16 +122,7 @@ class StudentsTeacher extends Component {
                         </div>
 
 
-                                <div style={{marginTop:"80px"}}className="overlaps" >
-
-                            <img
-                                src={this.state.picture}
-                                alt="profile-img"
-                                className="profile-img-card cropped1"
                                 
-                            />
-                           
-                        </div>
                     </div>
                 </div>
                         <div className="makeitwork0abc">

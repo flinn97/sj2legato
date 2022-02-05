@@ -4,7 +4,7 @@
 // all text boxes should have the current info as place holders. 
 
 import React, { Component } from "react";
-import background from "./music.jpg";
+import background from "./music.png";
 import Pic from "../components/diapicture";
 import AuthService from "../services/auth.service";
 import "./pages.css"
@@ -13,9 +13,14 @@ import Editing from "../components/editing";
 import EditBack from "../components/editBackground";
 import axios from "axios";
 import List from "../components/prostudentList.js";
+import List1 from "../components/prostudentList1.js";
 import moment from 'moment';
 import DeleteStudent from '../components/deletestudent.js';
 import Short from "../components/short.js"
+import Amplify, { Storage } from 'aws-amplify';
+import Splashscreen  from "../components/splashscreen.js";
+
+//import { withAuthenticator} from 'aws-amplify-react'
 axios.defaults.xsrfCookieName = 'csrftoken';
 axios.defaults.xsrfHeaderName = 'X-CSRFToken';
 class userProfile extends Component {
@@ -34,8 +39,9 @@ class userProfile extends Component {
         this.deleted = this.deleted.bind(this);
         this.del = this.del.bind(this);
         this.deleteStudent = this.deleteStudent.bind(this);
+        this.Splashscreen = this.Splashscreen.bind(this);
+        this.splashscreen = this.splashscreen.bind(this);
 
-        
         
         this.state = {
             diaPic: false,
@@ -56,13 +62,33 @@ class userProfile extends Component {
             Today: [],
             del: false,
             delstudent: undefined,
+            file:"",
+            height: "750px",
+            tooSmall: false,
+            splashscreen:true,
+
         }
 
     };
+    Splashscreen(){
+        this.setState({splashscreen:false})
+    }
+    updateWindowDimensions() {
+       
+        if(parseInt(window.innerWidth) <= 550)
+        this.setState({ tooSmall: true, 
+            height: "2000px"
+        });
+     }
+    componentWillUnmount() {
+        window.removeEventListener("resize", this.updateWindowDimensions)
+    }
+    
     
     getCurrentUserinRealTime() {
         let id = "";
-        const API_URL = "http://localhost:8080/api/auth/";
+        const API_URL = "https://legato.flinnapps.com/api/auth/";
+        //const API_URL = "http://localhost:8080/api/auth/";
         if (this.state.currentUser.login) {
             id = this.state.currentUser.user._id;
         }
@@ -76,12 +102,22 @@ class userProfile extends Component {
         }).then(response => {
             this.setState({ realtimeusr: response.data.user })
             console.log(response.data);
+
+
             if (this.state.realtimeusr.profilepic) {
-                const porfilePic = 'http://localhost:8080' + this.state.realtimeusr.profilepic;
-                this.setState({ picture: porfilePic });
+                let usr = this.state.realtimeusr.profilepic
+                axios.post(API_URL + "getprofile", {
+                    id, usr
+                }).then(response => {
+                    console.log("here,", response);
+                    
+                })
+                //
+
+                this.setState({ picture: this.state.realtimeusr.profilepic });
             }
             if (this.state.realtimeusr.backgroundpic) {
-                const background = 'http://localhost:8080' + this.state.realtimeusr.backgroundpic;
+                const background = this.state.realtimeusr.backgroundpic;
                 this.setState({ background: background });
             }
             this.setState({
@@ -94,6 +130,15 @@ class userProfile extends Component {
         });
     }
     componentDidMount() {
+        if(parseInt(window.innerWidth) <= 1000)
+        this.setState({ tooSmall: true, 
+        });
+        if(parseInt(window.innerWidth) <= 550)
+        this.setState({ tooSmall: true, 
+            height: "2000px"
+        });
+        window.addEventListener("resize", this.updateWindowDimensions());
+
         if (this.state.currentUser) {
 
 
@@ -315,7 +360,19 @@ class userProfile extends Component {
     };
     deleted() {
         AuthService.deleteStudent(this.state.delstudent._id, this.state.delstudent.email);
-        window.location.reload();
+        this.splashscreen();
+    }
+    async splashscreen(){
+        this.setState({
+            splashscreen:!this.state.splashscreen
+        })
+        
+        const delay = ms => new Promise(res => setTimeout(res, ms));
+        await delay(600)
+            window.location.reload();
+
+        
+
     }
     async del(student) {
         await this.setState({
@@ -386,6 +443,7 @@ class userProfile extends Component {
         return (
 
             <div className="z2 example">
+                {this.state.splashscreen && (<Splashscreen closesplash={this.Splashscreen}/>)}
                 <div className="fill1">
                     <div className="columbized card-container0" style={{marginTop: "22px"}}>
                         {this.state.diaPic && (<Pic handleClose={this.handleClose} realusr={this.state.realtimeusr} />)}
@@ -394,7 +452,7 @@ class userProfile extends Component {
 
                 {this.state.edittheBackground && (<EditBack handleBackClose={this.handleBackClose} realusr={this.state.realtimeusr} />)}
 
-                    {this.state.edit && (<Editing handleSub={this.handleSub} handleEditClose={this.handleEditClose} handleChange={this.handleChange} state={this.state.realtimeusr} />)}
+                    {this.state.edit && (<Editing state ={this.state} handleSub={this.handleSub} handleEditClose={this.handleEditClose} handleChange={this.handleChange} state={this.state.realtimeusr} />)}
 
                         <div className="front1 centerized" style={{position:"relative"}}>
                 
@@ -405,13 +463,13 @@ class userProfile extends Component {
                     <img
                                 src={this.state.background}
                                 alt="music"
-                                        className="back-screen huv cropped1"
-                                onClick={this.editBackground}
+                                        className="back-screen cropped1"
+                                
                         />
                 </div>
 
                     
-                <div className="overlaps" >
+                <div className="overlapsaab" style={{marginTop: "8%"}}>
 
                     <img
                         src={this.state.picture}
@@ -443,6 +501,7 @@ class userProfile extends Component {
 
 
                             </div>
+                            {this.state.tooSmall?(<div><u>Todays Appointments</u> ({this.state.Today.length})</div>):(<div></div>)}
                     
 
                     
@@ -455,31 +514,67 @@ class userProfile extends Component {
 
                 </div>
                 </div>
-                    <div className="proStud" style={{ height: "750px" }}>
+                    <div className="proStud" style={{ height: "650px" }}>
                         <div className="card-container1">
-                            {this.state.currentStudents.length > 0 ? (<List role={this.state.currentUser.role} students={this.state.currentStudents} history={history} del={this.del} />) : (<div className="centerizeList"> <h4 style={{ borderBottom: "1px solid gray", color:"gray", height:"40px"}} >no current students </h4></div>)}
-                    </div>
-                <div className="card-container2">
-                            <div className="flex-box2">
-                            <div  style={{ width: "95%", borderLeft: "1px solid #e0e0eb", borderRight:"1px solid #e0e0eb", marginTop:"15px" }}>
-                                <div className="cal-day-bottom centerized">
-                                    <h2>Today's Appointments</h2>
-                                </div>
-                                    <div className="container">
-                                        {
-                                            this.state.Today.map((appointment, index) =>
-                                                <div onClick={this.profile.bind(this, appointment.student)} className="huv rowss centerized" style={{ margin: "5px" }} key={index}>
-                                                    {appointment.student.firstName.length > 9 ? (<div className="checkboxstuff1"> <Short word={appointment.student.firstName} wordtype="procal" /> <p style={{ marginLeft: "3px" }}>{appointment.time}</p></div>): (<p>{appointment.student.firstName} {appointment.time}</p>)}
-                                                    
-                                                    </div>
-                                        )} 
+                            {this.state.tooSmall?(<div style={{width:"100%"}}>
 
-                                </div>
-                            </div>
+                                {this.state.currentStudents.length > 0 ? (<List1 role={this.state.currentUser.role} students={this.state.currentStudents} history={history} del={this.del} />) : (<div className="centerizeList"> <h4 style={{ borderBottom: "1px solid gray", color:"gray", height:"40px"}} >no current students </h4></div>)}
+
+                            </div>):(<div style={{width:"100%"}}> 
+
+                                {this.state.currentStudents.length > 0 ? (<List role={this.state.currentUser.role} students={this.state.currentStudents} history={history} del={this.del} />) : (<div className="centerizeList"> <h4 style={{ borderBottom: "1px solid gray", color:"gray", height:"40px"}} >no current students </h4></div>)}
+
+                            </div>)}
                     </div>
-                    </div>
+                    {!this.state.tooSmall?(
+
+<div className="card-container2">
+<div className="flex-box2">
+<div  style={{ width: "95%", borderLeft: "1px solid #e0e0eb", borderRight:"1px solid #e0e0eb", marginTop:"15px" }}>
+    <div className="cal-day-bottom centerized">
+        <h3>Todays Schedule</h3>
+    </div>
+        <div className="container">
+            {
+                this.state.Today.map((appointment, index) =>
+                    <div onClick={this.profile.bind(this, appointment.student)} className="huv rowss centerized" style={{ margin: "5px" }} key={index}>
+                        {appointment.student.firstName.length > 9 ? (<div className="checkboxstuff1"> <Short word={appointment.student.firstName} wordtype="procal" /> <p style={{ marginLeft: "3px" }}>{appointment.time}</p></div>): (<p>{appointment.student.firstName} {appointment.time}</p>)}
+                        
+                        </div>
+            )} 
+
+    </div>
+</div>
+</div>
+</div>
+                    ):(<div></div>)}
+                
                 </div>
 
+                </div>
+                <div style={{ opacity: "0", marginTop:"100px"}}>
+                    <table style={{ width: "100%" }}>
+                        <tr>
+                            <td style={{ width: "40%" }}>
+                                <div style={{ flexDirection: "column" }}>
+                                    <div> <p>Mon: 0 Minutes</p></div>
+                                    <div>  <p>Tues: 0 Minute</p></div>
+                                    <div> <p>Wed: 0 Minutes</p></div>
+                                    <div> <p>Thurs: 0 Minute</p></div>
+                                </div>
+                            </td>
+                            <td style={{ width: "50%" }}>
+                                <div style={{ flexDirection: "column" }}>
+                                    <div> <p>Fri: 0 Minutes</p></div>
+                                    <div>  <p>Sat: 0 Minutes</p></div>
+                                    <div> <p>Sun: 0 Minute</p></div>
+                                    <div><p> Total: 0/100 Minutes</p></div>
+                                </div>
+
+                            </td>
+                        </tr>
+                    </table>
+                  
                 </div>
                 <div style={{ opacity: "0" }}>
                     <table style={{ width: "100%" }}>
@@ -505,6 +600,55 @@ class userProfile extends Component {
                     </table>
                   
                 </div>
+                <div style={{ opacity: "0" }}>
+                    <table style={{ width: "100%" }}>
+                        <tr>
+                            <td style={{ width: "40%" }}>
+                                <div style={{ flexDirection: "column" }}>
+                                    <div> <p>Mon: 0 Minutes</p></div>
+                                    <div>  <p>Tues: 0 Minute</p></div>
+                                    <div> <p>Wed: 0 Minutes</p></div>
+                                    <div> <p>Thurs: 0 Minute</p></div>
+                                </div>
+                            </td>
+                            <td style={{ width: "50%" }}>
+                                <div style={{ flexDirection: "column" }}>
+                                    <div> <p>Fri: 0 Minutes</p></div>
+                                    <div>  <p>Sat: 0 Minutes</p></div>
+                                    <div> <p>Sun: 0 Minute</p></div>
+                                    <div><p> Total: 0/100 Minutes</p></div>
+                                </div>
+
+                            </td>
+                        </tr>
+                    </table>
+                  
+                </div>
+                <div style={{ opacity: "0" }}>
+                    <table style={{ width: "100%" }}>
+                        <tr>
+                            <td style={{ width: "40%" }}>
+                                <div style={{ flexDirection: "column" }}>
+                                    <div> <p>Mon: 0 Minutes</p></div>
+                                    <div>  <p>Tues: 0 Minute</p></div>
+                                    <div> <p>Wed: 0 Minutes</p></div>
+                                    <div> <p>Thurs: 0 Minute</p></div>
+                                </div>
+                            </td>
+                            <td style={{ width: "50%" }}>
+                                <div style={{ flexDirection: "column" }}>
+                                    <div> <p>Fri: 0 Minutes</p></div>
+                                    <div>  <p>Sat: 0 Minutes</p></div>
+                                    <div> <p>Sun: 0 Minute</p></div>
+                                    <div><p> Total: 0/100 Minutes</p></div>
+                                </div>
+
+                            </td>
+                        </tr>
+                    </table>
+                  
+                </div>
+                
                 </div>
         );
     }
