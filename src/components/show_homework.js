@@ -593,9 +593,10 @@ export default class Homeworking extends Component {
 
         return (
 
-            <div className="popup-boxa1 to-front homeworkScroll" >
-                <div ref={this.wrapperRef} className="card-container6abc1sh" >
-                    <div className="fill2 homeworkScroll" >
+            <div className="popup-boxa1 to-front " >
+                <div ref={this.wrapperRef} className="card-container6abc1sh " >
+                    <div className="homeworkScroll1">
+                    <div style={{width:"95%"}} >
                     <div style= {{display:"flex", flexDirection:"row", justifyContent:"space-between"}}>
                     <span className="close-icon-2" onClick={this.handleClose.bind(this, false)}>x</span>
                     
@@ -635,7 +636,7 @@ export default class Homeworking extends Component {
                                         value={this.state.tempHW}
                                         onChange={this.handleChange}
                                                 name="tempHW"
-                                            style={{ width: "400px" }}
+                                            style={{ width: "100%" }}
                                     />
                                 </div>
 
@@ -1233,7 +1234,7 @@ name="changedailygoal"
 
 
                         </div>)}
-                    
+                        </div>
                     
                 </div>
             </div>

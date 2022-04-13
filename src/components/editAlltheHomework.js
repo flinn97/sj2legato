@@ -78,7 +78,8 @@ handleChange(event){
     render() {
         return (
             <div className="popup-box" style={{ zIndex: "1010" }}>
-                <div className="boxforhw" style={{ zIndex: "1010" }} ref={this.wrapperRef} >
+                <div className="card-container6abc1shedit " style={{ zIndex: "1010", }} ref={this.wrapperRef} >
+                    <div className="homeworkScroll1">
                     <span className="close-icon-2" onClick={this.props.handleClose}>x</span>
                     <h3 style={{display:"flex", flexDirection:"row", justifyContent:this.state.justifyContent}}>Homework Tracking Options</h3>
                     <div className="form-group">
@@ -171,7 +172,7 @@ handleChange(event){
 
 
 
-
+                    </div>
                 </div>
             </div>
 

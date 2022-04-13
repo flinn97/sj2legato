@@ -11,7 +11,7 @@ label {
     z-index: 1;
     
 }
-@media only screen and (max-width: 370px){
+@media only screen and (max-width: 450px){
     .back-screen1 {
         position: absolute;
         opacity: 0.75;
@@ -31,7 +31,7 @@ label {
 }
 
 .card-container.card {
-    max-width: 350px !important;
+    max-width: 20%;
     padding: 40px 40px;
 }
 .change-button {
@@ -178,4 +178,18 @@ label {
 .fullhouse {
     width: 100%;
     height: 100%;
+}
+
+@media only screen and (max-width: 1400px){
+    .card-container.card {
+        max-width: 30%;
+        padding: 40px 40px;
+    }
+}
+
+@media only screen and (max-width: 800px){
+    .card-container.card {
+        max-width: 96%;
+        padding: 40px 40px;
+    }
 }

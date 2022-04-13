@@ -53,6 +53,11 @@
     width: 100%;
     justify-content: space-between;
 }
+.checkboxstuff1b {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
 
 .checkboxstuff2 {
     display: flex;
@@ -1098,6 +1103,21 @@ input[type="checkbox"]:checked + label .tick {
     scrollbar-width: none; /* Firefox */
     overflow: -moz-scrollbars-none;
 }
+.example::-webkit-scrollbar {
+    width: 3px;
+      
+    
+}
+
+.homeworkScroll1::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 5px;
+}
+
+.homeworkScroll1::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    -webkit-box-shadow: inset 0 0 6px grey;
+}
 .example1 {
     height: 95%;
     overflow-y: scroll; /* Add the ability to scroll */
@@ -1564,6 +1584,19 @@ option:hover {
         border: 1px solid #999;
         overflow: auto;
     }
+    .boxforhw1 {
+        position: relative;
+        width: 25%;
+        margin: 0 auto;
+        height: auto;
+        max-height: 70vh;
+        margin-top: calc(100vh - 85vh - 20px);
+        background: #fff;
+        border-radius: 10px;
+        padding: 20px;
+        border: 1px solid #999;
+        overflow: auto;
+    }
     .boxforexisting {
         position: relative;
         width: 25%;
@@ -1597,7 +1630,7 @@ option:hover {
         
     }
     
-    @media only screen and (min-width: 1200px) and (max-width: 1400px){
+    @media only screen and (min-width: 950px) and (max-width: 1400px){
 
         .forthegoals {
             margin-top: 40px;
@@ -1761,7 +1794,7 @@ option:hover {
         
     }
     
-    @media only screen and (min-width: 550px) and (max-width: 1200px){
+    @media only screen and (min-width: 500px) and (max-width: 1200px){
         .splashscreen{
             position: relative;
                 display: flex;
@@ -1912,7 +1945,7 @@ option:hover {
             width: 70%;
             justify-content: center;
             margin: 0 auto;
-            margin-top: 20px;
+            margin-top: 150px;
             margin-bottom: 20px;
             
         }
@@ -1924,7 +1957,7 @@ option:hover {
             border-radius: 10px;
             margin: 0 auto;
             width: 95%;
-            height: 450px;
+            height: 225px;
             margin-top: 20px;
             margin-bottom: 20px;
         }
@@ -2061,6 +2094,19 @@ option:hover {
             border: 1px solid #999;
             overflow: auto;
         }
+        .boxforhw1 {
+            position: relative;
+            width: 55%;
+            margin: 0 auto;
+            height: auto;
+            max-height: 70vh;
+            margin-top: calc(100vh - 85vh - 20px);
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid #999;
+            overflow: auto;
+        }
         .boxforexisting {
             position: relative;
             width: 55%;
@@ -2085,7 +2131,7 @@ option:hover {
     .noted{
         width: 100%;
     }
-    @media only screen and (min-width: 290px) and (max-width: 550px){
+    @media only screen and (min-width: 290px) and (max-width: 500px){
         .noted{
             width: 100%; display:flex; justify-content: center; flex-direction: row;
         }
@@ -2117,12 +2163,25 @@ option:hover {
             position: relative;
             width: 95%;
             margin: 0 auto;
-            height: auto;
-            max-height: 80vh;
-            margin-top: calc(100vh - 85vh - 20px);
+            
+            max-height: 90%;
+            margin-top: 67px;
             background: #fff;
             border-radius: 10px;
-            padding: 20px;
+            padding: 15px;
+            border: 1px solid #999;
+            overflow: auto;
+        }
+        .boxforhw1 {
+            position: relative;
+            width: 96%;
+            margin: 0 auto;
+            
+            height: 95%;
+            margin-top: 67px;
+            background: #fff;
+            border-radius: 10px;
+            padding: 15px;
             border: 1px solid #999;
             overflow: auto;
         }
@@ -2143,7 +2202,7 @@ option:hover {
             padding-top: 15px;
             padding-bottom: 10px;
             height: 100%;
-            width: 315px;
+            width: 80%;
             margin: 0 auto;
             align-self: center;
             flex-direction: column;
@@ -2217,7 +2276,7 @@ option:hover {
             background-color: white;
             box-shadow: 1px 1px gray;
             border-radius: 10px;
-            height: 750px;
+            height: 85%;
             width: 96%;
             margin: 0 auto;
             margin-top: 75px;
@@ -2231,10 +2290,10 @@ option:hover {
             background-color: white;
             box-shadow: 1px 1px gray;
             border-radius: 10px;
-            height: 75%;
+            height: 85%;
             width: 96%;
             margin: 0 auto;
-            margin-top: 75px;
+            margin-top: 67px;
             flex-direction: column;
             align-self: center;
         }
@@ -2488,7 +2547,7 @@ option:hover {
             display: flex;
             
             margin-top: 15px;
-            padding: 20px;
+            padding: 10px;
             background-color: white;
             box-shadow: 1px 1px gray;
             border-radius: 10px;
@@ -2539,6 +2598,7 @@ option:hover {
     }
     
     @media only screen and (max-width: 370px){
+        
         .splashscreen{
             position: relative;
                 display: flex;
@@ -2700,58 +2760,24 @@ option:hover {
             -o-transition: 400ms 100ms ease-out;
             transition: 400ms 100ms ease-out;
         }
+        .card-container4 {
+            display: flex;
+            background-color: white;
+            box-shadow: 1px 1px gray;
+            border-radius: 10px;
+            margin-bottom: 5px;
+            margin-left:0px;
+            padding-top: 15px;
+            padding-bottom: 10px;
+            height: 100%;
+            width: 96%;
+            margin: 0 auto;
+            align-self: center;
+            flex-direction: column;
+        }
         
     }
-    @media only screen and (min-width: 550px) and (max-width: 800px){
-
-    .forthegoals {
-        margin-top: 40px;
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-        height: 2000px;
-        width: 100%;
-    }
-    .checkboxstuff3tocolumn {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-    }
-    .card-container4ab5 {
-        display: flex;
-        
-        padding: 15px;
-        margin-bottom: 15px;
-        background-color: white;
-        box-shadow: 1px 1px gray;
-        border-radius: 10px;
-        height: 1000px;
-        width: 93%;
-        margin-top: 50px;
-    }
-    .card-container4ab5tooSmall {
-        display: flex;
-        padding: 15px;
-        margin-bottom: 15px;
-        background-color: white;
-        box-shadow: 1px 1px gray;
-        border-radius: 10px;
-        height: 30%;
-        width: 75%;
-        margin-top: 50px;
-    }
-    .card-container6abc {
-        display: flex;
-        
-        margin-top: 15px;
-        padding: 20px;
-        background-color: white;
-        box-shadow: 1px 1px gray;
-        border-radius: 10px;
-        height: 535px;
-        width: 75%;
-    }
-}
+  
 @media only screen and (min-width: 800px) and (max-width: 1200px){
 
     .forthegoals {
@@ -2831,4 +2857,540 @@ option:hover {
         width: 40%;
     }
 }
+
+@media only screen and (min-width: 500px) and (max-width: 800px){
+    .noted{
+        width: 100%; display:flex; justify-content: center; flex-direction: row;
+    }
+    .overlaps1a {
+        margin-top: 10px;
+        z-index: 5;
+        width: 100%;
+        align-self: center;
+        flex-direction: row;
+        display: flex;
+        margin-left:0px;
+        justify-content: center;
+        margin:0 auto;
+    }
+    .boxforexisting {
+        position: relative;
+        width: 95%;
+        margin: 0 auto;
+        height: auto;
+        max-height: 70vh;
+        margin-top: calc(100vh - 85vh - 20px);
+        background: #fff;
+        border-radius: 10px;
+        padding: 20px;
+        border: 1px solid #999;
+        overflow: auto;
+    }
+    .boxforhw {
+        position: relative;
+        width: 95%;
+        margin: 0 auto;
+        
+        max-height: 90%;
+        margin-top: 67px;
+        background: #fff;
+        border-radius: 10px;
+        padding: 15px;
+        border: 1px solid #999;
+        overflow: auto;
+    }
+    .boxforhw1 {
+        position: relative;
+        width: 96%;
+        margin: 0 auto;
+        
+        height: 95%;
+        margin-top: 67px;
+        background: #fff;
+        border-radius: 10px;
+        padding: 15px;
+        border: 1px solid #999;
+        overflow: auto;
+    }
+    .checkboxstuff2foradd {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0 auto;
+        width: 100%;
+    }
+    .card-container4 {
+        display: flex;
+        background-color: white;
+        box-shadow: 1px 1px gray;
+        border-radius: 10px;
+        margin-bottom: 5px;
+        margin-left:0px;
+        padding-top: 15px;
+        padding-bottom: 10px;
+        height: 100%;
+        width: 80%;
+        margin: 0 auto;
+        align-self: center;
+        flex-direction: column;
+    }
+    .checkboxstuff3tocolumn {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+    }
+    .forthegoals {
+        margin-top: 40px;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        height: 2000px;
+        width: 100%;
+    }
+    .card-container2 {
+        display: flex;
+        background-color: white;
+        box-shadow: 1px 1px gray;
+        border-radius: 10px;
+        align-self: center;
+        margin: 0px;
+        width: 100%;
+        float: right;
+        height: 500px;
+    }
+    .proStud {
+        display: flex;
+        flex-direction: column;
+        width: 95%;
+        
+        margin: 0 auto;
+    }
+    .forfiles {
+        display: flex;
+        justify-content: space-between;
+        margin: 0 auto;
+        
+    }
+    .diapicbox {
+        position: relative;
+        display:flex;
+        width: 95%;
+        margin: 0 auto;
+        height: 400px;
+        justify-content:space-between;
+        margin-top: 100px;
+        background: #fff;
+        border-radius: 15px;
+        padding: 10px;
+        border: 1px solid #999;
+        overflow: auto;
+        flex-direction: column;
+    }
+    .card-container5ab121 {
+        display: flex;
+        padding: 5px;
+        background-color: white;
+        box-shadow: 1px 1px gray;
+        border-radius: 10px;
+        height: 250px;
+        width: 95%;
+        position: relative;
+    }
+    .card-container6abc1sh {
+        position: relative;
+        display: flex;
+        padding: 10px;
+        background-color: white;
+        box-shadow: 1px 1px gray;
+        border-radius: 10px;
+        height: 85%;
+        width: 96%;
+        margin: 0 auto;
+        margin-top: 75px;
+        flex-direction: column;
+        align-self: center;
+    }
+    .card-container6abc1shedit {
+        position: relative;
+        display: flex;
+        padding: 10px;
+        background-color: white;
+        box-shadow: 1px 1px gray;
+        border-radius: 10px;
+        height: 85%;
+        width: 96%;
+        margin: 0 auto;
+        margin-top: 67px;
+        flex-direction: column;
+        align-self: center;
+    }
+    .diapicboxa {
+        position: relative;
+        display: flex;
+        width: 95%;
+        margin: 0 auto;
+        height: 350px;
+        justify-content: space-between;
+        margin-top: 110px;
+        background: #fff;
+        border-radius: 15px;
+        padding: 20px;
+        border: 1px solid #999;
+        flex-direction: column;
+    }
+    .diapicboxastudentgoal {
+        position: relative;
+        display: flex;
+        width: 95%;
+        margin: 0 auto;
+        height: 350px;
+        margin-top: 110px;
+        background: #fff;
+        border-radius: 15px;
+        padding: 20px;
+        border: 1px solid #999;
+        flex-direction: column;
+    }
+    .diapicbox2 {
+        position: relative;
+        display: flex;
+        width: 95%;
+        margin: 0 auto;
+        height: 90%;
+        justify-content: space-between;
+        margin-top: 55px;
+        background: #fff;
+        border-radius: 15px;
+        padding: 20px;
+        border: 1px solid #999;
+        overflow: auto;
+        flex-direction: column;
+    }
+    .card-container0b {
+        display: flex;
+        align-self:flex-start;
+        background-color: white;
+        box-shadow: 1px 1px gray;
+        border-radius: 10px;
+        margin: 20px;
+        
+        padding-bottom: 10px;
+        width: 50%;
+        height:350px;
+    }
+    .space-bottom {
+        margin-bottom: 40px;
+    }
+    .card-container0 {
+        display: flex;
+        background-color: white;
+        box-shadow: 1px 1px gray;
+        border-radius: 10px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        padding-top:5px;
+        padding-bottom:10px;
+        width: 95%;
+        
+    }
+    .proStud5 {
+        display: flex;
+        flex-direction: column;
+        width: 95%;
+        justify-content: center;
+        margin: 0 auto;
+        margin-top: 5px;
+        justify-content: space-between;
+        height: 1425px
+        
+    }
+    .card-container5ab {
+        display: flex;
+        padding: 5px;
+        background-color: white;
+        box-shadow: 1px 1px gray;
+        border-radius: 10px;
+        width: 97%;
+        margin: 0 auto;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        height: 450px;
+        
+    }
+
+    .card-container5abc {
+        display: flex;
+        padding: 5px;
+        background-color: white;
+        box-shadow: 1px 1px gray;
+        border-radius: 10px;
+        height: 450px;
+        width: 97%;
+        margin: 0 auto;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+    .proStud5a {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        justify-content: center;
+        margin: 0 auto;
+        margin-top: 0px;
+        margin-bottom: 5px;
+        height: 1050px
+        
+    }
+    .card-container5ab1 {
+        display: flex;
+        padding: 5px;
+        background-color: white;
+        box-shadow: 1px 1px gray;
+        border-radius: 10px;
+        margin: 0 auto;
+        width: 95%;
+        height: 450px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+    .student-profile-pic {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        
+        margin-top: 5px;
+        margin-bottom: 5px;
+        
+        
+        
+        width: 50%;
+        display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 0px;
+    margin-top: 20px;
+    padding-right: 0px;
+    margin-right: 0px;
+    border-right: none;
+    }
+    .student-container {
+        width: 95%;
+        
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 40px;
+        margin-bottom: 40px;
+        background-color: white;
+        padding: 7px;
+        box-shadow: 1px 1px gray;
+        border-radius: 10px;
+        height: 380px;
+    
+    }
+    .change-label2a {
+        display: inline-block;
+        margin: 2px;
+        margin-top: 3px;
+        margin-bottom: 0px;
+        width: var(--checkbox-size4);
+        height: var(--checkbox-size4);
+        border: calc(var(--checkbox-size4) * .05) solid var(--checkbox-color);
+        border-radius: 25%;
+        -o-transition: 400ms 100ms ease-out;
+        transition: 400ms 100ms ease-out;
+    }
+    .tick {
+        z-index:0;
+        position: relative;
+        right: calc(var(--checkbox-size4) * -0.5);
+        top: calc(var(--checkbox-size4) * -0.75);
+        width: calc(var(--checkbox-size4) * 0.35);
+        height: calc(var(--checkbox-size4) * 0.75);
+        border-right: calc(var(--checkbox-size4) * 0.2) solid var(--tick-color);
+        border-bottom: calc(var(--checkbox-size4) * 0.2) solid var(--tick-color);
+        -webkit-transform: rotate(45deg) scale(0);
+        -ms-transform: rotate(45deg) scale(0);
+        transform: rotate(45deg) scale(0);
+        opacity: 0;
+        -webkit-transition: all 600ms cubic-bezier(0.175, 0.885, 0.32, 1.5);
+        -o-transition: all 600ms cubic-bezier(0.175, 0.885, 0.32, 1.5);
+        transition: all 600ms cubic-bezier(0.175, 0.885, 0.32, 1.5);
+    }
+    .tick:before {
+        content: '';
+        position: absolute;
+        left: calc(var(--checkbox-size4) * -0.125);
+        bottom: calc(var(--checkbox-size4) * -0.2);
+        border: calc(var(--checkbox-size4) * 0.1) solid var(--tick-color);
+        border-radius: 50%;
+        z-index: 0;
+    }
+
+    .tick:after {
+        content: '';
+        position: absolute;
+        right: calc(var(--checkbox-size4) * -0.2);
+        top: calc(var(--checkbox-size4) * -0.125);
+        border: calc(var(--checkbox-size4) * 0.1) solid var(--tick-color);
+        border-radius: 50%;
+        z-index: 0;
+    }
+    .card-container1 {
+        display: flex;
+        background-color: white;
+        box-shadow: 1px 1px gray;
+        border-radius: 10px;
+        align-self: center;
+        margin: 15px;
+        height:500px;
+        width: 100%;
+        float: right;
+    }
+    .card-container4ab5 {
+        display: flex;
+        padding: 15px;
+        margin-bottom: 15px;
+        background-color: white;
+        box-shadow: 1px 1px gray;
+        border-radius: 10px;
+        height: 1000px;
+        width: 95%;
+        margin-top: 50px;
+    }
+    .card-container4ab5tooSmall {
+        display: flex;
+        padding: 15px;
+        margin-bottom: 15px;
+        background-color: white;
+        box-shadow: 1px 1px gray;
+        border-radius: 10px;
+        height: 470px;
+        width: 85%;
+        margin-top: 50px;
+        
+    }
+    .card-container6abc {
+        display: flex;
+        
+        margin-top: 15px;
+        padding: 10px;
+        background-color: white;
+        box-shadow: 1px 1px gray;
+        border-radius: 10px;
+        height: 545px;
+        width: 95%;
+    }
+    .boxdel {
+        position: relative;
+        width: 95%;
+        margin: 0 auto;
+        height: auto;
+        max-height: 70vh;
+        margin-top: 170px;
+        background: #fff;
+        border-radius: 10px;
+        padding: 20px;
+        border: 1px solid #999;
+        overflow: auto;
+    }
+    .box_add {
+        position: relative;
+        width: 95%;
+        margin: 0 auto;
+        height: auto;
+        height: 475px;
+        margin-top: calc(100vh - 85vh - 20px);
+        background: #fff;
+        border-radius: 10px;
+        padding: 10px;
+        border: 1px solid #999;
+        overflow: auto;
+    }
+    .diapicbox4b {
+        position: relative;
+        display: flex;
+        width: 98%;
+        height: 80%;
+        margin: 0 auto;
+        justify-content: space-between;
+        margin-top: calc(100vh - 85vh - 20px);
+        background: #fff;
+        border-radius: 15px;
+        padding: 10px;
+        border: 1px solid #999;
+        flex-direction: column;
+    }
+    .forthegoals {
+        margin-top: 40px;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        height: 2000px;
+        width: 100%;
+    }
+    .checkboxstuff3tocolumn {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+    }
+    .card-container4ab5 {
+        display: flex;
+        
+        padding: 15px;
+        margin-bottom: 15px;
+        background-color: white;
+        box-shadow: 1px 1px gray;
+        border-radius: 10px;
+        height: 1000px;
+        width: 93%;
+        margin-top: 50px;
+    }
+    /* .card-container4ab5tooSmall {
+        display: flex;
+        padding: 15px;
+        margin-bottom: 15px;
+        background-color: white;
+        box-shadow: 1px 1px gray;
+        border-radius: 10px;
+        height: 30%;
+        width: 75%;
+        margin-top: 50px;
+    } */
+    .card-container6abc {
+        display: flex;
+        
+        margin-top: 15px;
+        padding: 20px;
+        background-color: white;
+        box-shadow: 1px 1px gray;
+        border-radius: 10px;
+        height: 535px;
+        width: 75%;
+    } 
+}
+@media only screen and (min-width: 800px) and (max-width: 1200px){
+    .forthegoals {
+        margin-top: 40px;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        height: 2000px;
+        width: 100%;
+    }
+    .card-container4ab5tooSmall {
+        display: flex;
+        padding: 15px;
+        margin-bottom: 15px;
+        background-color: white;
+        box-shadow: 1px 1px gray;
+        border-radius: 10px;
+        height: 53%;
+        width: 75%;
+        margin-top: 50px;
+    }
+   
+
+}
+
 

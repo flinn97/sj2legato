@@ -10,10 +10,19 @@ class Checkedd extends Component {
             practice: 0,
             p: this.props.flag,
             style: "27%",
-            hstyle: "20%"
+            hstyle: "20%",
+            tooSmall: false,
         }
 
     }
+    componentDidMount(){
+        if(parseInt(window.innerWidth) <= 400){
+            this.setState({ tooSmall: true, 
+                tooSmall: true,
+                
+            });
+    }
+}
   
     async markcheckbox(event) {
 
@@ -122,9 +131,16 @@ class Checkedd extends Component {
 
                             <div className="tick"></div>
                         </label>
-                        <div style={{ marginLeft: "10px" }}>
+                        {this.state.tooSmall?(
+                            <div style={{ marginLeft: "10px" }}>
+                            {this.props.props.synctimes ? (<div>{this.props.time ? (<div style={{fontSize:"12px"}}><b>{this.props.time} m</b></div>) : (<div style={{fontSize:"12px"}}><b>0 m</b></div>)}</div>) : (<div> </div>)}
+                        </div>
+                        ):(
+                            <div style={{ marginLeft: "10px" }}>
                             {this.props.props.synctimes ? (<div>{this.props.time ? (<div style={{fontSize:"14px"}}><b>{this.props.time} m</b></div>) : (<div style={{fontSize:"14px"}}><b>0 m</b></div>)}</div>) : (<div> </div>)}
                         </div>
+                        )}
+                        
                     </div>
 
                 ) : (<div >
@@ -219,10 +235,16 @@ class Checkedd extends Component {
 
 
                                  
-
-                            <div style={{ marginLeft: "10px" }}>
+                            {this.state.tooSmall?(
+                                <div style={{ marginLeft: "10px" }}>
+                                {this.props.props.synctimes ? (<div>{this.props.time ? (<div style={{fontSize:"12px"}}><b>{this.props.time} m</b></div>) : (<div style={{fontSize:"12px"}}><b>0 m</b></div>)}</div>) : (<div></div>)}
+                            </div>
+                            ):(
+                                <div style={{ marginLeft: "10px" }}>
                                 {this.props.props.synctimes ? (<div>{this.props.time ? (<div style={{fontSize:"14px"}}><b>{this.props.time} m</b></div>) : (<div style={{fontSize:"14px"}}><b>0 m</b></div>)}</div>) : (<div></div>)}
                             </div>
+                            )}
+                            
                             
                             </div>
                     </div>)

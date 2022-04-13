@@ -50,7 +50,7 @@ export default class funcbotton extends Component {
 
             }
         }
-        if(parseInt(window.innerWidth) <= 550)
+        if(parseInt(window.innerWidth) <= 800)
         this.setState({ tooSmall: true, 
             width:"100%",
             width1:"100%",

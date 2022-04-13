@@ -38,7 +38,7 @@ class Metronome extends Component {
     }
     updateWindowDimensions() {
         this.setState({screensize: window.innerWidth})
-        if(parseInt(window.innerWidth) <= 550)
+        if(parseInt(window.innerWidth) <= 800)
         this.setState({ 
             tooSmall: true,
             marginTop: "20px",
@@ -121,14 +121,14 @@ class Metronome extends Component {
                 {this.state.splashscreen && (<Splashscreen closesplash={this.Splashscreen}/>)}
             <div className="columbized">
 
-            <div className= "fill1 centerized" style={{ marginTop: this.state.marginTop, display:"flex", justifyContent:"column", padding:"5px" }}>
+            <div className= "fill1 centerized" style={{ marginTop: this.state.marginTop, display:"flex", flexDirection:"column", padding:"5px" }}>
             <img src = {Metro} alt="metro" style={{width: '700px', maxHeight:this.state.maxHeight, position:"absolute", }}/>
-                <div style={{zIndex: "1500", }}>
-                    {this.state.tooSmall?(<h4 className="centerize spacer-bottom" style={{marginTop: this.state.margint}}>Metronome</h4>):(<h1 className="centerize spacer-bottom" style={{marginTop: this.state.margint}}>Metronome</h1>)}
+                <div style={{zIndex: "1500", display:"flex", flexDirection:"column", }}>
+                    {this.state.tooSmall?(<h4 className="centerize " style={{marginTop:"70px", marginBottom:"50px"}}>Metronome</h4>):(<h1 className="centerize spacer-bottom" style={{marginTop: this.state.margint}}>Metronome</h1>)}
                 
-                        <Slider bpm={this.state.bpm} handleChange={this.handleBPM} handleChanges={this.handleChange} tooSmall={this.state.screensize}/>
+                        <div><Slider bpm={this.state.bpm} handleChange={this.handleBPM} handleChanges={this.handleChange} tooSmall={this.state.screensize}/>
                         <Button handleClick={this.startStop} currentState={this.state.playing}  />
-                        </div>
+                        </div></div>
                 </div>
                 </div>
                 </div>

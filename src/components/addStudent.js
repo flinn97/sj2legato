@@ -50,11 +50,15 @@ class Popup extends Component{
             selectTime: false,
             day: "",
             time: "",
+            toosmall: false
         }
 
     }
 
     componentDidMount() {
+        if(parseInt(window.innerWidth) <= 325){
+            this.setState({ toosmall: true });
+            }
         document.addEventListener('mousedown', this.handleClickOutside);
     }
 
@@ -202,9 +206,12 @@ class Popup extends Component{
                                     </div>
                                     {this.state.selectDay ? (<Dropdown selectDay={this.selectDays} clock={false} closedrop={this.closedrop} />) : (<div></div>)}
                                 </div>
-                            <div style={{opacity:"0"}}>
+                                {this.state.toosmall?(<div >
+                                
+                                </div>):(<div style={{opacity:"0"}}>
                                 thanks!
-                                </div>
+                                </div>)}
+                            
                         </div>
 
                         <div style={{ marginTop: "50px" }}>

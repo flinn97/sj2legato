@@ -457,7 +457,7 @@ export default class Goals extends Component {
                                     <div className="columbized fill1">
 
                                         <h2 className="centerized" style={{ marginBottom: "15px", marginTop: "5px", }}>Goals</h2>
-                                        {this.props.MainGoals ?(<div className="homeworkScroll1" >
+                                        {this.props.MainGoals.length > 0 ?(<div className="homeworkScroll1" >
                                             {this.props.MainGoals.map((main, index) =>
                                             <div key={index} >
                                                 <div >
@@ -465,7 +465,7 @@ export default class Goals extends Component {
                             <div style={{display:'flex', flexDirection:"row", alignItems:"center"}}>
                         <Checkedd2 goal={main} goalStatusChange={this.completeGoal} main={true}  />
                         
-                        {this.props.tooSmall?(<h4 style={{marginBottom:"10px"}} className="huv rowss" onClick={this.showGoal.bind(this, main, true)}><span>{main.mainGoal.title.length > 25 ? (<div><Short word={main.mainGoal.title} wordtype="Goal" /></div>) : (<div>{main.mainGoal.title}</div>)}</span></h4>):(<h2 className="huv rowss" onClick={this.showGoal.bind(this, main, true)}><div>{main.mainGoal.title.length > 25 ? (<div><Short word={main.mainGoal.title} wordtype="Goal" /></div>) : (<div>{main.mainGoal.title}</div>)}</div></h2>)}
+                        {this.props.tooSmall?(<h4 style={{marginBottom:"10px"}} className="huv rowss" onClick={this.showGoal.bind(this, main, true)}><span>{main.mainGoal.title.length > 35 ? (<div><Short word={main.mainGoal.title} wordtype="Goal" /></div>) : (<div>{main.mainGoal.title}</div>)}</span></h4>):(<h2 className="huv rowss" onClick={this.showGoal.bind(this, main, true)}><div>{main.mainGoal.title.length > 35 ? (<div><Short word={main.mainGoal.title} wordtype="Goal" /></div>) : (<div>{main.mainGoal.title}</div>)}</div></h2>)}
                         </div>
                         <div className="checkboxstuff1">
                                {/* <div className="huv edit3">
@@ -504,7 +504,7 @@ export default class Goals extends Component {
                         <div >
                             <Checkedd2 goal={goal} goalStatusChange={this.completeGoal} main={false} />
                         </div>
-                        <div className="huv rowss" style={{marginBottom:"7px"}} onClick={this.showGoal.bind(this, goal, false)}><div>{goal.title.length > 14 ? (<div><Short word={goal.title} wordtype="goal" /></div>) : (<div>{goal.title}</div>)}</div></div>
+                        <div className="huv rowss" style={{marginBottom:"7px"}} onClick={this.showGoal.bind(this, goal, false)}><div>{goal.title.length > 35 ? (<div><Short word={goal.title} wordtype="goal" /></div>) : (<div>{goal.title}</div>)}</div></div>
 
                     </div>
                     
@@ -518,7 +518,7 @@ export default class Goals extends Component {
                         )
                         }
                             
-                            </div>):(<div></div>)}
+                            </div>):(<div style={{display:"flex", flexDirection:"row", justifyContent: "center", marginTop:"27px"}}>No goals assinged yet!</div>)}
 
                                         {/* <div className="checkboxstuff1  centerized" style={{  width: this.state.width, marginLeft:"10%"  }} >
 
@@ -640,7 +640,7 @@ export default class Goals extends Component {
                                 ) : (
 
                                     <div>
-                                        {this.props.MainGoals ?(<div className="homeworkScroll1" >
+                                        {this.props.MainGoals.length > 0 ?(<div className="homeworkScroll1" >
                                             {this.props.MainGoals.map((main, index) =>
                                             <div key={index} >
                                                 <div >
@@ -648,7 +648,7 @@ export default class Goals extends Component {
                             <div style={{display:'flex', flexDirection:"row", alignItems:"center"}}>
                         <Checkedd2 goal={main} goalStatusChange={this.completeGoal} main={true}  />
                         
-                        {this.props.tooSmall?(<h4 style={{marginBottom:"10px"}} className="huv rowss" onClick={this.showMainGoal.bind(this, main)}><span>{main.mainGoal.title.length > 25 ? (<div><Short word={main.mainGoal.title} wordtype="Goal" /></div>) : (<div>{main.mainGoal.title}</div>)}</span></h4>):(<h2 className="huv rowss" onClick={this.showMainGoal.bind(this, main)}><div>{main.mainGoal.title.length > 25 ? (<div><Short word={main.mainGoal.title} wordtype="Goal" /></div>) : (<div>{main.mainGoal.title}</div>)}</div></h2>)}
+                        {this.props.tooSmall?(<h4 style={{marginBottom:"10px"}} className="huv rowss" onClick={this.showMainGoal.bind(this, main)}><span>{main.mainGoal.title.length > 35 ? (<div><Short word={main.mainGoal.title} wordtype="Goal" /></div>) : (<div>{main.mainGoal.title}</div>)}</span></h4>):(<h2 className="huv rowss" onClick={this.showMainGoal.bind(this, main)}><div>{main.mainGoal.title.length > 35 ? (<div><Short word={main.mainGoal.title} wordtype="Goal" /></div>) : (<div>{main.mainGoal.title}</div>)}</div></h2>)}
                         </div>
                         <div className="checkboxstuff1">
                                {/* <div className="huv edit3">
@@ -687,7 +687,7 @@ export default class Goals extends Component {
                         <div >
                             <Checkedd2 goal={goal} goalStatusChange={this.completeGoal} main={false} />
                         </div>
-                        <div className="huv rowss" style={{marginBottom:"7px"}} onClick={this.showGoal.bind(this, goal, false)}><div>{goal.title.length > 14 ? (<div><Short word={goal.title} wordtype="goal" /></div>) : (<div>{goal.title}</div>)}</div></div>
+                        <div className="huv rowss" style={{marginBottom:"7px"}} onClick={this.showGoal.bind(this, goal, false)}><div>{goal.title.length > 35 ? (<div><Short word={goal.title} wordtype="goal" /></div>) : (<div>{goal.title}</div>)}</div></div>
 
                     </div>
                     <div className="" style={{width:"25%", flexDirection:"row", justifyContent:"flex-end", display:"flex", }}>
@@ -722,7 +722,7 @@ export default class Goals extends Component {
                         )
                         }
                             
-                            </div>):(<div></div>)}</div>
+                            </div>):(<div style={{display:"flex", flexDirection:"row", justifyContent: "center", marginTop:"20px"}}>No goals assinged yet!</div>)}</div>
                                     
                                 )
                         }
@@ -746,7 +746,7 @@ export default class Goals extends Component {
                                             (<div style={{ width: "100%", height: "100%" }} ><div className="centerizeaa homeworkScroll" >
                                                     <div className="centerized"><h2 style={{ marginBottom: "15px" }}>Progress</h2></div>
                                                     <div style={{ marginBottom: "7px", marginTop: this.state.margin }}>
-                                                        {this.props.main?(<div>
+                                                        {this.props.MainGoals.length > 0?(<div>
 
                                                             <div className="centerized" >
                                                             <Progress goals={this.props.MainGoals} main={this.props.main}  />

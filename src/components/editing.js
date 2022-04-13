@@ -54,7 +54,9 @@ class Editing extends Component {
                 {
                     this.props.currentUser === "student" ?
                         (<div className="popup-box to-front homeworkScroll">
-                            <div className="diapicbox2 " ref={this.wrapperRef}>
+                            <div className="card-container6abc1shedit " ref={this.wrapperRef}>
+                                <div className="homeworkScroll1" >
+                                    <div style={{width:"97%"}}>
                                 <h1>Student Information: </h1>
                                 <span className="close-icon-2" onClick={this.props.handleEditClose}>x</span>
 
@@ -135,13 +137,15 @@ class Editing extends Component {
                                 </div>
                                 </Form>
 
-
-
+                                </div>
+                                </div>
                             </div>
                         </div>
                         ) : (
                             <div className="popup-box to-front homeworkScroll">
-                                <div className="diapicbox2" ref={this.wrapperRef}>
+                                <div className="card-container6abc1shedit" ref={this.wrapperRef}>
+                                    <div className="homeworkScroll1">
+                                        <div style={{width: "97%"}}>
                                     <h1>Teacher Information </h1>
                                     <span className="close-icon-2" onClick={this.props.handleEditClose}>x</span>
                                     <Form
@@ -221,8 +225,8 @@ class Editing extends Component {
                                         </div>
                                         </div>
                                     </Form>
-
-                                </div>
+</div>
+                                </div></div>
                             </div>
                         )}
         </div>

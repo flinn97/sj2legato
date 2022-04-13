@@ -38,6 +38,7 @@ class Splashscreen extends Component {
     async wait(){
         const delay = ms => new Promise(res => setTimeout(res, ms));
         await delay(500)
+        
             await this.props.closesplash()
         
         

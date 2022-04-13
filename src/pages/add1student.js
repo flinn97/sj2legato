@@ -55,7 +55,9 @@ export default class UpdateStudent extends Component {
         this.done3 = this.done3.bind(this);
         this.done4 = this.done4.bind(this);
         this.goback = this.goback.bind(this);
+        this.sendtoprofile = this.sendtoprofile.bind(this);
 
+        
         
         this.done5 = this.done5.bind(this);
 
@@ -245,6 +247,9 @@ export default class UpdateStudent extends Component {
         this.props.history.push("/profile");
         window.location.reload();
     }
+    sendtoprofile(){
+        window.location.reload();
+    }
     handleChangeforform = (event, news) => {
         
         const { name, value } = event.target
@@ -267,7 +272,7 @@ export default class UpdateStudent extends Component {
         if(parseInt(window.innerWidth) <= 600){
         this.setState({ marginTop: "310px", marginLeft: "0px" });
         }
-        this.done()
+        this.done();
 
         
     }
@@ -756,7 +761,7 @@ export default class UpdateStudent extends Component {
     render() {
         return (<div>
 
-            <Splashscreen />
+            <Splashscreen closesplash={this.sendtoprofile}/>
         </div>)
     }
 }

@@ -575,7 +575,7 @@ export default class Student_profile extends Component {
                 timepracmarginr: "37%",
                 dayspracmargin: "43%",
                 amarginLeft: "10px",
-                aheight:"300px",
+                aheight:"200px",
                 tmarginTop:"50px",
                 
                 pracgoalmargin: "42%",
@@ -1319,7 +1319,8 @@ export default class Student_profile extends Component {
 
                                         {this.state.realtimeusr.starPoints?(
                                             <div className="centerized fill2" style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                                            <div style={{ width: "40%" }}> <b>Student Level:</b> </div>
+
+                                            <div style={{ width: "43%" }}> <b>Student Level:</b> </div>
                                     <div style={{ width: "40%" }} className="centerized ">  {this.state.realtimeusr.level}</div>
 
 
@@ -1397,7 +1398,7 @@ export default class Student_profile extends Component {
                                                 </div>
 
                                             )}</div>
-                                    ) : (<div className="centerized">No Accomplished Goals Yet.</div>)}
+                                    ) : (<div className="centerized">No Accomplished Goals Yet!</div>)}
                                     </div>
 
                                 

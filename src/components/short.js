@@ -4,9 +4,10 @@ import React from "react";
 var Short = function (props) {
     var rows = "";
     if (props.wordtype === "goal") {
-        for (let i = 0; i < 14; i++) {
+        for (let i = 0; i < 37; i++) {
+            if(props.word[i]){
             rows += props.word[i];
-
+            }
 
         }
     }
@@ -41,7 +42,7 @@ var Short = function (props) {
         }
     }
     if (props.wordtype === "Goal") {
-        for (let i = 0; i < 20; i++) {
+        for (let i = 0; i < 25; i++) {
             rows += props.word[i];
 
 

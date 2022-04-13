@@ -99,7 +99,7 @@ export default class Profile extends Component {
         this.splashscreen();
     }
     updateWindowDimensions() {
-        if(parseInt(window.innerWidth) <= 600)
+        if(parseInt(window.innerWidth) <= 800)
         this.setState({ tooSmall: true });
      }
     componentWillUnmount() {

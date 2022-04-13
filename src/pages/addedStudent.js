@@ -26,7 +26,7 @@ const required = value => {
     }
 };
 
-export default class UpdateStudent extends Component {
+export default class AddedStudent extends Component {
     
     //state creation and binding.
     constructor(props) {

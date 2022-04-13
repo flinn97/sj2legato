@@ -16,9 +16,12 @@ export default class EditProgress extends Component {
         this.setWrapperRef = this.setWrapperRef;
         this.handleClickOutside = this.handleClickOutside.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.cleartotaldays = this.cleartotaldays.bind(this);
+        this.cleartimepracticed = this.cleartimepracticed.bind(this);
 
         
-
+        
+        
         
         this.state = {
             starPoints: false,
@@ -26,11 +29,22 @@ export default class EditProgress extends Component {
             totalDays: this.props.state.totalDays,
             totalTime: this.props.state.totalTime,
             temptimegoal: false,
-            justifyContent: ""
+            justifyContent: "",
+            dayscleared: false,
+            timecleared: false,
 
         }
        
 
+    }
+    cleartotaldays(){
+        this.setState({dayscleared: true})
+        this.props.cleartotaldays();
+
+    }
+    cleartimepracticed(){
+        this.setState({timecleared: true})
+        this.props.cleartimepracticed()
     }
     handleChange(event){
     const { name, value } = event.target
@@ -87,7 +101,7 @@ export default class EditProgress extends Component {
                     <div className="fill2 homeworkScroll1" >
                     <span className="close-icon-2" onClick={this.props.handleClose}>x</span>
                     <div style={{ width: "100%" }}>
-                    <h3 style={{display:"flex", flexDirection:"row", justifyContent:this.state.justifyContent}}>Progress</h3>
+                    <h2 style={{display:"flex", flexDirection:"row", justifyContent:this.state.justifyContent}}>Progress</h2>
                        
                             <div className="form-group">
                                 <label>Track Star Points?</label>
@@ -187,7 +201,8 @@ export default class EditProgress extends Component {
                             </div>):(<div>
                                 Current Goal: {this.props.state.totalDays} days.
                             </div>)}
-                            <button className="btn btn-block" style={{ background: "#696eb5", height: "35px", color: "#F0F2EF", marginTop:"5px", width:"185px" }} onClick={this.props.cleartotaldays}><span className="fill1"><p style={{ marginBottom: "10px" }}>Clear Days Practiced</p></span></button>
+                            <button className="btn btn-block" style={{ background: "#696eb5", height: "35px", color: "#F0F2EF", marginTop:"5px", width:"185px" }} 
+                            onClick={this.cleartotaldays}>{!this.state.dayscleared?(<span className="fill1"><p style={{ marginBottom: "10px" }}>Clear Days Practiced</p></span>):(<span className="fill1"><p style={{ marginBottom: "10px" }}>Days Cleared</p></span>)}</button>
 
                             
                                 <div>
@@ -254,7 +269,8 @@ export default class EditProgress extends Component {
                                 </div>):(<div>
                                     Current Time Goal: {this.props.state.totalTime} Minutes
                                 </div>)}
-                                <button className="btn btn-block" style={{ background: "#696eb5", height: "35px", color: "#F0F2EF", marginTop:"5px", width:"185px" }} onClick={this.props.cleartimepracticed}><span className="fill1"><p style={{ marginBottom: "10px" }}>Clear Time Practiced</p></span></button>
+                                <button className="btn btn-block" style={{ background: "#696eb5", height: "35px", color: "#F0F2EF", marginTop:"5px", width:"185px" }} 
+                                onClick={this.cleartimepracticed}>{!this.state.timecleared?(<span className="fill1"><p style={{ marginBottom: "10px" }}>Clear Time Practiced</p></span>):(<span className="fill1"><p style={{ marginBottom: "10px" }}>Time Cleared</p></span>)}</button>
 
 
                                 

@@ -24,6 +24,8 @@ class Homeworkes extends Component {
             link: false,
             hwdailytimebiao: false,
             hwtimew: false,
+            tooSmall: false,
+            class: "homeworkScroll",
             height: "auto",
         }
 
@@ -49,6 +51,7 @@ class Homeworkes extends Component {
     more(){
         this.setState({
             more: !this.state.more,
+            class: "homeworkScroll1"
         })
     }
     handleChanges1 = (event) => {
@@ -72,13 +75,26 @@ class Homeworkes extends Component {
         
 
         this.props.handleChange(event);
-        this.setState({
-            height: "70%"
-        });
+        if(this.state.tooSmall){
+            this.setState({
+                height: "85%"
+            });
+
+        }
+        else{
+            this.setState({
+                height: "70%"
+            });
+
+        }
+        
     }
   
     componentDidMount() {
-        
+
+        if(parseInt(window.innerWidth) <= 550){
+            this.setState({ tooSmall: true });
+            }
         document.addEventListener('mousedown', this.handleClickOutside);
     }
 
@@ -97,14 +113,14 @@ class Homeworkes extends Component {
                 <div ref={this.wrapperRef} className="boxforhw " style={{ height:  this.state.height  }}>
                     
                     <span className="close-icon-2" onClick={this.props.handleClosing}>x</span>
-                    <div className="homeworkScroll ">
+                    <div className= {this.state.class}>
                     <div className="form-group">
                         <label htmlFor="lastName"><b>Homework Name:</b></label>
                         <input
                             type="text"
                             className="form-control"
                             id="homework"
-                            
+                            style={{width:"95%"}}
                             onChange={this.props.handleChange}
                             name="homework"
                         />
@@ -130,7 +146,7 @@ class Homeworkes extends Component {
                                 </select>
                             </div>
                         
-                            <div>
+                            <div style={{width:"95%"}}>
                                 {
                                     this.props.practice ?
                                         (

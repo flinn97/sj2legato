@@ -97,6 +97,7 @@ export default class Student extends Component {
             hwreasearch: "",
             assignment: false,
             research: false,
+            hwtop: "60px",
             practice: false,
             currentHomework: undefined,
             showHomework: false,
@@ -156,7 +157,7 @@ export default class Student extends Component {
     }
     updateWindowDimensions() {
        
-        if(parseInt(window.innerWidth) <= 550){
+        if(parseInt(window.innerWidth) <= 1200){
         this.setState({ tooSmall: true, 
             width1: "0px",
             height: "2500px",
@@ -173,14 +174,21 @@ export default class Student extends Component {
           
             
         });
-        if(parseInt(window.innerWidth) >= 550){
+        if(parseInt(window.innerWidth) >= 800){
+            this.setState({ hwtop:"180px"
+              
+                
+            });
+        }
+        
+        if(parseInt(window.innerWidth) >= 1000){
             this.setState({ marginLeftedit:"350px"
               
                 
             });
         }
     
-        if(parseInt(window.innerWidth) >= 1000){
+        if(parseInt(window.innerWidth) >= 1200){
             this.setState({ tooSmall: true, 
                 thousand: true,
                 width1: "0px",
@@ -273,7 +281,7 @@ export default class Student extends Component {
                     //studentid: "",
 
                     //                    })
-                                        const API_URL = "https://legato.flinnapps.com/api/auth/";
+                                       const API_URL = "https://legato.flinnapps.com/api/auth/";
 
                     //const API_URL = "http://localhost:8080/api/auth/";
                     const id = this.props.location.state.detail._id;
@@ -859,7 +867,7 @@ export default class Student extends Component {
         return (
             <div className="z2 fill1 example" >
                 {this.state.realtimestudent ? (
-                    <div className="fill1 ">
+                    <div className="fill1 " style={{height:"1100px"}}>
                         {this.state.splashscreen && (<Splashscreen closesplash={this.Splashscreen}/>)}
                         {this.state.edit && (<Editing handleSub={this.handleSub} handleEditClose={this.handleEditClose} handleChange={this.handleChange} student={this.props.location.state.detail.firstName}  selectDay={this.selectDay} changeTime={ this.changeTime } state={this.state} />)}
                         {this.state.homeworked && (<Homework handleHomework={this.handleHomework} handleChange={this.handlehwChange} handleClose={this.handleHomeworkClose} practice={this.state.practice} research={this.state.research} assignment={this.state.assignment} />)}
@@ -1101,7 +1109,7 @@ export default class Student extends Component {
                                         {this.state.showProfile?(<div></div>):(
 
                                         <div className="forthegoals " style={{height:this.state.height1}}>
-                                            {this.state.tooSmall?(<div className="fill2" style={{marginTop:"20px"}}>
+                                            {this.state.tooSmall?(<div className="fill2" style={{marginTop:"20px", }}>
                                                 <div className=" columbized card-container4ab5tooSmall" >
                                                 {this.state.realtimestudent ?
                                                     (<div className="fill1">
@@ -1161,7 +1169,7 @@ export default class Student extends Component {
                                             
                                             
 
-                                            <div className="card-container6abc" style={{ marginTop: "60px" }}>
+                                            <div className="card-container6abc" style={{ marginTop: this.state.hwtop }}>
                                                 <div className="fill1" >
                                                     <div className="fill2 checkboxstuff1a" style={{ marginBottom: "10px" }}>
                                                         <div className="centerized"><h2>Homework</h2>
@@ -1255,7 +1263,7 @@ export default class Student extends Component {
 
                                                                         </div>)}
 
-                                                                <div className="checkboxstuff1" style={{ marginLeft:"10px"}}>
+                                                                <div className="checkboxstuff1b" style={{ marginLeft:"", }}>
 
                                                                     {this.state.realtimestudent.syncedCheckbox ? (<Checkboxnum2 checkboxes={7} prac={this.state.realtimestudent.checked} synced={true} role={"teacher"} sync={this.state.realtimestudent.syncedCheckboxes} times={this.state.realtimestudent.hwtime} synctimes={this.state.realtimestudent.timeday }/>
                                                                     ) : (
@@ -1313,7 +1321,7 @@ export default class Student extends Component {
                                                                     <tr className="fill1">
                                                                         <td style={{ width: "100%", height: "100%", border: "1px solid green"  }}>
                                                                             <div className="homeworkScroll" style={{ width: "100%", height:"100%" }}>
-                                                                                {this.state.homeworks[0] ? (<div className="homeworkScroll" style={{ width: "100%" }}>
+                                                                                {this.state.homeworks[0] ? (<div className="homeworkScroll1" style={{ width: "100%" }}>
                                                                                 {
                                                                                     this.state.homeworks.map((homework, index) =>
 
@@ -1413,7 +1421,7 @@ export default class Student extends Component {
 
 
                                             </div>
-                                            <div style={{ opacity: "0" }}>
+                                            {/* <div style={{ opacity: "0" }}>
                                                 <table style={{ width: "100%" }}>
                                                     <tr>
                                                         <td style={{ width: "40%" }}>
@@ -1436,7 +1444,7 @@ export default class Student extends Component {
                                                     </tr>
                                                 </table>
 
-                                            </div>
+                                            </div> */}
                                             
 
                                         </div>

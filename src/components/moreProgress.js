@@ -200,7 +200,7 @@ export default class Progress extends Component {
                                             <div style={{ marginLeft: "5px", marginBottom: "0px", justifyContent: "space-between", flexDirection: "row", display: "flex", width: "260px" }} ><div><b>Time Practiced:</b></div><div>{this.props.timePracticed} m / {this.props.totaltime} m</div> </div>
 
 
-                                            {this.state.height === "0px" ? (<div style={{ width: "270px", height: "18px" }}  class="progress-bar1 "></div>) : (<div style={{ width: "270px", height: "18px" }}  class="progress-bar huv">
+                                            {this.state.height === "0px" ? (<div style={{ width: "270px", height: "18px" }}  class="progress-bar1 "></div>) : (<div style={{ width: "270px", height: "18px" }}  class="progress-bar ">
 
 
 
@@ -236,7 +236,7 @@ export default class Progress extends Component {
                                                 <div style={{ marginLeft: "5px", marginBottom: "0px", justifyContent: "space-between", flexDirection: "row", display: "flex", width: "260px" }} ><div><b>Star Points:</b></div><div> {this.props.starpoints} / {this.props.spGoal}</div> </div>
 
 
-                                                {this.state.height === "0px" ? (<div style={{ width: "270px", height: "18px" }}  class="progress-bar1 "></div>) : (<div style={{ width: "270px", height: "18px" }}  class="progress-bar huv">
+                                                {this.state.height === "0px" ? (<div style={{ width: "270px", height: "18px" }}  class="progress-bar1 "></div>) : (<div style={{ width: "270px", height: "18px" }}  class="progress-bar ">
 
 
 
