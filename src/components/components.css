@@ -573,20 +573,7 @@ edit0a {
     .change-label2a:hover {
         border-color: var(--hover-color);
     }
-.change-label2b {
-    display: inline-block;
-    margin: 7px;
-    width: var(--checkbox-size2);
-    height: var(--checkbox-size2);
-    border: calc(var(--checkbox-size2) * .05) solid var(--checkbox-color);
-    border-radius: 12.5%;
-    -o-transition: 400ms 100ms ease-out;
-    transition: 400ms 100ms ease-out;
-}
 
-    .change-label2b:hover {
-        border-color: var(--hover-color);
-    }
 .tick2b {
     z-index: 0;
     position: relative;

@@ -161,7 +161,7 @@ export default class Login extends Component {
                                         value={this.state.email}
                                         onChange={this.handleChange}
                                         validations={[required, email]}
-                                        maxlength="30"
+                                        maxLength="30"
                                     />
                                 </div>
 
@@ -174,7 +174,7 @@ export default class Login extends Component {
                                         value={this.state.password}
                                         onChange={this.handleChange}
                                         validations={[required]}
-                                        maxlength="20"
+                                        maxLength="20"
 
                                     />
                                 </div>

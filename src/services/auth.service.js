@@ -1,29 +1,138 @@
 import axios from "axios";
 axios.defaults.xsrfCookieName = 'csrftoken';
 axios.defaults.xsrfHeaderName = 'X-CSRFToken';
-const API_URL = "https://legato.flinnapps.com/api/auth/";
-//const API_URL = "http://localhost:8080/api/auth/";
+// const API_URL = "https://legato.flinnapps.com/api/auth/";
+const API_URL = "http://localhost:8080/legato/";
 //be sure to upload axios. This is my controller for everything that I do for the backend.
 class AuthService {
-    login(email, password) {
+    login(email, password, loggedin) {
         //login with email and password. set jwt sign in localStorage.
 
 
         return axios
             .post(API_URL + "signin", {
                 email,
-                password
+                password,
+                loggedin
             })
             .then(response => {
                 console.log(response.data);
-                if (response.data.accessToken) {
-                    localStorage.setItem("user", JSON.stringify(response.data));
+
+                if(!response.data[1]){
+                    return response.data[0];
                 }
-                //console.log(response.data);
-                return response.data;
+                else {
+                    let obj = response.data[0]
+                    obj.accessToken=response.data[1]
+                    localStorage.setItem("user", JSON.stringify(obj));
+                    return response.data[0];
+                }
             });
 
     }
+    async getCurrentUser() {
+        //gets whatever jwt was saved in local service. 
+        // if (cookie) {
+        //     if (JSON.parse(localStorage.getItem('user'))) {
+        //         return JSON.parse(localStorage.getItem('user'));
+        //     }
+        //     else {
+        //         const current = {
+        //             pastFirstTime: false
+        //         }
+        //         return current;
+        //     }
+
+        // }
+        // else {
+            console.log(JSON.parse(localStorage.getItem('user')))
+            let myuser = JSON.parse(localStorage.getItem('user'))
+            if(JSON.parse(localStorage.getItem('user'))){
+            let user = myuser.role==="teacher"? await this.login(myuser.email, false, true) : await this.login(myuser._id, false, true)
+            return user
+            }
+            else{
+                return myuser
+            }
+
+        // }
+    }
+    logout() {
+        //delete jwt sign.
+        localStorage.removeItem("user");
+        window.location.reload()
+    }
+    async register(firstname, lastname, email, password) {
+        //Teacher login. Name email password. Probably going to separate to first name and last name.
+        return await axios.post(API_URL + "signup", {
+            firstname,
+            lastname,
+            email,
+            password
+        }).then(response => {
+            return response.data;
+        });
+    }
+    getAllusers() {
+        return axios.get(API_URL + "getAllusers", {
+        }).then(response => {
+            console.log(response.data)
+            return response.data;
+        });
+    }
+ 
+    addStudent(
+        user, first, last, time,  day,
+        /*this is everything for checkboxes*/ yesnoCheckboxes, syncCheckbox, checkbox,
+        /*this is everything for time*/ yesnoTime, timeSync, weeklytimebiao, dailytimebiao, dmin, timebool, time1,
+    /*this is days practiced*/ daysbool, day1,
+    /*updating time frame practiced for days.*/ days, smonths, emonths, timeframePracticebiao, min, tsmonths, temonths,
+    /*updating streak info and star points (last two)*/ dayStreak, weekStreak, starPoints, manualsetup,
+    /*add the goals, first one is the goals of 0. */ goal, goals, maingoal, maindescription, maindate,
+    /*add the homeworks*/ homeworks,
+    /*done updating new student.*/ done,) {
+        let aschedule = "";
+        for (let i = 0; i < time.length; i++) {
+            if (time[i] !== ":") {
+                if (i === 0 && time[i] !== "0") {
+                    aschedule = aschedule + time[i];
+                }
+                else if (i > 0) {
+                    aschedule = aschedule + time[i];
+                }
+            }
+        }
+
+return axios
+    .post(API_URL + "addstudent", {
+        user, first, last, aschedule,  day,
+         /*this is everything for checkboxes*/yesnoCheckboxes, syncCheckbox, checkbox,
+        /*this is everything for time*/ yesnoTime, timeSync, weeklytimebiao, dailytimebiao, dmin, timebool, time1,
+    /*this is days practiced*/ daysbool, day1,
+    /*updating time frame practiced for days.*/ days, smonths, emonths, timeframePracticebiao, min, tsmonths, temonths,
+    /*updating streak info and star points (last two)*/ dayStreak, weekStreak, starPoints, manualsetup,
+    /*add the goals, first one is the goals of 0. */ goal, goals, maingoal, maindescription, maindate,
+    /*add the homeworks*/ homeworks,
+    /*done updating new student.*/ done,
+
+    }).then(response => {
+        return response.data;
+    });
+}
+    /**
+     * 
+     * @param {*} role 
+     * @param {*} id 
+     * @param {*} changeData 
+     * @returns change any data I want.
+     */
+    changeData(role, id, userid, changeData){
+        return axios.post(API_URL + "changeData", {
+            role, id, userid, changeData
+        })
+
+    }
+
     setPastFirstTime(id, studentid, password) {
         console.log(studentid);
         //for first time students changing password.
@@ -34,10 +143,7 @@ class AuthService {
         });
     }
 
-    logout() {
-        //delete jwt sign.
-        localStorage.removeItem("user");
-    }
+
     syncedchecking(student, day, checked, checkedd, daysPracticed, level, sp, starpointsGoal, pass, daystreak,npass ) {
         console.log("then here");
         return axios
@@ -54,17 +160,7 @@ class AuthService {
     }
 
 
-    addStudent(user, first, last, email, double, separate, time, checkbox, day) {
-        //add student to the database using axios.
-        //console.log(user);
-        //console.log(email, password);
 
-        return axios
-            .post(API_URL + "student", {
-                user, first, last, email, double, separate, time, checkbox, day
-            });
-
-    }
     deleteStudent(student, email) {
         console.log(student);
         return axios
@@ -276,29 +372,7 @@ editalltheProgress(id, temptimegoal, temppracticegoal, totalTime, totalDays, sta
 
 
     }
-    doitAll(
-            /*this is everything for checkboxes*/id, yesnoCheckboxes, syncCheckbox, checkbox,
-            /*this is everything for time*/ yesnoTime, timeSync, weeklytimebiao, dailytimebiao, dmin, timebool, time1,
-        /*this is days practiced*/ daysbool, day1,
-        /*updating time frame practiced for days.*/ days, smonths, emonths, timeframePracticebiao, min, tsmonths, temonths,
-        /*updating streak info and star points (last two)*/ dayStreak, weekStreak, starPoints, manualsetup,
-        /*add the goals, first one is the goals of 0. */ goal, goals, maingoal, maindescription, maindate,
-        /*add the homeworks*/ homeworks,
-        /*done updating new student.*/ done,) {
-
-    return axios
-        .post(API_URL + "doitAll", {
-             /*this is everything for checkboxes*/id, yesnoCheckboxes, syncCheckbox, checkbox,
-            /*this is everything for time*/ yesnoTime, timeSync, weeklytimebiao, dailytimebiao, dmin, timebool, time1,
-        /*this is days practiced*/ daysbool, day1,
-        /*updating time frame practiced for days.*/ days, smonths, emonths, timeframePracticebiao, min, tsmonths, temonths,
-        /*updating streak info and star points (last two)*/ dayStreak, weekStreak, starPoints, manualsetup,
-        /*add the goals, first one is the goals of 0. */ goal, goals, maingoal, maindescription, maindate,
-        /*add the homeworks*/ homeworks,
-        /*done updating new student.*/ done,
-
-        })
-}
+    
     
       
 
@@ -631,40 +705,8 @@ editalltheProgress(id, temptimegoal, temppracticegoal, totalTime, totalDays, sta
 
 
     }
-    async register(firstname, lastname, email, password) {
-        //Teacher login. Name email password. Probably going to separate to first name and last name.
-        //console.log(name, email, password);
-        
-        return await axios.post(API_URL + "signup", {
-            firstname,
-            lastname,
-            email,
-            password
-        });
-        
-            //console.log(response.data);
-           
-            
-        
-    }
-    getCurrentUser(cookie) {
-        //gets whatever jwt was saved in local service. 
-        if (cookie) {
-            if (JSON.parse(localStorage.getItem('user'))) {
-                return JSON.parse(localStorage.getItem('user'));
-            }
-            else {
-                const current = {
-                    pastFirstTime: false
-                }
-                return current;
-            }
 
-        }
-        else {
-            return JSON.parse(localStorage.getItem('user'));
-        }
-    }
+
 
     
 
@@ -805,12 +847,7 @@ editalltheProgress(id, temptimegoal, temppracticegoal, totalTime, totalDays, sta
             password
         })
     }
-    getAllusers(email, password) {
-        return axios.post(API_URL + "getAllusers", {
-            email,
-            password
-        })
-    }
+    
 }
 
 
