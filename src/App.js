@@ -44,6 +44,7 @@ class App extends Component {
             today: moment().format('dddd').toString(),
             currentstudent: undefined,
             title: "",
+            link: "",
             description: "",
             goals: false,
             goal: undefined,
@@ -54,6 +55,15 @@ class App extends Component {
             addnote:false,
             editnote: false,
             updatecircle: false,
+            addhomework:false,
+            checkbox: true,
+            homework: undefined,
+            addtime: false,
+            dayfortimepopup: "",
+            timeadded: "0",
+            time: true,
+            showhomework: true,
+            hwlink: "",
             styles:{
                 checkbox:{
                     size1: "change-label2a",
@@ -85,7 +95,7 @@ class App extends Component {
 
  
     dispatch(obj){
-        // debugger
+        debugger
         for (const key in obj){
             this.setState({[key]:obj[key]})
         }

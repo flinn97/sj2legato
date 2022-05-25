@@ -119,6 +119,16 @@ updateAddGoals(goal, maingoals, mainGoal, myswitch, archive ) {
         }
         return value
     }
+    checkboxhelp(syncedCheckboxes, day, student, students){
+        let mystudents= students;
+        let ob = syncedCheckboxes;
+        ob[day]=!ob[day];
+        let i=this.compare(mystudents, student, true);
+        student.daysPracticed = ob[day]? (parseInt(student.daysPracticed)+1).toString() : (parseInt(student.daysPracticed)-1).toString()
+        student.syncedCheckboxes= ob;
+        mystudents[i] = student
+        return({student:  mystudents[i], i:i})
+    }
 
  
 }
